@@ -1,0 +1,8 @@
+build
+node_modules
+npm-debug.log
+environments
+.idea/
+.vs/
+github-deploy-ssh-key
+package-lock.json
