@@ -14,7 +14,9 @@
     "deploy": "./node_modules/.bin/gulp deploy",
     "test": "./node_modules/.bin/gulp test",
     "protractor": "./node_modules/.bin/gulp protractor",
-    "unit": "./node_modules/.bin/gulp unit"
+    "unit": "./node_modules/.bin/gulp unit",
+    "preshrinkwrap": "git checkout -- npm-shrinkwrap.json",
+    "postshrinkwrap": "git checkout -- npm-shrinkwrap.json"
   },
   "dependencies": {
     "ejs": "^2.5.6",
