@@ -1,0 +1,40 @@
+<div>
+    <div style="display: flex; justify-content: flex-end;">
+        <md-button class="md-raised md-primary">Create User</md-button>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="table">
+            <div class="table--row table--header">
+                <div class="table--cell">Username</div>
+                <div class="table--cell">First Name</div>
+                <div class="table--cell">Last Name</div>
+                <div class="table--cell">Email</div>
+                <div class="table--cell">Type</div>
+            </div>
+    
+            <div class="table--body">
+                <div class="table--row" ng-repeat="user in users track by $index" ng-click="editUser(user)">
+                    <div class="table--cell">{{ user.username }}</div>
+                    <div class="table--cell">{{ user.first_name }}</div>
+                    <div class="table--cell">{{ user.last_name }}</div>
+                    <div class="table--cell">{{ user.email }}</div>
+                    <div class="table--cell">{{ user.type }}</div>
+                </div>
+            </div>
+        </div>
+    
+        <div>
+            <form ng-if="editing">
+                <div>
+                    <input type="text" placeholder="Qwerty123" ng-model="selectedUser.username"/>
+                </div>
+                <div>
+                    <md-button class="md-raised md-warn" ng-click="deleteUser()">Delete</md-button>
+                    <md-button class="md-raised md-primary" ng-click="saveUser()">Save</md-button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>

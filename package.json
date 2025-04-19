@@ -1,0 +1,49 @@
+{
+  "name": "demo-project",
+  "version": "0.0.1",
+  "author": "Stanislav Babenko <babenkosa@gmail.com>",
+  "description": "",
+  "repository": {},
+  "private": false,
+  "engines": {
+    "node": "~14.20.x"
+  },
+  "scripts": {
+    "dev": "./node_modules/.bin/gulp dev",
+    "build": "./node_modules/.bin/gulp build",
+    "deploy": "./node_modules/.bin/gulp deploy",
+    "test": "./node_modules/.bin/gulp test",
+    "protractor": "./node_modules/.bin/gulp protractor",
+    "unit": "./node_modules/.bin/gulp unit"
+  },
+  "dependencies": {
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "prerender-node": "^2.7.0"
+  },
+  "devDependencies": {
+    "@uirouter/angularjs": "1.0.7",
+    "angular": "^1.8.3",
+    "angular-animate": "^1.8.2",
+    "angular-aria": "^1.8.2",
+    "angular-material": "1.2.5",
+    "angular-messages": "^1.8.2",
+    "angular-sanitize": "^1.7.9",
+    "angular-scroll": "^1.0.2",
+    "angular-touch": "^1.6.9",
+    "browser-sync": "^2.26.7",
+    "envify": "^4.0.0",
+    "gulp": "^3.9.1",
+    "gulp-bro": "^1.0.2",
+    "gulp-bytediff": "^1.0.0",
+    "gulp-clean-css": "^3.7.0",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-nodemon": "^2.5.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-terser": "1.1.7",
+    "run-sequence": "^1.2.2",
+    "stringify": "^5.1.0"
+  }
+}

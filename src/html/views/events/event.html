@@ -1,0 +1,1226 @@
+<div class="talent__dashboard flex">
+    <div class="ot-return-mobile hide-desktop">
+        <a class="return return__link return__link-mobile" 
+           ui-sref="{{ ::backPath }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="return__arrow-left"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"/></svg>
+            <span class="return__text-mobile">
+                Back to Events
+            </span>
+        </a>
+    </div>
+    
+    <div class="sidebar sidebar__events border-box" 
+         ng-class="{ 'sidebar__events_mobile': isOpen }">
+
+        <a class="return return__link return__padding return__link-sidebar hide-mobile" 
+           ui-sref="{{ ::backPath }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="return__arrow-left"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"/></svg>
+            <span class="return__text">
+                Back to Events
+            </span>
+        </a>
+
+        <div class="sidebar--overflow-container">
+            <v-accordion control="sidebar">
+            <!-- add expanded attribute to open the section -->
+                <v-pane class="sidebar__event border-box" expanded="staffing.expand" 
+                        ng-repeat="staffing in StaffingList" 
+                        ng-click="goToStaffing(staffing.id)" 
+                        ng-disabled="staffing.expand || staffing.disabled">
+                    <v-pane-header>
+                        <div class="sidebar__event--header relative">
+                            <div class="sidebar__event--header-title">
+                                {{ ::staffing.event.title }}
+                            </div>
+                            <div class="top-margin-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" class="sidebar__event--header-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2l.01-14c0-1.1.88-2 1.99-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14zm-4-7h2v-2h-2v2zm-4 0h2v-2h-2v2z"/></svg>
+                                {{ ::staffing.event.start.format('MMM D, YYYY') }}
+                            </div>
+                            <div class="top-margin-5" ng-if="staffing.event.city">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" class="sidebar__event--header-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z"/><circle cx="12" cy="9" r="2.5"/></svg>
+    <!--                            {{ ::staffing.event.city.title }}, {{ ::staffing.event.city.region.abbr }}-->
+                                {{ ::staffing.event.city.region.title }}
+                            </div>
+                            <div class="top-margin-15">
+                                <span class="box__event-label inline-block center">{{ ::staffing.skill.title }}</span>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="sidebar__close-icon" ng-click="closeSidebar()" onclick="event.stopPropagation()"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+                        </div>
+                    </v-pane-header>
+                    <v-pane-content class="sidebar__event-content">
+                    </v-pane-content>
+                </v-pane>
+            </v-accordion>
+        </div>
+    </div>
+    
+    <div du-scroll-container="scroll-container"></div>
+    <div class="talent__dashboard-section overflow-y-auto" id="scroll-container">
+        <div class="talent__event--container">            
+            <div class="talent__event--title-section">
+                <div class="talent__event--title-block" 
+                     ng-class="{ 'talent__event--title-block--100': Request.event.event_group.hide_host }">
+                    <div class="talent__event--host" 
+                         ng-if="!Request.event.event_group.hide_host">
+                        {{ Request.event.event_group.host }}
+                    </div>
+                    <div class="talent__event--title-wrapper">
+                        <div class="talent__event--title" title="{{Request.event.title}}">{{ Request.event.title }}</div>
+
+                        <span class="talent__event--chips">{{ Request.skill.title }}</span>
+                        
+                        <div class="talent__event--status" ng-if="Request.status !== 'UNAVAILABLE'">
+                            <div class="box__event--sign-circular center mx-auto bottom-margin-5">
+                                <!-- This is for open  -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" ng-if="status === 'open'"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2l.01-14c0-1.1.88-2 1.99-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14zm-4-7h2v-2h-2v2zm-4 0h2v-2h-2v2z"/></svg>
+                                <!-- This is for hired (completed)  -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" ng-if="status === 'completed'"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm5.56 10.46l5.93-5.93-1.06-1.06-4.87 4.87-2.11-2.11-1.06 1.06z"/></svg>
+                                <!-- This is for hired (confirmed)  -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" ng-if="status === 'confirmed'"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="none" d="M0 0h24v24H0V0z"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                                <!-- This is for invited event -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" ng-if="status === 'invited' || status === 'reaccept'"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 8c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm-6 4c.22-.72 3.31-2 6-2 2.7 0 5.8 1.29 6 2H9zm-3-3v-3h3v-2H6V7H4v3H1v2h3v3z"/></svg>
+                                <!-- This is for applied event -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" ng-if="status === 'applied'"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/></svg>
+                            </div>
+                            <div class="box__text--xs">
+                                {{ status }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex talent__event--date-n-adress">
+                        <div class="talent__event--date">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 0 24 24" width="26"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zm0-12H5V5h14v2zM7 11h5v5H7z"/></svg>
+                            {{ Request.event.start.format('dddd, MMM Do, YYYY') }}
+                        </div>
+                        <div class="talent__event--address" 
+                             ng-if="Request.event.type === 'physical'">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                            {{ Request.event.city.region.title }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="talent__event--logo-block" 
+                     ng-if="Request.event.event_group.logo_src && !Request.event.event_group.hide_host">
+                    <img src="{{ Request.event.event_group.logo_src }}"/>
+                </div>
+
+                <div class="talent__event--description" 
+                     ng-class="{ 'top-margin-15': !Request.event.event_group.logo_src || Request.event.event_group.hide_host }">
+                    <div class="talent__event--label bottom-margin-15">
+                        Description:
+                    </div>
+                    {{ Request.event.event_group.description }}
+                </div>
+            </div>
+        </div>
+        
+        <div class="talent__event--banner" style="background-image: url({{ banner.url }})" ng-if="banner"></div>
+            
+        <div class="talent__event--container" 
+             ng-class="{ 'neg-margin-150': banner }">
+            <div class="talent__event--tabs">
+                <div class="talent__event--tab">
+                    Event Details
+                </div>
+            </div>
+            <div class="talent__event--details-dashboard" 
+                 ng-class="{ 'bottom-margin-0': Request.event.type === 'digital' && status === 'completed' }">
+                <div class="flex talent__event--details-main bottom-margin-30">
+                    <div class="talent__event--column-30 talent__event--contacts" 
+                         ng-if="Request.event.type !== 'digital' && (status === 'completed' || status === 'confirmed')">
+                            <div class="bottom-margin-10">
+                                <div class="talent__event--label">
+                                    On-site client name:
+                                </div>
+                                <div class="talent__event--text-overflow" title="{{Request.event.contact_name}}">
+                                    {{ Request.event.contact_name }}
+                                </div>
+                            </div>
+
+                            <div class="bottom-margin-10">
+                                <div class="talent__event--label">
+                                    On-site client phone:
+                                </div>
+                                <div>
+                                    {{ Request.event.contact_phone }}
+                                </div>
+                            </div>
+
+                            <div class="bottom-margin-10">
+                                <div class="talent__event--label">
+                                    On-site client email:
+                                </div>
+                                <div class="talent__event--text-overflow" title="{{Request.event.contact_email}}">
+                                    {{ Request.event.contact_email }}
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="talent__event--add-info" 
+                         ng-class="{ 'talent__event--add-info--100': (status === 'applied' || status === 'invited' || status === 'open' || status === 'reaccept') && !Request.event.keywords.length,
+                                    'talent__event--add-info--70': ((status === 'confirmed' || status === 'completed') && !Request.event.keywords.length) || ((status === 'applied' || status === 'invited' || status === 'open' || status === 'reaccept') && Request.event.keywords.length) }" 
+                         ng-if="Request.event.type === 'physical'">
+                        <div class="talent__event--add-info--location-n-guests">
+                            <div class="talent__event--location" 
+                                 ng-if="status === 'confirmed' || status === 'completed'">
+                                <div class="talent__event--label">
+                                    Location
+                                </div>
+                                <div title="{{ Request.event.address }}">
+                                    {{ Request.event.address }}
+                                </div>
+                            </div>
+
+                            <div class="talent__event--guests">
+                                <div class="talent__event--label">
+                                    Guest count
+                                </div>
+                                <div>
+                                    {{ Request.event.guests }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="talent__event--location-map" id="event-map"></div>
+                    </div>
+                    
+                    <div class="talent__event--add-info talent__event--add-info--digital" 
+                         ng-if="Request.event.type === 'digital'">
+<!--
+                        <div>
+                            <div class="talent__event--label">
+                                Desired follower count:
+                            </div>
+                            <div>
+                                {{ followers }}
+                            </div>
+                        </div>
+-->
+                        
+                        <div ng-class="{ 'has-error': !Request.cast && !Request.blast}">
+                            <div class="talent__event--label relative bottom-margin-15">
+                                {{ (status !== 'completed') ? 'Choose projects:' : 'Projects:' }}
+                                
+                                <div class="talent__event--error-box" 
+                                     ng-if="Request.error.noDigitalFormat">
+                                    <div class="talent__event--error">
+                                        Please, choose at least 1 project
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="talent__event--digital-format">
+<!--
+                                <div class="talent__event--digital-format--block" 
+                                     ng-repeat="Shift in Shifts track by $index">
+                                    <div class="bottom-margin-10">
+                                        <div ng-class="{ 'talent__event--digital-format--blast': Shift.format === 'blast',
+                                                       'talent__event--digital-format--cast': Shift.format === 'cast' }"></div>
+                                    </div>
+                                    <md-checkbox class="ot-form__signup-checkbox" aria-label="Live{{ Shift.format === 'cast' ? 'Cast' : 'Blast' }}" 
+                                                 ng-class="{ 'display-none': status === 'completed' }" 
+                                                 ng-model="Shift.selected">
+                                        Live{{ Shift.format === 'cast' ? 'Cast' : 'Blast' }}
+                                    </md-checkbox>
+                                    
+                                    <div class="talent__event--label" ng-if="status === 'completed'">
+                                        Live{{ Shift.format === 'cast' ? 'Cast' : 'Blast' }}
+                                    </div>
+                                </div>
+-->
+                                <div class="talent__event--digital-format--block" 
+                                     ng-repeat="Shift in Request.shifts track by $index">
+                                    <div class="bottom-margin-10">
+                                        <div ng-class="{ 'talent__event--digital-format--blast': Shift.format === 'blast',
+                                                       'talent__event--digital-format--cast': Shift.format === 'cast' }"></div>
+                                    </div>
+                                    <div class="talent__event--label center" 
+                                         ng-class="{ 'talent__event--digital-format--width-80': Shift.format === 'blast',
+                                                   'talent__event--digital-format--width-100': Shift.format === 'cast'}">
+                                        Live{{ Shift.format === 'cast' ? 'Cast' : 'Blast' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="talent__event--column-30 talent__event--expertises" 
+                         ng-if="Request.event.expertises.length || Request.event.keywords.length">
+                        <div ng-if="Request.event.type == 'digital'">
+                            <div class="talent__event--label">
+                                Event topics:
+                            </div>
+                            <div class="flex flex-wrap">
+                                <span class="talent__event--chips talent__event--chips-alter-color" 
+                                      ng-repeat="item in Request.event.expertises">
+                                        <div class="ot-tooltip settings__tooltip" style="position: relative;">
+                                            {{ item.title }}
+                                            <div class="ot-tooltip__content ot-tooltip__content--up-right black text-left" ng-if="item.subexpertises">
+                                                <div ng-repeat="category in item.subexpertises">{{ category.title }}</div>
+                                            </div>
+                                        </div>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div ng-if="Request.event.type == 'physical'">
+                            <div class="talent__event--label">
+                                Keywords:
+                            </div>
+                            <div class="flex flex-wrap">
+                                <span class="talent__event--chips talent__event--chips-alter-color" 
+                                      ng-repeat="item in Request.event.keywords">{{ item.title }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="Shifts.length">
+                    <div class="talent__event--label" 
+                         ng-if="status === 'open'">
+                        Available {{ (Request.event.type === 'digital') ? 'projects' : 'shifts' }}:
+                    </div>
+                    
+                    <div class="talent__event--label" 
+                         ng-if="status === 'confirmed'">
+                        Confirmed {{ (Request.event.type === 'digital') ? 'projects' : 'shifts' }}:
+                    </div>
+                    
+                    <div class="talent__event--label" 
+                         ng-if="status === 'completed'">
+                        Completed {{ (Request.event.type === 'digital') ? 'projects' : 'shifts' }}:
+                    </div>
+                </div>
+                
+                <div class="talent__event--shift" 
+                     ng-class="{ 'top-margin-0': $index === 0 }" 
+                     ng-if="Request.event.type === 'physical'" 
+                     ng-repeat="Shift in Shifts track by $index">
+                    <!--  all except 'completed'  -->
+                    <div ng-if="status !== 'completed' && !(status === 'confirmed' && started)">
+                        <div class="flex talent__event--shift-header">
+                            <div class="talent__event--shift-title">Shift {{ $index + 1 }}</div>
+                            <div class="flex talent__event--shift-time">
+                                <div class="talent__event--clock-icon" style="background-image: url(./../../../../../assets/studicons-clock-white.png)"></div>
+                                <div class="talent__event--shift-time-block talent__event--shift-time-block-1">
+                                    <span class="bold">Start Time:</span> {{ Shift.start.format('ddd MMM DD / h:mm A') }}
+                                </div>
+                                <div class="talent__event--shift-time-block">
+                                    <span class="bold">End Time:</span> {{ Shift.end.format('ddd MMM DD / h:mm A') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="talent__event--staffing">
+                            <div class="talent__event--staffing-info">
+                                <div class="talent__event--staffing-role">
+                                    <div class="talent__event--label bottom-margin-0">Talent Needed</div>
+                                    <div class="flex">
+                                        <div class="talent__event--staffing-skill-img" style="background-image: url({{ Request.skill.img_src }})"></div>
+                                        <div class="talent__event--staffing-info-text inline-block left">
+                                            {{ Request.skill.title }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="talent__event--staffing-level">
+                                    <div class="talent__event--label bottom-margin-0">Skill Level</div>
+                                    <div class="talent__event--level-container" 
+                                         ng-class="{ 'talent__event--level-container-show': Request.skill.title != 'Captain' }">
+                                        <div class="talent__event--level">
+                                            <div class="talent__event--level-icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35" height="35" viewBox="0 0 35 35">
+                                                  <defs>
+                                                    <rect id="rect-1" width="35" height="35" x="0" y="0"/>
+                                                    <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+                                                      <rect width="35" height="35" x="0" y="0" fill="black"/>
+                                                      <use fill="white" xlink:href="#rect-1"/>
+                                                    </mask>
+                                                  </defs>
+                                                  <g>
+                                                    <use fill="none" xlink:href="#rect-1"/>
+                                                    <g mask="url(#mask-2)">
+                                                      <g>
+                                                        <path fill="rgb(0,0,0)" fill-rule="evenodd" d="M30.12548828 12.21081543c-.2409668-.5279541-.32458496-1.11071777-.24188232-1.68518066.28222656-1.95996094-.61169434-3.91845704-2.27734375-4.98937989-.48815918-.31384277-.87353516-.75878906-1.11462403-1.28686523-.82220459-1.8013916-2.63305664-2.96569824-4.61322021-2.96606445-.5803833-.00012207-1.14520264-.1661377-1.63336182-.47998047-1.66564941-1.07092286-3.8184204-1.07128907-5.4845581-.00109864-.48815918.31359864-1.05273438.47937012-1.63452149.47937012-1.97979736 0-3.79064941 1.16345215-4.61346435 2.96411133-.24121094.5279541-.62677002.97265625-1.1151123 1.28637695C5.7312622 6.602417 4.83660888 8.5604248 5.11804198 10.5206299c.0824585.57434081-.00146484 1.15710448-.24261474 1.68493652-.82299805 1.80114746-.51708985 3.93200683.7793579 5.42895507.37994385.43859864.62438965.97424317.70690919 1.54870606.28137207 1.96020508 1.6907959 3.58740234 3.59069824 4.14575195.12689209.03723145.25006103.08361817.36987305.13659668v10.5090332c0 .36401368.19299316.70080567.50708007.88476563.31414795.18408203.70220948.18774414 1.01971436.00976563L17.5 31.70178222l5.65093994 3.16723632C23.30682373 34.9564209 23.47955322 35 23.65228271 35c.17926026 0 .35839844-.04699707.51837159-.14074707.31414795-.18395996.50708008-.52075195.50708008-.88476563V23.46679688c.11871337-.05212403.24060058-.0979004.3661499-.13476563 1.90014648-.55749512 3.3102417-2.1842041 3.59240722-4.14416504.08282471-.57446289.32745362-1.10998535.70751954-1.54846191 1.29711914-1.49621582 1.60394287-3.6270752.78167724-5.42858887zm-3.51916504 6.68481445c.13891602-.96447754.54962158-1.86340332 1.18780518-2.5994873.77264404-.89135742.95532226-2.16052246.46557617-3.23376465-.40460205-.88635254-.54498291-1.86462402-.40612793-2.8289795.16809082-1.16748046-.36437988-2.33410644-1.35656738-2.9720459-.81951905-.52697753-1.46655274-1.27404784-1.87109375-2.16027831-.48980713-1.07299805-1.56835938-1.76660156-2.7479248-1.7668457-.9743042-.00012207-1.9225464-.2788086-2.74212647-.80566407-.99206543-.63793945-2.27441406-.6381836-3.2668457-.00073242-.81945801.52648926-1.76745606.8046875-2.74139405.8046875-1.18103027 0-2.25958252.6928711-2.74975586 1.765625-.40496826.8861084-1.0522461 1.63293457-1.87207031 2.1595459-.99243164.63757324-1.52539063 1.803833-1.35772705 2.97143555.13842773.96447754-.0024414 1.94262695-.4072876 2.82885742-.4902954 1.07287598-.30804443 2.34216308.4642334 3.23376465.63781738.7364502 1.04821777 1.63549804 1.18670654 2.59997558.16760254 1.16760254 1.00714112 2.13684082 2.13879395 2.46948242.93481445.2746582 1.76617431.8092041 2.4039917 1.5456543.7722168.8914795 2.00256347 1.25317383 3.13446045.9210205.46710205-.13696288.9475708-.2055664 1.42797851-.2055664.48120117 0 .96234131.06872559 1.43005371.20617676 1.13171387.33251953 2.36212159-.02844238 3.13482666-.91967773.63812256-.73620606 1.46966553-1.27038575 2.40460205-1.54467774 1.13183594-.33215332 1.97180176-1.30114746 2.13989258-2.46850586zm-8.60498047 10.73620606c-.31152343-.17456055-.69122314-.17456055-1.00274658 0l-4.62548828 2.59240722v-7.09814453c1.23516846.83496094 2.80340576 1.10095215 4.27319336.6697998.55688477-.16345214 1.14556885-.16333007 1.70239258.00036622.4691162.13781738.94824219.20471191 1.42358398.20471191 1.01538086-.00012207 2.01226807-.30627441 2.85437012-.87658691v7.09985351l-4.62530518-2.59240722z"/>
+                                                        <ellipse cx="17.5" cy="13" fill="#000" stroke="rgb(0,0,0)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.4" rx="9" ry="9"/>
+                                                      </g>
+                                                      <text font-size="0" style="white-space:pre">
+                                                        <tspan x="14" y="18" fill="#F2F2F2" font-family="Poppins SemiBold" font-size="14" font-weight="600" style="white-space:pre;text-transform:none">{{ Shift.level }}</tspan>
+                                                      </text>
+                                                    </g>
+                                                  </g>
+                                                </svg>
+                                            </div>
+
+                                            <div class="talent__event--level-description">
+                                                {{ Shift.level_output }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="talent__event--staffing-uniform relative">
+                                    <div class="talent__event--label bottom-margin-0">Uniform</div>
+                                    <div class="talent__event--dropdown">
+
+                                        <div class="talent__event--staffing-info-text talent__event--dropdown-input-uniform">
+                                            {{ Shift.uniform_output }}
+                                        </div>
+                                        <div class="talent__event--dropdown-body" 
+                                             ng-class="{
+                                                    'talent__event--dropdown-body-uniform-1': Shift.uniforms.length === 1 && !Shift.uniform_description,
+                                                    'talent__event--dropdown-body-uniform-2': Shift.uniforms.length === 2 || (Shift.uniforms.length === 1 && Shift.uniform_description),
+                                                    'talent__event--dropdown-body-uniform-3': Shift.uniforms.length > 2
+                                                }">
+
+                                            <div class="talent__event--dropdown-item" 
+                                                 ng-repeat="uniform in Shift.uniforms">
+
+                                                <div class="talent__event--dropdown-item-content">
+                                                    <div class="talent__event--dropdown-item-img" style="background-image: url({{ uniform.pict }})"></div>
+                                                    <div class="talent__event--dropdown-item-title">{{ uniform.title }}</div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="talent__event--dropdown-custom" 
+                                                 ng-if="Shift.uniform_description">
+                                                {{ Shift.uniform_description }}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="talent__event--staffing-earnings">
+                                    <div class="talent__event--label bottom-margin-0">Earning Potential</div>
+                                    <div class="talent__event--staffing-info-text">
+                                        {{ Shift.estimate / 100 | currency:'$':2 }}
+                                    </div>
+                                </div>
+
+                                <div class="talent__event--staffing-responsibilities">
+                                    <div class="talent__event--label">
+                                        Responsibilities
+                                    </div>
+                                    <div>
+                                        {{ Request.description }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="talent__event--staffing-btns">
+                                <div class="talent__event--staffing-btns-wrapper">
+                                    <!--  applied  -->
+                                    <md-button class="ot-btn center ot-btn__deep-grey btn-no-padding" style="width: 202px;" 
+                                               ng-if="status === 'applied'" 
+                                               ng-click="reject(Request)" 
+                                               ng-disabled="loader.loading">
+                                        Cancel application
+                                    </md-button>
+                                    <!--  open  -->
+                                    <md-button class="ot-btn ot-btn__talent-color center" 
+                                               ng-if="status === 'open'" 
+                                               ng-click="apply(Request)" 
+                                               ng-disabled="loader.loading">
+                                        Apply
+                                    </md-button>
+
+                                    <!--   invited   -->
+                                    <div ng-if="status == 'invited' || status == 'reaccept'">
+                                        <md-button class="ot-btn ot-btn__deep-grey center" 
+                                                   ng-click="reject(Request)" 
+                                                   ng-disabled="loader.loading">
+                                            Reject
+                                        </md-button>
+                                        <md-button class="ot-btn ot-btn__talent-color center" 
+                                                   ng-click="accept(Request)" 
+                                                   ng-disabled="loader.loading">
+                                            Accept
+                                        </md-button>
+                                    </div>
+
+                                    <!--  hired  -->
+                                    <div ng-if="status == 'confirmed'">
+                                        <md-button class="ot-btn center ot-btn__deep-grey" 
+                                                   ng-click="reject(Request)" 
+                                                   ng-disabled="loader.loading">
+                                            Cancel
+                                        </md-button>
+                                        <md-button class="ot-btn ot-btn__talent-color center" 
+                                                   ng-click="sendMessage()" 
+                                                   ng-disabled="loader.loading || disableChats">
+                                            Contact
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--  for completed (in this case in Shift will be usershift model) -->
+                    <div ng-if="status === 'completed' || (status === 'confirmed' && started)">
+                        <div>
+                            <div class="flex talent__event--shift-header">
+                                <div class="talent__event--shift-title">Shift</div>
+                                <div class="flex talent__event--shift-time">
+                                    <div class="talent__event--clock-icon" style="background-image: url(./../../../../../assets/studicons-clock-white.png)"></div>
+                                    <div class="talent__event--shift-time-block talent__event--shift-time-block-1">
+                                        <span class="bold">Start Time:</span> {{ Shift.shift.start.format('ddd MMM DD / hh:mm A') }}
+                                    </div>
+                                    <div class="talent__event--shift-time-block">
+                                        <span class="bold">End Time:</span> {{ Shift.shift.end.format('ddd MMM DD / hh:mm A') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="talent__event--staffing talent__event--staffing-submit">
+                            <div class="talent__event--staffing-submit--role">
+                                <div class="talent__event--label">
+                                    Role
+                                </div>
+                                <div>
+                                    {{ Request.skill.title }}
+                                </div>
+                            </div>
+
+                            <div class="talent__event--staffing-submit--checkin-info" 
+                                 ng-if="!Shift.submitted_at">
+                                <div class="talent__event--staffing-submit--checkin-wrapper" ng-if="!Shift.start || !Shift.end">
+                                    <div class="talent__event--staffing-submit--checkin">
+                                        <div class="talent__event--label">
+                                            Check In
+                                        </div>
+                                        <div>
+                                            {{ (Shift.start) ? Shift.start.format('ddd MMM DD / h:mm A') : '-' }}
+                                        </div>
+                                    </div>
+
+                                    <div class="talent__event--staffing-submit--checkin">
+                                        <div class="talent__event--label">
+                                            Check Out
+                                        </div>
+                                        <div>
+                                            {{ (Shift.end) ? Shift.end.format('ddd MMM DD / h:mm A') : '-' }}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="talent__event--staffing-submit--checkin-wrapper relative" 
+                                     ng-if="Shift.start && Shift.end" 
+                                     ng-class="{ 'has-error': Shift.errors.gotErrors }">
+                                    <div class="talent__event--staffing-submit--checkin">
+                                        <div class="talent__event--label">
+                                            Check In
+                                        </div>
+                                        <div>
+                                            <div class="outline-none border-box" 
+                                                 moment-picker 
+                                                 min-view="day" 
+                                                 max-view="minute" 
+                                                 start-view="day" 
+                                                 ng-model="Shift.start" 
+                                                 change="shiftTimeChanged(Shift)" 
+                                                 disable="loader.loading || now.diff(Shift.shift.end, 'm') > 1440">
+                                                {{ Shift.start.format("hh:mm A") }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="talent__event--staffing-submit--checkin">
+                                        <div class="talent__event--label">
+                                            Check Out
+                                        </div>
+                                        <div>
+                                            <div class="outline-none border-box" 
+                                                 moment-picker 
+                                                 min-view="day" 
+                                                 max-view="minute" 
+                                                 start-view="day" 
+                                                 ng-model="Shift.end" 
+                                                 change="shiftTimeChanged(Shift)" 
+                                                 disable="loader.loading || now.diff(Shift.shift.end, 'm') > 1440">
+                                                {{ Shift.end.format("hh:mm A") }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="talent__event--error-box" 
+                                         ng-if="Shift.errors.gotErrors">
+                                        <div class="talent__event--error" ng-if="Shift.errors.range">
+                                            Invalid range
+                                        </div>
+                                    
+                                        <div class="talent__event--error" ng-if="Shift.errors.checkinConflict">
+                                            Checkins time conflict
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="talent__event--staffing-submit--btn">
+                                    <md-button class="ot-btn ot-btn__talent-color center" style="padding-left: 55px;" 
+                                               ng-if="!Shift.start || !Shift.end" 
+                                               ng-click="checkin(Shift)"
+                                               ng-disabled="Shift.shift.start.diff(now, 'm') >= 60 || now.diff(Shift.shift.end, 'm') > 1440 || loader.loading">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" class="absolute"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M12.5 8H11v6l4.75 2.85.75-1.23-4-2.37zm4.837-6.19l4.607 3.845-1.28 1.535-4.61-3.843zm-10.674 0l1.282 1.536L3.337 7.19l-1.28-1.536zM12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/></svg>
+                                        Check In
+                                    </md-button>
+                                </div>
+                            </div>
+
+                            <div class="talent__event--staffing-submit--info" 
+                                 ng-if="Shift.submitted_at">
+                                <div class="talent__event--staffing-submit--checkin">
+                                    <div class="talent__event--label">
+                                        Check In
+                                    </div>
+                                    <div class="bold">
+                                        <div style="display: inline-block; position: relative; padding-left: 23px; line-height: 20px; margin-right: 15px;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 24 24" class="absolute" style="left: 0"><defs><path id="a" d="M0 0h24v24H0z"/></defs><clipPath><use xlink:href="#a" overflow="visible"/></clipPath><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7z"/></svg>
+                                            {{ Shift.start.format('h:mm A') }}
+                                        </div>
+                                        <div style="display: inline-block; position: relative; padding-left: 23px; line-height: 20px;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="absolute" style="left: 0"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2l.01-14c0-1.1.88-2 1.99-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14zm-4-7h2v-2h-2v2zm-4 0h2v-2h-2v2z"/></svg>
+                                            {{ Shift.start.format('MMM DD, YYYY') }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="talent__event--staffing-submit--checkin">
+                                    <div class="talent__event--label">
+                                        Check Out
+                                    </div>
+                                    <div class="bold">
+                                        <div style="display: inline-block; position: relative; padding-left: 23px; line-height: 20px; margin-right: 15px;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 24 24" class="absolute" style="left: 0"><defs><path id="a" d="M0 0h24v24H0z"/></defs><clipPath><use xlink:href="#a" overflow="visible"/></clipPath><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7z"/></svg>
+                                            {{ Shift.end.format('h:mm A') }}
+                                        </div>
+                                        <div style="display: inline-block; position: relative; padding-left: 23px; line-height: 20px;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="absolute" style="left: 0"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2l.01-14c0-1.1.88-2 1.99-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14zm-4-7h2v-2h-2v2zm-4 0h2v-2h-2v2z"/></svg>
+                                            {{ Shift.end.format('MMM Do, YYYY') }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="talent__event--staffing-submit--total" 
+                     ng-if="(status === 'completed' || (status === 'confirmed' && started)) && Request.event.type === 'physical'">
+                    <div class="talent__event--staffing-submit--total-info">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24" class="absolute"><defs><path id="a" d="M0 0h24v24H0z"/></defs><clipPath><use xlink:href="#a" overflow="visible"/></clipPath><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7z"/></svg>
+                        {{ finishedShiftsTotalLength() }} Hours
+                    </div>
+                    <div class="talent__event--staffing-submit--total-info">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="absolute"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M21 7.28V5c0-1.1-.9-2-2-2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-2.28c.59-.35 1-.98 1-1.72V9c0-.74-.41-1.37-1-1.72zM20 9v6h-7V9h7zM5 19V5h14v2h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6v2H5z"/><circle cx="16" cy="12" r="1.5"/></svg>
+                        {{ Request.totalPay(User) | currency:"$":2 }}
+                    </div>
+                    <div class="talent__event--staffing-submit--btn">
+                        <md-button class="ot-btn ot-btn__talent-color center" 
+                                   ng-if="actionHandler() === 'submit'" 
+                                   ng-disabled="disableSubmit() || loader.loading" 
+                                   ng-click="shiftsSubmit()">
+                            Submit timecard
+                        </md-button>
+
+                        <div class="ot-btn__deep-grey ot-btn center" 
+                             ng-if="actionHandler() === 'accepted'">
+                            Accepted
+                        </div>
+                        <div class="ot-btn__deep-grey ot-btn center" 
+                             ng-if="actionHandler() === 'submitted'">
+                            Submitted
+                        </div>
+                        <div class="ot-btn__container" 
+                             ng-if="actionHandler() === 'review'" >
+                            <md-button class="ot-btn ot-btn__hlf ot-btn__talent-color center box--border-right x-padding-0">
+                                <input-stars class="flex box__rating cursor-pointer m0 mx-auto" aria-label="Rate input" max="5" 
+                                             ng-model="Request.rating || loader.loading">></input-stars>
+                            </md-button>
+                            <md-button class="ot-btn ot-btn__hlf center ot-btn__talent-color x-padding-0" 
+                                       ng-click="Request.review()" 
+                                       ng-disabled="!Request.rating || loader.loading">
+                                <span ng-if="!Request.rating" style="font-size: 12px">(choose rating)</span>
+                                <span ng-if="Request.rating">Rate</span>
+                            </md-button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--  digital events  -->
+                <div class="talent__event--shift" 
+                     ng-class="{ 'top-margin-0': $index === 0 }" 
+                     ng-if="Request.event.type === 'digital'" 
+                     ng-repeat="Shift in Shifts track by $index">
+                    
+                    <div class="flex talent__event--shift-header">
+                        <div class="talent__event--shift-title">Live{{ Shift.format === 'cast' ? 'Cast' : 'Blast' }}</div>
+                        <div class="flex talent__event--shift-time">
+                            <div class="talent__event--clock-icon" 
+                                 ng-class="{ 'talent__event--clock-blast': Shift.format === 'blast' && !Shift.digital_info.end_seeable }"></div>
+                            <div class="talent__event--shift-time-block talent__event--shift-time-block-1">
+                                <span class="bold">Start Time:</span> {{ Shift.start.format('ddd MMM DD / h:mm A') }}
+                            </div>
+                            <div class="talent__event--shift-time-block" ng-if="Shift.format === 'cast' || (Shift.format === 'blast' && Shift.digital_info.end_seeable)">
+                                <span class="bold">End Time:</span> {{ Shift.end.format('ddd MMM DD / h:mm A') }}
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="talent__event--staffing talent__event--staffing-digital">
+                        <!--  CAST  -->
+                        <div class="talent__event--staffing-digital-info" 
+                             ng-if="Shift.format === 'cast'">
+                            <div class="talent__event--staffing-digital-info-item">
+                                <div class="talent__event--label">
+                                    Channel
+                                </div>
+                                {{ Shift.digital_info.channel }}
+                            </div>
+
+                            <div class="talent__event--staffing-digital-info-item" ng-if="Shift.digital_info.event_format">
+                                <div class="talent__event--label">
+                                    Event format
+                                </div>
+                                <div class="talent__event--staffing-digital-info--text">
+                                    {{ Shift.digital_info.event_format }}
+                                </div>
+                            </div>
+                            <div class="talent__event--staffing-digital-info-item" ng-if="Shift.digital_info.leading">
+                                <div class="talent__event--label">
+                                    Leading event
+                                </div>
+                                {{ Shift.digital_info.leading }}
+                            </div>
+                            <div class="talent__event--staffing-digital-info-item" ng-if="Shift.digital_info.brand_account">
+                                <div class="talent__event--label">
+                                    Brand account
+                                </div>
+                                <div class="talent__event--staffing-digital-info--text">
+                                    @{{ Shift.digital_info.brand_account }}
+                                </div>
+                            </div>
+                            <div class="talent__event--staffing-digital-info-item" ng-if="Shift.digital_info.hashtags">
+                                <div class="talent__event--label">
+                                    Event hashtag
+                                </div>
+                                <div class="talent__event--staffing-digital-info--text">
+                                    #{{ Shift.digital_info.hashtags }}
+                                </div>
+                            </div>
+
+                            <div class="talent__event--staffing-digital-info-item" ng-if="Shift.digital_info.brand_provide">
+                                <div class="talent__event--label">
+                                    Brand provide
+                                </div>
+                                <div class="talent__event--staffing-digital-info--text">
+                                    {{ Shift.digital_info.brand_provide }}
+                                </div>
+                            </div>
+
+                            <div class="talent__event--staffing-digital-info-item" ng-if="Shift.digital_info.talent_provide">
+                                <div class="talent__event--label">
+                                    Talent provide
+                                </div>
+                                <div class="talent__event--staffing-digital-info--text">
+                                    {{ Shift.digital_info.talent_provide }}
+                                </div>
+                            </div>
+
+                            <div class="talent__event--staffing-digital-info-item" ng-repeat="cta in Shift.digital_info.cta">
+                                <div class="talent__event--label">
+                                    Call to Action / Destination
+                                </div>
+
+                                <div class="talent__event--staffing-digital-info--text">
+                                    <span class="bold">{{ cta.action }}: </span>
+                                    {{ cta.destination }}
+                                </div>
+                            </div>
+                            
+                            <div class="talent__event--staffing-digital-info-item talent__event--staffing-digital-info-item-100 flex flex-wrap" 
+                                 ng-if="Shift.digital_info.guidelines || Shift.files.length">
+                                
+                                <div class="talent__event--notes-block-1" 
+                                     ng-if="Shift.digital_info.guidelines"
+                                     ng-class="{ 'talent__event--staffing-digital-info-item-100': !Shift.files.length }">
+                                    <div>
+                                        <div class="talent__event--label">Creative / Messaging Guidelines</div>
+
+                                        <div class="talent__event--notes-guidelines">
+                                            {{ Shift.digital_info.guidelines }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="talent__event--notes-block-2 relative" 
+                                     ng-if="Shift.files.length">
+                                    <div class="flex flex-column">
+                                        <div class="talent__event--label">Files</div>
+
+                                        <div class="talent__event--file relative" 
+                                             title="{{(file.original) ? file.original : file.name}}" 
+                                             ng-repeat="file in Shift.files" 
+                                             ng-click="downloadFile(file)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="talent__event--file-icon" 
+                                                 ng-if="fileType(file) === 'pdf'">
+                                                <g><path d="M32,21.16a1.19,1.19,0,0,0,.17-.31c-.09,0-.22-.15-.89-.15a10.87,10.87,0,0,0-1.37.08c.62.48.77.72,1.17.72A1.14,1.14,0,0,0,32,21.16Z" fill="#231f20"/><path d="M17.58,26.76c.11,0,.77-.34,2-2.61-1.62.91-2.28,1.66-2.33,2.08C17.24,26.3,17.22,26.49,17.58,26.76Z" fill="#231f20"/><path d="M41.07,31.59v-19a1.75,1.75,0,0,0-.42-1.36L31.82,2.42a1.43,1.43,0,0,0-1-.42H8.8A2,2,0,0,0,6.93,4.22V31.59Zm-10.62-27a.39.39,0,0,1,.67-.28L38.77,12a.39.39,0,0,1-.28.67h-8ZM16,26.09c.14-1.23,1.67-2.53,4.54-3.84a51,51,0,0,0,2.87-8.16c-.76-1.65-1.49-3.79-1-5a1.46,1.46,0,0,1,.86-.92A3.72,3.72,0,0,1,24.07,8c.38,0,.72.49,1,.8s.73.89-.28,5.16a24.23,24.23,0,0,0,3.86,5.74,14.72,14.72,0,0,1,2.55-.27c1.19,0,1.91.28,2.2.85a1.53,1.53,0,0,1-.3,1.64,2,2,0,0,1-1.68.9,5,5,0,0,1-3.19-1.73,36.32,36.32,0,0,0-6.7,2.14,21.53,21.53,0,0,1-1.81,3.22c-.78,1.09-1.45,1.6-2.11,1.6h0a1.22,1.22,0,0,1-.73-.25A1.82,1.82,0,0,1,16,26.09Z" fill="#231f20"/><path d="M18.1,36.79a1.25,1.25,0,0,0-.45-.37,1.68,1.68,0,0,0-.77-.15h-.93v3h1.14a1.36,1.36,0,0,0,.45-.08,1.14,1.14,0,0,0,.41-.25,1.25,1.25,0,0,0,.3-.49,2.33,2.33,0,0,0,.11-.78,2.11,2.11,0,0,0-.05-.43A1.24,1.24,0,0,0,18.1,36.79Z" fill="#231f20"/><path d="M24.26,15.79a54.24,54.24,0,0,1-2,5.74A37.89,37.89,0,0,1,27.16,20,26,26,0,0,1,24.26,15.79Z" fill="#231f20"/><path d="M6.93,33.1V44.48A1.84,1.84,0,0,0,8.8,46H39.2a1.84,1.84,0,0,0,1.87-1.52V33.1Zm12.44,5.64a2.21,2.21,0,0,1-.55.79A2.48,2.48,0,0,1,18,40a3.27,3.27,0,0,1-1.1.18h-.92V43H14.7V35.32h2.2a3.09,3.09,0,0,1,1,.16,2.61,2.61,0,0,1,.86.47,2.44,2.44,0,0,1,.61.75,2.08,2.08,0,0,1,.23,1A2.71,2.71,0,0,1,19.37,38.74ZM27,40.54a4,4,0,0,1-.51,1.12,2.63,2.63,0,0,1-.7.71,3.5,3.5,0,0,1-.75.39,3.11,3.11,0,0,1-.66.17l-.45,0H21V35.32h2.3a4.37,4.37,0,0,1,1.7.31,3.52,3.52,0,0,1,1.21.81A3.34,3.34,0,0,1,27,37.6a3.83,3.83,0,0,1,.24,1.33A5.62,5.62,0,0,1,27,40.54Zm6.79-4.28H30.27v2.41h3.19v.85H30.27V43H29V35.32h4.78Z" fill="#231f20"/><path d="M25.34,37.11a2.33,2.33,0,0,0-.89-.61A3.82,3.82,0,0,0,23,36.27h-.73v5.79h1.23a2.06,2.06,0,0,0,1.83-.81,4.1,4.1,0,0,0,.56-2.34,4,4,0,0,0-.11-.94A2,2,0,0,0,25.34,37.11Z" fill="#231f20"/><path d="M23.8,9.37a1.82,1.82,0,0,0,.07,2.44C24.59,10.2,23.83,9.36,23.8,9.37Z" fill="#231f20"/></g>
+                                            </svg>
+
+                                            <div class="talent__event--file-preview" 
+                                                 ng-if="fileType(file) === 'img'" 
+                                                 style="background-image: url({{ file.src ? file.src : file.url }})"></div>
+
+                                            <div class="talent__event--file-title">
+                                                {{(file.original) ? file.original : file.name}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!--  BLAST  -->
+                        <div class="talent__event--staffing-digital-info" 
+                             ng-if="Shift.format === 'blast'">
+                            <div class="talent__event--staffing-digital-info-item">
+                                <div class="talent__event--label">
+                                    Channel
+                                </div>
+                                {{ Shift.digital_info.channel }}
+                            </div>
+
+                            <div class="talent__event--staffing-digital-info-item">
+                                <div class="talent__event--label">
+                                    Type of Post
+                                </div>
+                                {{ Shift.types_outputs }}
+                            </div>
+
+                            <div class="talent__event--staffing-digital-info-item" ng-repeat="cta in Shift.digital_info.cta">
+                                <div class="talent__event--label">
+                                    Call to Action / Destination
+                                </div>
+
+                                <div class="talent__event--staffing-digital-info--text">
+                                    <span class="bold">{{ cta.action }}: </span>
+                                    {{ cta.destination }}
+                                </div>
+                            </div>
+                            
+                            <div class="talent__event--staffing-digital-info-item talent__event--staffing-digital-info-item-100 flex flex-wrap" 
+                                 ng-if="Shift.digital_info.caption || Shift.files.length">
+                                
+                                <div class="talent__event--notes-block-1" 
+                                     ng-if="Shift.digital_info.caption"
+                                     ng-class="{ 'talent__event--staffing-digital-info-item-100': !Shift.files.length }">
+
+                                    <div class="talent__event--label">Caption / Copy Direction</div>
+
+                                    <div class="talent__event--notes-guidelines">
+                                        {{ Shift.digital_info.caption }}
+                                    </div>
+                                    
+                                    <!-- <div class="italic">
+                                        <div ng-if="Shift.digital_info.creative_assets === 'default'">
+                                            Final creative assets uploaded for Digital Talent to post as is
+                                        </div>
+                                        <div ng-if="Shift.digital_info.creative_assets === 'custom'">
+                                            Creative assets uploaded for Digital Talent to customize
+                                        </div>
+                                    </div> -->
+                                </div>
+
+                                <div class="talent__event--notes-block-2 relative" 
+                                     ng-if="Shift.files.length">
+                                    <div class="flex flex-column">
+                                        <div class="talent__event--label">Files</div>
+
+                                        <div class="talent__event--file relative" 
+                                             title="{{(file.original) ? file.original : file.name}}" 
+                                             ng-repeat="file in Shift.files" 
+                                             ng-click="downloadFile(file)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="talent__event--file-icon" 
+                                                 ng-if="fileType(file) === 'pdf'">
+                                                <g><path d="M32,21.16a1.19,1.19,0,0,0,.17-.31c-.09,0-.22-.15-.89-.15a10.87,10.87,0,0,0-1.37.08c.62.48.77.72,1.17.72A1.14,1.14,0,0,0,32,21.16Z" fill="#231f20"/><path d="M17.58,26.76c.11,0,.77-.34,2-2.61-1.62.91-2.28,1.66-2.33,2.08C17.24,26.3,17.22,26.49,17.58,26.76Z" fill="#231f20"/><path d="M41.07,31.59v-19a1.75,1.75,0,0,0-.42-1.36L31.82,2.42a1.43,1.43,0,0,0-1-.42H8.8A2,2,0,0,0,6.93,4.22V31.59Zm-10.62-27a.39.39,0,0,1,.67-.28L38.77,12a.39.39,0,0,1-.28.67h-8ZM16,26.09c.14-1.23,1.67-2.53,4.54-3.84a51,51,0,0,0,2.87-8.16c-.76-1.65-1.49-3.79-1-5a1.46,1.46,0,0,1,.86-.92A3.72,3.72,0,0,1,24.07,8c.38,0,.72.49,1,.8s.73.89-.28,5.16a24.23,24.23,0,0,0,3.86,5.74,14.72,14.72,0,0,1,2.55-.27c1.19,0,1.91.28,2.2.85a1.53,1.53,0,0,1-.3,1.64,2,2,0,0,1-1.68.9,5,5,0,0,1-3.19-1.73,36.32,36.32,0,0,0-6.7,2.14,21.53,21.53,0,0,1-1.81,3.22c-.78,1.09-1.45,1.6-2.11,1.6h0a1.22,1.22,0,0,1-.73-.25A1.82,1.82,0,0,1,16,26.09Z" fill="#231f20"/><path d="M18.1,36.79a1.25,1.25,0,0,0-.45-.37,1.68,1.68,0,0,0-.77-.15h-.93v3h1.14a1.36,1.36,0,0,0,.45-.08,1.14,1.14,0,0,0,.41-.25,1.25,1.25,0,0,0,.3-.49,2.33,2.33,0,0,0,.11-.78,2.11,2.11,0,0,0-.05-.43A1.24,1.24,0,0,0,18.1,36.79Z" fill="#231f20"/><path d="M24.26,15.79a54.24,54.24,0,0,1-2,5.74A37.89,37.89,0,0,1,27.16,20,26,26,0,0,1,24.26,15.79Z" fill="#231f20"/><path d="M6.93,33.1V44.48A1.84,1.84,0,0,0,8.8,46H39.2a1.84,1.84,0,0,0,1.87-1.52V33.1Zm12.44,5.64a2.21,2.21,0,0,1-.55.79A2.48,2.48,0,0,1,18,40a3.27,3.27,0,0,1-1.1.18h-.92V43H14.7V35.32h2.2a3.09,3.09,0,0,1,1,.16,2.61,2.61,0,0,1,.86.47,2.44,2.44,0,0,1,.61.75,2.08,2.08,0,0,1,.23,1A2.71,2.71,0,0,1,19.37,38.74ZM27,40.54a4,4,0,0,1-.51,1.12,2.63,2.63,0,0,1-.7.71,3.5,3.5,0,0,1-.75.39,3.11,3.11,0,0,1-.66.17l-.45,0H21V35.32h2.3a4.37,4.37,0,0,1,1.7.31,3.52,3.52,0,0,1,1.21.81A3.34,3.34,0,0,1,27,37.6a3.83,3.83,0,0,1,.24,1.33A5.62,5.62,0,0,1,27,40.54Zm6.79-4.28H30.27v2.41h3.19v.85H30.27V43H29V35.32h4.78Z" fill="#231f20"/><path d="M25.34,37.11a2.33,2.33,0,0,0-.89-.61A3.82,3.82,0,0,0,23,36.27h-.73v5.79h1.23a2.06,2.06,0,0,0,1.83-.81,4.1,4.1,0,0,0,.56-2.34,4,4,0,0,0-.11-.94A2,2,0,0,0,25.34,37.11Z" fill="#231f20"/><path d="M23.8,9.37a1.82,1.82,0,0,0,.07,2.44C24.59,10.2,23.83,9.36,23.8,9.37Z" fill="#231f20"/></g>
+                                            </svg>
+
+                                            <div class="talent__event--file-preview" 
+                                                 ng-if="fileType(file) === 'img'" style="background-image: url({{ file.src ? file.src : file.url }})"></div>
+
+                                            <div class="talent__event--file-title">
+                                                {{(file.original) ? file.original : file.name}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="talent__event--staffing-digital-info-item" 
+                                 ng-if="Shift.digital_info.handles">
+                                <div class="talent__event--label">
+                                    Account Handle(s)
+                                </div>
+                                
+                                <div class="talent__event--staffing-digital-info--text">
+                                    {{ Shift.digital_info.handles }}
+                                </div>
+                            </div>
+                            
+                            <div class="talent__event--staffing-digital-info-item" 
+                                 ng-if="Shift.digital_info.hashtags">
+                                <div class="talent__event--label">
+                                    Hashtag(s)
+                                </div>
+                                
+                                <div class="talent__event--staffing-digital-info--text">
+                                    {{ Shift.digital_info.hashtags }}
+                                </div>
+                            </div>
+                            
+                            <div class="talent__event--staffing-digital-info-item" 
+                                 ng-if="Shift.digital_info.location_tag">
+                                <div class="talent__event--label">
+                                    Location Tag
+                                </div>
+                                
+                                <div class="talent__event--staffing-digital-info--text">
+                                    {{ Shift.digital_info.location_tag }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="talent__event--error talent__event--error-social" ng-if="Shift.isSocialError">
+                        You don't have the social network that is required for this project or the social network data is incorrect. Please contact our administrator via the chat form in the bottom left corner of the welcome screen.
+                    </div>
+                </div>
+
+                <div class="talent__event--digital-amount--mobile" 
+                     ng-if="Request.event.type === 'digital' && status !== 'completed' && !(status === 'confirmed' && started)">
+                    <div class="talent__event--submit-amount inline-block">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="absolute"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M21 7.28V5c0-1.1-.9-2-2-2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-2.28c.59-.35 1-.98 1-1.72V9c0-.74-.41-1.37-1-1.72zM20 9v6h-7V9h7zM5 19V5h14v2h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6v2H5z"/><circle cx="16" cy="12" r="1.5"/></svg>
+                        {{ estimateDigital() | currency:"$":2 }}
+                    </div>
+                </div>
+                
+                <div class="talent__event--staffing-btns--digital" 
+                     ng-if="Shifts.length && Request.event.type === 'digital' && status !== 'completed' && !(status === 'confirmed' && started)">
+                    <div class="talent__event--submit-amount">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="absolute"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M21 7.28V5c0-1.1-.9-2-2-2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-2.28c.59-.35 1-.98 1-1.72V9c0-.74-.41-1.37-1-1.72zM20 9v6h-7V9h7zM5 19V5h14v2h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6v2H5z"/><circle cx="16" cy="12" r="1.5"/></svg>
+                        {{ estimateDigital() | currency:"$":2 }}
+                    </div>
+                    <!--  open  -->
+                    <md-button class="ot-btn ot-btn__talent-color center" aria-label="Apply" 
+                               ng-if="status === 'open'" 
+                               ng-click="apply(Request)" 
+                               ng-disabled="loader.loading">
+                        Apply
+                    </md-button>
+                    <!--  applied  -->
+                    <md-button class="ot-btn center ot-btn__deep-grey x-padding-0" style="width: 202px;" aria-label="Cancel" 
+                               ng-if="status === 'applied'" 
+                               ng-click="reject(Request)" 
+                               ng-disabled="loader.loading">
+                        Cancel application
+                    </md-button>
+                    <!--   invited   -->
+                    <div class="half-btn-container" ng-if="status == 'invited' || status == 'reaccept'">
+                        <md-button class="ot-btn ot-btn__deep-grey center" aria-label="Reject" 
+                                   ng-click="reject(Request)" 
+                                   ng-disabled="loader.loading">
+                            Reject
+                        </md-button>
+                        <md-button class="ot-btn ot-btn__talent-color center" aria-label="Accept" 
+                                   ng-click="accept(Request)" 
+                                   ng-disabled="loader.loading">
+                            Accept
+                        </md-button>
+                    </div>
+                    <!--  hired  -->
+                    <div class="half-btn-container" ng-if="status == 'confirmed'">
+                        <md-button class="ot-btn center ot-btn__deep-grey" aria-label="Cancel" 
+                                   ng-click="reject(Request)" 
+                                   ng-disabled="loader.loading">
+                            Cancel
+                        </md-button>
+                        <md-button class="ot-btn ot-btn__talent-color center" aria-label="Contact" 
+                                   ng-click="sendMessage()" 
+                                   ng-disabled="loader.loading || disableChats">
+                            Contact
+                        </md-button>
+                    </div>
+                </div>
+                
+                <div class="talent__event--staffing-btns--digital" style="width: 200px" 
+                     ng-if="!Shifts.length">
+                    <div class="ot-btn__deep-grey ot-btn center" style="line-height: 45px; width: 100%">
+                        No {{ (Request.event.type === 'digital') ? 'Projects' : 'Shifts' }} Left
+                    </div>
+                </div>
+            </div>
+            
+            <div class="talent__event--staffing-btns--mobile">
+                <div ng-if="Shifts.length">
+                    <!--  open  -->
+                    <md-button class="ot-btn ot-btn__talent-color center" aria-label="Apply" 
+                               ng-if="status === 'open'" 
+                               ng-click="apply(Request)" 
+                               ng-disabled="loader.loading">
+                        Apply
+                    </md-button>
+                    <!--  applied  -->
+                    <md-button class="ot-btn ot-btn__talent-color center ot-btn__deep-grey btn-no-padding" aria-label="Cancel" 
+                               ng-if="status === 'applied'" 
+                               ng-click="reject(Request)" 
+                               ng-disabled="loader.loading">
+                        Cancel application
+                    </md-button>
+                    <!--   invited   -->
+                    <div class="half-btn-container" ng-if="status == 'invited' || status == 'reaccept'">
+                        <md-button class="ot-btn ot-btn__talent-color ot-btn__deep-grey center" aria-label="Reject" 
+                                   ng-click="reject(Request)" 
+                                   ng-disabled="loader.loading">
+                            Reject
+                        </md-button>
+                        <md-button class="ot-btn ot-btn__talent-color center" aria-label="Accept" 
+                                   ng-click="accept(Request)" 
+                                   ng-disabled="loader.loading">
+                            Accept
+                        </md-button>
+                    </div>
+                    <!--  hired  -->
+                    <div class="half-btn-container" ng-if="status == 'confirmed'">
+                        <md-button class="ot-btn ot-btn__talent-color center ot-btn__deep-grey" aria-label="Cancel" 
+                                   ng-click="reject(Request)" 
+                                   ng-disabled="loader.loading">
+                            Cancel
+                        </md-button>
+                        <md-button class="ot-btn ot-btn__talent-color center" aria-label="Cancel" 
+                                   ng-click="sendMessage()" 
+                                   ng-disabled="loader.loading || disableChats">
+                            Contact
+                        </md-button>
+                    </div>
+                    <!--  completed  -->
+                    <div ng-if="(status === 'completed' || (status === 'confirmed' && started)) && Request.event.type !== 'digital'">
+                        <md-button class="ot-btn ot-btn__talent-color center" aria-label="Submit insights" 
+                                   ng-if="actionHandler() === 'submit'" 
+                                   ng-disabled="disableSubmit() || loader.loading" 
+                                   ng-click="shiftsSubmit()">
+                            Submit insights
+                        </md-button>
+
+                        <div class="ot-btn__deep-grey ot-btn center" style="line-height: 45px" ng-if="actionHandler() === 'accepted'">
+                            Accepted
+                        </div>
+
+                        <div class="ot-btn__deep-grey ot-btn center" style="line-height: 45px" ng-if="actionHandler() === 'submitted'">
+                            Submitted
+                        </div>
+
+                        <div class="ot-btn__container" ng-if="actionHandler() === 'review'" >
+                            <md-button class="ot-btn ot-btn__hlf ot-btn__talent-color center box--border-right x-padding-0" aria-label="Set rate" >
+                                <input-stars class="flex box__rating cursor-pointer m0 mx-auto" aria-label="Rate input" max="5" 
+                                             ng-model="Request.rating"></input-stars>
+                            </md-button>
+                            <md-button class="ot-btn ot-btn__hlf center ot-btn__talent-color x-padding-0" aria-label="Rate" 
+                                       ng-click="Request.review()" 
+                                       ng-disabled="!Request.rating || loader.loading" >
+                                <span ng-if="!Request.rating" style="font-size: 12px">(choose rating)</span>
+                                <span ng-if="Request.rating">Rate</span>
+                            </md-button>
+                        </div> 
+                    </div>
+                </div>
+                <div ng-if="!Shifts.length">
+                    <div class="ot-btn__deep-grey ot-btn center" style="line-height: 45px">
+                        No {{ (Request.event.type === 'digital') ? 'Projects' : 'Shifts' }} Left
+                    </div>
+                </div>
+            </div>
+            
+            <!--  digital submit  -->
+            <div class="talent__event--submit-sections--digital" 
+                 ng-if="(status === 'completed' || (status === 'confirmed' && started)) && Request.event.type === 'digital'">
+                <div class="talent__event--details-dashboard bottom-margin-0" style="border-bottom: 1px solid #DDDFE2; border-top: 1px solid #DDDFE2;">
+                    <div class="talent__event--label talent__event--submit-sections--digital-title bottom-margin-10">
+                        Submit screenshots of all posts
+                        <span>
+                            + insights pages
+                            <div class="talent__event--help">
+                                <div class="talent__event--help-sign">
+                                    ?
+                                </div>
+                                <div class="talent__event--help-info">
+                                    You can upload up to 15 files. Files requirements: format - jpg/jpeg/png/pdf, max size - 10 Mb. Invalid files will be ignored.
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="talent__event--submit-section--digital-1">
+                        <div class="talent__event--submit-block" 
+                             ng-class="{ 'talent__event--submit-block--no-img': !UserShift.reports.length && !UserShift.reportFile }" 
+                             ng-repeat="UserShift in UserShifts">
+                            
+<!--
+                            <div class="talent__event--error-box" 
+                                 ng-if="UserShift.imgErr">
+                                <div class="talent__event--error">{{ UserShift.imgErr }}</div>
+                            </div>
+-->
+                            <div ng-hide="UserShift.reports.length">
+                                <div class="talent__event--submit-block--btns">
+                                    <span class="talent__event--submit-block--text">Live{{ (usershift.shift.format === 'blast') ? 'Blast' : 'Cast'}} {{ (usershift.shift.format === 'cast' || (usershift.shift.format === 'blast' && usershift.shift.digital_info.end_seeable)) ? usershift.shift.start.format('(ddd h:mm A - ') + usershift.shift.end.format('h:mm A)') : usershift.shift.start.format('(ddd h:mm A)') }}</span>
+                                    
+                                    <md-button class="ot-btn ot-btn__talent-color center x-padding-0" aria-label="Upload insights" 
+                                               ng-disabled="UserShift.shift.start.diff(now, 'm') >= 60 || UserShift.reports.length >= 15 || loader.loading">
+                                        <label for="file_input_{{UserShift.id}}">
+                                            Upload
+                                        </label>
+                                    </md-button>
+                                </div>
+                                
+                                <input style="display: none" type="file" accept="image/jpeg, image/jpg, image/png, application/pdf" class="event__input-file" multiple="true"  id="file_input_{{UserShift.id}}" 
+                                       ng-disabled="UserShift.shift.start.diff(now, 'm') >= 60 || UserShift.reports.length >= 15 || UserShift.submitted_at" 
+                                       multi-file-upload="uploadFiles(file, UserShift)">
+                            </div>
+                            
+                            <div ng-show="UserShift.reports.length">
+                                <div class="talent__event--label">
+                                    Live{{ (UserShift.shift.format === 'blast') ? 'Blast' : 'Cast'}} {{ (usershift.shift.format === 'cast' || (usershift.shift.format === 'blast' && usershift.shift.digital_info.end_seeable)) ? usershift.shift.start.format('(ddd h:mm A - ') + usershift.shift.end.format('h:mm A)') : usershift.shift.start.format('(ddd h:mm A)') }}
+                                </div>
+                                <div class="talent__event--submit-warning" 
+                                     ng-class="{ 'talent__event--submit-warning--done': UserShift.submitted_at }">
+                                    Submit work for approval
+                                </div>
+                            </div>
+                                                    
+                            <div class="talent__event--submit-img-container" id="img-container-{{UserShift.id}}">
+                                <div class="talent__event--insight-file bottom-margin-10" title="{{(file.original) ? file.original : file.name}}" 
+                                     ng-repeat="file in UserShift.reports track by $index">
+                                    <span class="ot-home__signup--img-btn" 
+                                          ng-click="removeReport(UserShift, $index)" 
+                                          ng-if="!UserShift.submitted_at">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+                                    </span>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="talent__event--file-icon" style="margin: auto" 
+                                         ng-if="fileType(file) === 'pdf'">
+                                        <g><path d="M32,21.16a1.19,1.19,0,0,0,.17-.31c-.09,0-.22-.15-.89-.15a10.87,10.87,0,0,0-1.37.08c.62.48.77.72,1.17.72A1.14,1.14,0,0,0,32,21.16Z" fill="#231f20"/><path d="M17.58,26.76c.11,0,.77-.34,2-2.61-1.62.91-2.28,1.66-2.33,2.08C17.24,26.3,17.22,26.49,17.58,26.76Z" fill="#231f20"/><path d="M41.07,31.59v-19a1.75,1.75,0,0,0-.42-1.36L31.82,2.42a1.43,1.43,0,0,0-1-.42H8.8A2,2,0,0,0,6.93,4.22V31.59Zm-10.62-27a.39.39,0,0,1,.67-.28L38.77,12a.39.39,0,0,1-.28.67h-8ZM16,26.09c.14-1.23,1.67-2.53,4.54-3.84a51,51,0,0,0,2.87-8.16c-.76-1.65-1.49-3.79-1-5a1.46,1.46,0,0,1,.86-.92A3.72,3.72,0,0,1,24.07,8c.38,0,.72.49,1,.8s.73.89-.28,5.16a24.23,24.23,0,0,0,3.86,5.74,14.72,14.72,0,0,1,2.55-.27c1.19,0,1.91.28,2.2.85a1.53,1.53,0,0,1-.3,1.64,2,2,0,0,1-1.68.9,5,5,0,0,1-3.19-1.73,36.32,36.32,0,0,0-6.7,2.14,21.53,21.53,0,0,1-1.81,3.22c-.78,1.09-1.45,1.6-2.11,1.6h0a1.22,1.22,0,0,1-.73-.25A1.82,1.82,0,0,1,16,26.09Z" fill="#231f20"/><path d="M18.1,36.79a1.25,1.25,0,0,0-.45-.37,1.68,1.68,0,0,0-.77-.15h-.93v3h1.14a1.36,1.36,0,0,0,.45-.08,1.14,1.14,0,0,0,.41-.25,1.25,1.25,0,0,0,.3-.49,2.33,2.33,0,0,0,.11-.78,2.11,2.11,0,0,0-.05-.43A1.24,1.24,0,0,0,18.1,36.79Z" fill="#231f20"/><path d="M24.26,15.79a54.24,54.24,0,0,1-2,5.74A37.89,37.89,0,0,1,27.16,20,26,26,0,0,1,24.26,15.79Z" fill="#231f20"/><path d="M6.93,33.1V44.48A1.84,1.84,0,0,0,8.8,46H39.2a1.84,1.84,0,0,0,1.87-1.52V33.1Zm12.44,5.64a2.21,2.21,0,0,1-.55.79A2.48,2.48,0,0,1,18,40a3.27,3.27,0,0,1-1.1.18h-.92V43H14.7V35.32h2.2a3.09,3.09,0,0,1,1,.16,2.61,2.61,0,0,1,.86.47,2.44,2.44,0,0,1,.61.75,2.08,2.08,0,0,1,.23,1A2.71,2.71,0,0,1,19.37,38.74ZM27,40.54a4,4,0,0,1-.51,1.12,2.63,2.63,0,0,1-.7.71,3.5,3.5,0,0,1-.75.39,3.11,3.11,0,0,1-.66.17l-.45,0H21V35.32h2.3a4.37,4.37,0,0,1,1.7.31,3.52,3.52,0,0,1,1.21.81A3.34,3.34,0,0,1,27,37.6a3.83,3.83,0,0,1,.24,1.33A5.62,5.62,0,0,1,27,40.54Zm6.79-4.28H30.27v2.41h3.19v.85H30.27V43H29V35.32h4.78Z" fill="#231f20"/><path d="M25.34,37.11a2.33,2.33,0,0,0-.89-.61A3.82,3.82,0,0,0,23,36.27h-.73v5.79h1.23a2.06,2.06,0,0,0,1.83-.81,4.1,4.1,0,0,0,.56-2.34,4,4,0,0,0-.11-.94A2,2,0,0,0,25.34,37.11Z" fill="#231f20"/><path d="M23.8,9.37a1.82,1.82,0,0,0,.07,2.44C24.59,10.2,23.83,9.36,23.8,9.37Z" fill="#231f20"/></g>
+                                    </svg>
+                                    
+                                    <div class="talent__event--insight-file-preview" 
+                                         style="background-image: url({{ file.src ? file.src : file.url }})" 
+                                         ng-if="fileType(file) === 'img'"></div>
+
+<!--
+                                    <div class="talent__event--insight-file-title">
+                                        {{(file.original) ? file.original : file.name}}
+                                    </div>
+-->
+                                </div>
+                                <div style="width: 100%" ng-if="UserShift.reports.length">
+                                    <md-button class="ot-btn ot-btn__talent-color center x-padding-0" aria-label="Upload insights" 
+                                               ng-disabled="UserShift.shift.start.diff(now, 'm') >= 60 || UserShift.reports.length >= 15 || UserShift.submitted_at || loader.loading">
+                                        <label for="file_input_{{UserShift.id}}" style="width: 100%">
+                                            Upload
+                                        </label>
+                                    </md-button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="talent__event--details-dashboard bottom-margin-0">
+                    <div class="talent__event--submit-section--digital-2">
+                        <div class="talent__event--submit-amount">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="absolute"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M21 7.28V5c0-1.1-.9-2-2-2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-2.28c.59-.35 1-.98 1-1.72V9c0-.74-.41-1.37-1-1.72zM20 9v6h-7V9h7zM5 19V5h14v2h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6v2H5z"/><circle cx="16" cy="12" r="1.5"/></svg>
+                            {{ estimateDigital() | currency:"$":2 }}
+                        </div>
+                        <div class="talent__event--submit-btn">
+                            <md-button class="ot-btn ot-btn__talent-color center" aria-label="Submit Insights" 
+                                       ng-if="actionHandler() === 'submit'" 
+                                       ng-disabled="disableSubmit() || loader.loading" 
+                                       ng-click="shiftsSubmit()">
+                                Submit Insights
+                            </md-button>
+
+                            <div class="ot-btn__deep-grey ot-btn center" ng-if="actionHandler() === 'accepted'">
+                                Accepted
+                            </div>
+                            <div class="ot-btn__deep-grey ot-btn center" ng-if="actionHandler() === 'submitted'">
+                                Submitted
+                            </div>
+                            <div class="ot-btn__container" ng-if="actionHandler() === 'review'" >
+                                <md-button class="ot-btn ot-btn__hlf ot-btn__talent-color center box--border-right x-padding-0" aria-label="Set rate">
+                                    <input-stars class="flex box__rating cursor-pointer m0 mx-auto" aria-label="Rate input" max="5" 
+                                                 ng-model="Request.rating"></input-stars>
+                                </md-button>
+                                <md-button class="ot-btn ot-btn__hlf center ot-btn__talent-color x-padding-0" aria-label="Rate" 
+                                           ng-click="Request.review()" 
+                                           ng-disabled="!Request.rating || loader.loading">
+                                    <span ng-if="!Request.rating" style="font-size: 12px">(choose rating)</span>
+                                    <span ng-if="Request.rating">Rate</span>
+                                </md-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="talent__event--details-dashboard talent__event--notes" 
+                 ng-if="Request.event.event_group.files.length || Request.event.event_group.guidelines">
+                <div class="talent__event--notes-block-1">            
+                    <div ng-if="Request.event.event_group.guidelines">
+                        <div class="talent__event--label">Additional Notes + Guidelines</div>
+
+                        <div class="talent__event--notes-guidelines">
+                            {{ Request.event.event_group.guidelines }}
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap top-margin-15" 
+                         ng-if="Request.event.event_group.hashtag">
+                        <div class="flex right-margin-15">
+                            <div class="talent__event--label">Allowed to post from event:</div>
+                            <div class="left-margin-10">{{ Request.event.event_group.allow_post }}</div>
+                        </div>
+                        <div class="flex">
+                            <div class="talent__event--label">Event hashtag:</div>
+                            <div class="left-margin-10">#{{ Request.event.event_group.hashtag }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="talent__event--notes-block-2 relative" 
+                     ng-if="Request.event.event_group.files.length">
+                    <div class="flex flex-column">
+                        <div class="talent__event--label">Files</div>
+                        
+                        <div class="talent__event--file relative" title="{{(file.original) ? file.original : file.name}}" 
+                             ng-repeat="file in Request.event.event_group.files" 
+                             ng-click="downloadFile(file)">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="talent__event--file-icon" 
+                                 ng-if="fileType(file) === 'pdf'">
+                                <g><path d="M32,21.16a1.19,1.19,0,0,0,.17-.31c-.09,0-.22-.15-.89-.15a10.87,10.87,0,0,0-1.37.08c.62.48.77.72,1.17.72A1.14,1.14,0,0,0,32,21.16Z" fill="#231f20"/><path d="M17.58,26.76c.11,0,.77-.34,2-2.61-1.62.91-2.28,1.66-2.33,2.08C17.24,26.3,17.22,26.49,17.58,26.76Z" fill="#231f20"/><path d="M41.07,31.59v-19a1.75,1.75,0,0,0-.42-1.36L31.82,2.42a1.43,1.43,0,0,0-1-.42H8.8A2,2,0,0,0,6.93,4.22V31.59Zm-10.62-27a.39.39,0,0,1,.67-.28L38.77,12a.39.39,0,0,1-.28.67h-8ZM16,26.09c.14-1.23,1.67-2.53,4.54-3.84a51,51,0,0,0,2.87-8.16c-.76-1.65-1.49-3.79-1-5a1.46,1.46,0,0,1,.86-.92A3.72,3.72,0,0,1,24.07,8c.38,0,.72.49,1,.8s.73.89-.28,5.16a24.23,24.23,0,0,0,3.86,5.74,14.72,14.72,0,0,1,2.55-.27c1.19,0,1.91.28,2.2.85a1.53,1.53,0,0,1-.3,1.64,2,2,0,0,1-1.68.9,5,5,0,0,1-3.19-1.73,36.32,36.32,0,0,0-6.7,2.14,21.53,21.53,0,0,1-1.81,3.22c-.78,1.09-1.45,1.6-2.11,1.6h0a1.22,1.22,0,0,1-.73-.25A1.82,1.82,0,0,1,16,26.09Z" fill="#231f20"/><path d="M18.1,36.79a1.25,1.25,0,0,0-.45-.37,1.68,1.68,0,0,0-.77-.15h-.93v3h1.14a1.36,1.36,0,0,0,.45-.08,1.14,1.14,0,0,0,.41-.25,1.25,1.25,0,0,0,.3-.49,2.33,2.33,0,0,0,.11-.78,2.11,2.11,0,0,0-.05-.43A1.24,1.24,0,0,0,18.1,36.79Z" fill="#231f20"/><path d="M24.26,15.79a54.24,54.24,0,0,1-2,5.74A37.89,37.89,0,0,1,27.16,20,26,26,0,0,1,24.26,15.79Z" fill="#231f20"/><path d="M6.93,33.1V44.48A1.84,1.84,0,0,0,8.8,46H39.2a1.84,1.84,0,0,0,1.87-1.52V33.1Zm12.44,5.64a2.21,2.21,0,0,1-.55.79A2.48,2.48,0,0,1,18,40a3.27,3.27,0,0,1-1.1.18h-.92V43H14.7V35.32h2.2a3.09,3.09,0,0,1,1,.16,2.61,2.61,0,0,1,.86.47,2.44,2.44,0,0,1,.61.75,2.08,2.08,0,0,1,.23,1A2.71,2.71,0,0,1,19.37,38.74ZM27,40.54a4,4,0,0,1-.51,1.12,2.63,2.63,0,0,1-.7.71,3.5,3.5,0,0,1-.75.39,3.11,3.11,0,0,1-.66.17l-.45,0H21V35.32h2.3a4.37,4.37,0,0,1,1.7.31,3.52,3.52,0,0,1,1.21.81A3.34,3.34,0,0,1,27,37.6a3.83,3.83,0,0,1,.24,1.33A5.62,5.62,0,0,1,27,40.54Zm6.79-4.28H30.27v2.41h3.19v.85H30.27V43H29V35.32h4.78Z" fill="#231f20"/><path d="M25.34,37.11a2.33,2.33,0,0,0-.89-.61A3.82,3.82,0,0,0,23,36.27h-.73v5.79h1.23a2.06,2.06,0,0,0,1.83-.81,4.1,4.1,0,0,0,.56-2.34,4,4,0,0,0-.11-.94A2,2,0,0,0,25.34,37.11Z" fill="#231f20"/><path d="M23.8,9.37a1.82,1.82,0,0,0,.07,2.44C24.59,10.2,23.83,9.36,23.8,9.37Z" fill="#231f20"/></g>
+                            </svg>
+
+                            <div class="talent__event--file-preview" 
+                                 style="background-image: url({{ file.src ? file.src : file.url }})" 
+                                 ng-if="fileType(file) === 'img'"></div>
+
+                            <div class="talent__event--file-title">
+                                {{(file.original) ? file.original : file.name}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+    </div>
+</div>

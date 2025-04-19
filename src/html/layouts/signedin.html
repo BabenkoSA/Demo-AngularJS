@@ -1,0 +1,332 @@
+<md-sidenav md-component-id="menu-mobile-pane" class="md-sidenav-right ot-header__menu-mobile hide-desktop" id="mobile-menu">
+    <div class="ot-header__menu-mobile-item" md-autofocus ng-click="openSubmenu($event, true)">
+        <div class="ot-header__menu-dropdown" ng-class="{ 'ot-header__nav-link--disabled': Me.status !== 'APPROVED' }">
+            <div class="ot-header__menu-dropdown-pane">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-header__menu-dropdown-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2l.01-14c0-1.1.88-2 1.99-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14zm-4-7h2v-2h-2v2zm-4 0h2v-2h-2v2z"/></svg>
+                <span>Events</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" class="ot-header__menu-mobile-arrow-down right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="ot-header__menu-dropdown-content">
+                <a class="ot-header__menu-dropdown-link" 
+                   ui-sref="signedin.events.open" 
+                   ng-click="toggleMenu()" 
+                   onclick="event.stopPropagation()">
+                    Opportunities
+                </a>
+                <a class="ot-header__menu-dropdown-link" 
+                   ui-sref="signedin.events.confirmed" 
+                   ng-click="toggleMenu()" 
+                   onclick="event.stopPropagation()">
+                    Confirmed
+                </a>
+                <a class="ot-header__menu-dropdown-link" 
+                   ui-sref="signedin.events.applied" 
+                   ng-click="toggleMenu()" 
+                   onclick="event.stopPropagation()">
+                    Applied
+                </a>
+                <a class="ot-header__menu-dropdown-link" 
+                   ui-sref="signedin.events.invited" 
+                   ng-click="toggleMenu()" 
+                   onclick="event.stopPropagation()">
+                    Invited
+                </a>
+                <a class="ot-header__menu-dropdown-link" 
+                   ui-sref="signedin.events.completed" 
+                   ng-click="toggleMenu()" 
+                   onclick="event.stopPropagation()">
+                    Completed
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="ot-header__menu-mobile-item" ng-click="openSubmenu($event)">
+        <div class="ot-header__menu-dropdown">
+            <div class="ot-header__menu-dropdown-pane" ng-class="{ 'ot-header__nav-link--disabled': Me.status !== 'APPROVED' }">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-header__menu-dropdown-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M6.5 10h-2v7h2v-7zm6 0h-2v7h2v-7zm8.5 9H2v2h19v-2zm-2.5-9h-2v7h2v-7zm-7-6.74L16.71 6H6.29l5.21-2.74m0-2.26L2 6v2h19V6l-9.5-5z"/></svg>
+                <a class="black inline-block" style="width: 85%" 
+                   ui-sref="signedin.user.earnings" 
+                   ng-click="Me.status === 'APPROVED' ? toggleMenu() : null" 
+                   onclick="event.stopPropagation()">
+                    <span>Earnings</span>
+                </a>
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" class="ot-header__menu-mobile-arrow-down right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg> -->
+            </div>
+<!--
+            <div class="ot-header__menu-dropdown-content">
+                <a class="ot-header__menu-dropdown-link" 
+                   ui-sref="signedin.user.earnings.pending" 
+                   ng-click="toggleMenu()" 
+                   onclick="event.stopPropagation()">
+                    Pending
+                </a>
+                <a class="ot-header__menu-dropdown-link" 
+                   ui-sref="signedin.user.earnings.complete" 
+                   ng-click="toggleMenu()" 
+                   onclick="event.stopPropagation()">
+                    Completed
+                </a>
+            </div>
+-->
+        </div>
+    </div>
+<!--
+    <div class="ot-header__menu-mobile-item" ng-click="openSubmenu($event)">
+        <div class="ot-header__menu-dropdown">
+            <div class="ot-header__menu-dropdown-pane">
+                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="umbrella" class="svg-inline--fa fa-umbrella fa-w-18 ot-header__menu-dropdown-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"  width="20" height="20"><path fill="currentColor" d="M575.7 280.8C547.1 144.5 437.3 62.6 320 49.9V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v17.9C138.3 62.6 29.5 144.5.3 280.8c-2.2 10.1 8.5 21.3 18.7 11.4 52-55 107.7-52.4 158.6 37 5.3 9.5 14.9 8.6 19.7 0 20.2-35.4 44.9-73.2 90.7-73.2 58.5 0 88.2 68.8 90.7 73.2 4.8 8.6 14.4 9.5 19.7 0 51-89.5 107.1-91.4 158.6-37 10.3 10 20.9-1.3 18.7-11.4zM256 301.7V432c0 8.8-7.2 16-16 16-7.8 0-13.2-5.3-15.1-10.7-5.9-16.7-24.1-25.4-40.8-19.5-16.7 5.9-25.4 24.2-19.5 40.8 11.2 31.9 41.6 53.3 75.4 53.3 44.1 0 80-35.9 80-80V301.6c-9.1-7.9-19.8-13.6-32-13.6-12.3.1-22.4 4.8-32 13.7z"></path></svg>
+                <a ui-sref="signedin.user.benefits" ng-click="toggleMenu()" onclick="event.stopPropagation()" class="black">Benefits</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" class="ot-header__menu-mobile-arrow-down right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+        </div>
+    </div>
+-->
+    <div class="ot-header__menu-mobile-item" ng-click="openSubmenu($event)">
+        <div class="ot-header__menu-dropdown">
+            <div class="ot-header__menu-dropdown-pane">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-header__menu-dropdown-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                <span>About</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" class="ot-header__menu-mobile-arrow-down right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="ot-header__menu-dropdown-content">
+                <a class="ot-header__menu-dropdown-link" 
+                   ui-sref="signedout.home" 
+                   ng-click="toggleMenu()" 
+                   onclick="event.stopPropagation()">
+                    Outfit Live
+                </a>
+                <a class="ot-header__menu-dropdown-link" 
+                   ui-sref="signedout.brands" 
+                   ng-click="toggleMenu()" 
+                   onclick="event.stopPropagation()">
+                    For Brands
+                </a>
+                <a class="ot-header__menu-dropdown-link" 
+                   ui-sref="signedout.talent" 
+                   ng-click="toggleMenu()" 
+                   onclick="event.stopPropagation()">
+                    For Talent
+                </a>
+                <!-- <a class="ot-header__menu-dropdown-link" 
+                   ui-sref="signedout.contact" 
+                   ng-click="toggleMenu()" 
+                   onclick="event.stopPropagation()">
+                    Contact
+                </a> -->
+            </div>
+        </div>
+    </div>
+    <div class="ot-header__menu-mobile-item" ng-click="openSubmenu($event)">
+        <div class="ot-header__menu-dropdown">
+            <div class="ot-header__menu-dropdown-pane left-padding-65">
+                <div class="ot-header__nav-user-img ot-header__nav-user-img_mobile" 
+                     style="background-image:url({{ Me.image.url }})" 
+                     ng-if="Me.image.url"></div>
+
+                <div class="ot-header__nav-user-no-img ot-header__nav-user-no-img_mobile" ng-if="!Me.image.url">
+                    <div class="icon-profile"><span class="path1"></span><span class="path2"></span><span class="path3"></span></div>
+                </div>
+
+                <span class="ot-header__nav-user-name inline-block">{{ Me.first_name }} {{ Me.last_name }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" class="ot-header__menu-mobile-arrow-down right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="ot-header__menu-dropdown-content">
+                <a class="ot-header__menu-dropdown-link" 
+                   ui-sref="signedin.user.profile" 
+                   ng-click="toggleMenu()" 
+                   onclick="event.stopPropagation()">
+                    Profile
+                </a>
+                <a class="ot-header__menu-dropdown-link" 
+                   ui-sref="signedin.user.settings" 
+                   ng-click="toggleMenu()" 
+                   onclick="event.stopPropagation()">
+                    Settings
+                </a>
+                <a href="#" class="ot-header__menu-dropdown-link" 
+                   ng-click="signout()" 
+                   onclick="event.stopPropagation()">
+                    Log out
+                </a>
+            </div>
+        </div>
+    </div>
+</md-sidenav>
+
+
+<header class="ot-header">
+    <div class="ot-header__container flex justify-between">
+
+        <div class="ot-header__logo inline-block center">
+            <a ui-sref="signedout.home">
+                <span class="icon-logo"></span>
+            </a>
+        </div>
+
+        <div class="ot-header__nav flex flex-row ot-header__nav-mobile">
+            <div class="ot-header__nav-item hide-mobile left-padding-0">
+                <div class="ot-header__nav-item-border" 
+                     ng-class="{ 'ot-header__nav-link-active': state.includes('signedin.events.open') || 
+                               state.includes('signedin.events.invited') || 
+                               state.includes('signedin.events.reaccept') || 
+                               state.includes('signedin.events.applied') || 
+                               state.includes('signedin.events.confirmed') || 
+                               state.includes('signedin.events.completed') }">
+                    <a ui-sref="signedin.events.open" class="relative ot-header__nav-link" ng-class="{ 'ot-header__nav-link--disabled': Me.status !== 'APPROVED' }">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-header__nav-item-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2l.01-14c0-1.1.88-2 1.99-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14zm-4-7h2v-2h-2v2zm-4 0h2v-2h-2v2z"/></svg>
+                        <span>Events</span>
+                    </a>
+                </div>
+            </div>
+            <div class="ot-header__nav-item ot-header__nav-mobile-item ot-header__nav-mobile-item--half">
+                <div class="ot-header__nav-item-border relative" ui-sref-active="ot-header__nav-link-active">
+                    <a class="relative ot-header__nav-link" 
+                       ui-sref="signedin.user.messages" 
+                       ng-click="(mobileMenu) ? toggleMenu() : null" 
+                       ng-class="{ 'ot-header__nav-link--disabled': disableChats }" 
+                       ng-disabled="disableChats">
+                        <svg xmlns="http://www.w3.org/2000/svg"viewBox="0 0 24 24" class="ot-header__nav-item-icon ot-header__nav-message-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M15 4v7H5.17l-.59.59-.58.58V4h11m1-2H3c-.55 0-1 .45-1 1v14l4-4h10c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm5 4h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1z"/></svg>
+                        <span class="hide-mobile">Messages</span>
+                    </a>
+                    <span class="ot-header__nav--message-indicator" id="message-indicator"></span>
+                </div>
+            </div>
+            <div class="ot-header__nav-item hide-mobile">
+                <div class="ot-header__nav-item-border" ui-sref-active="ot-header__nav-link-active">
+<!--                    <a ui-sref="signedin.user.earnings.pending" class="relative ot-header__nav-link">-->
+                    <a ui-sref="signedin.user.earnings" class="relative ot-header__nav-link" ng-class="{ 'ot-header__nav-link--disabled': Me.status !== 'APPROVED' }">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-header__nav-item-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M6.5 10h-2v7h2v-7zm6 0h-2v7h2v-7zm8.5 9H2v2h19v-2zm-2.5-9h-2v7h2v-7zm-7-6.74L16.71 6H6.29l5.21-2.74m0-2.26L2 6v2h19V6l-9.5-5z"/></svg>
+                        <span>Earnings</span>
+                    </a>
+                </div>
+            </div>
+<!--
+            <div class="ot-header__nav-item hide-mobile">
+                <div class="ot-header__nav-item-border" 
+                     ui-sref-active="ot-header__nav-link-active">
+                    <a ui-sref="signedin.user.benefits" class="relative ot-header__nav-link">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="umbrella" class="svg-inline--fa fa-umbrella fa-w-18 ot-header__nav-item-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"  width="20" height="20"><path fill="currentColor" d="M575.7 280.8C547.1 144.5 437.3 62.6 320 49.9V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v17.9C138.3 62.6 29.5 144.5.3 280.8c-2.2 10.1 8.5 21.3 18.7 11.4 52-55 107.7-52.4 158.6 37 5.3 9.5 14.9 8.6 19.7 0 20.2-35.4 44.9-73.2 90.7-73.2 58.5 0 88.2 68.8 90.7 73.2 4.8 8.6 14.4 9.5 19.7 0 51-89.5 107.1-91.4 158.6-37 10.3 10 20.9-1.3 18.7-11.4zM256 301.7V432c0 8.8-7.2 16-16 16-7.8 0-13.2-5.3-15.1-10.7-5.9-16.7-24.1-25.4-40.8-19.5-16.7 5.9-25.4 24.2-19.5 40.8 11.2 31.9 41.6 53.3 75.4 53.3 44.1 0 80-35.9 80-80V301.6c-9.1-7.9-19.8-13.6-32-13.6-12.3.1-22.4 4.8-32 13.7z"></path></svg>
+                        <span class="ot-header__nav-item-text">
+                            Benefits
+                        </span>
+                    </a>
+                </div>
+            </div>
+-->
+            <div class="ot-header__nav-item hide-mobile">
+                <div class="ot-header__nav-dropdown relative">
+                    <a href="#" class="relative ot-header__nav-link ot-header__nav-link_special">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-header__nav-item-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                        <span>About</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" class="ot-header__nav-arrow-down"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                    </a>
+                    <div class="ot-header__nav-dropdown-content">
+                        <a ui-sref="signedout.home" class="ot-header__nav-dropdown-link">Outfit Live</a>
+                        <a ui-sref="signedout.brands" class="ot-header__nav-dropdown-link">For Brands</a>
+                        <a ui-sref="signedout.talent" class="ot-header__nav-dropdown-link">For Talent</a>
+                        <!-- <a ui-sref="signedout.contact" class="ot-header__nav-dropdown-link">Contact</a> -->
+                    </div>
+                </div>
+            </div>
+            <div class="ot-header__nav-item hide-mobile right-padding-0 left-padding-5">
+                <div class="ot-header__nav-item-border" style="padding-bottom: 11px;" 
+                     ng-class="{ 'ot-header__nav-link-active': state.includes('signedin.user.settings') || state.includes('signedin.user.profile') || state.includes('signedin.user.images') }">
+                    <div class="ot-header__nav-dropdown ot-header__nav-dropdown--profile relative">
+                        <div class="relative ot-header__nav-link ot-header__nav-link_special cursor-pointer bottom-padding-0 left-padding-10">
+                            <div class="ot-header__nav-user-img" 
+                                 style="background-image:url({{Me.image.url}})" 
+                                 ng-if="Me.image.url"></div>
+                            <div class="ot-header__nav-user-no-img" ng-if="!Me.image.url">
+                                <div class="icon-profile"><span class="path1"></span><span class="path2"></span><span class="path3"></span></div>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" class="ot-header__nav-arrow-down"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                        </div>
+                        <div class="ot-header__nav-dropdown-content" style="top: 36px; right: -23px;">
+                            <a ui-sref="signedin.user.profile" class="ot-header__nav-dropdown-link ot-header__nav-dropdown-link--profile">
+                                <div class="ot-header__nav-user-img" ng-if="Me.image.url" style="background-image:url({{Me.image.url}})"></div>
+                                <div class="ot-header__nav-user-no-img" ng-if="!Me.image.url">
+                                    <div class="icon-profile"><span class="path1"></span><span class="path2"></span><span class="path3"></span></div>
+                                </div>
+                                
+                                <div class="ot-header__nav-dropdown-link--profile-name">
+                                    <div class="text-overflow">{{ Me.first_name }} {{ Me.last_name }}</div>
+                                    <div class="ot-header__nav-dropdown-link--profile-role">Talent</div>
+                                </div>
+                            </a>
+                            <a ui-sref="signedin.user.settings" class="ot-header__nav-dropdown-link">
+                                <div class="ot-header__nav-dropdown-link--icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="20px" viewBox="0 0 24 24" width="20px" fill="#000000"><g><path d="M0,0h24v24H0V0z" fill="none"/><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></g></svg>
+                                </div>
+                                <div class="left-padding-5">Settings</div>
+                            </a>
+                            <div class="ot-header__nav-dropdown-link cursor-pointer" ng-click="signout()">
+                                <div class="ot-header__nav-dropdown-link--icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="19px" viewBox="0 0 24 24" width="19px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                                </div>
+                                <div class="left-padding-5">Log out</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="ot-header__nav-item left-padding-0 relative ot-header__nav-mobile-item ot-header__nav-mobile-item--half ot-header__nav-item--padding-fix">
+                <span class="ot-header__nav-item_separator"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="ot-header__nav-bell-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+               <span class="ot-header__message-counter">3</span>
+            </div> -->
+            <div class="ot-header__nav-mobile-item center hide-desktop">
+                <button class="ot-header__mobile-btn" ng-click="toggleMenu()">
+                    <span ng-class="{ 'pressed': mobileMenu }"></span>
+                    <span ng-class="{ 'pressed': mobileMenu }"></span>
+                    <span ng-class="{ 'pressed': mobileMenu }"></span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<div class="ot-layout" ui-view></div>
+
+<div class="footer__section" 
+     ng-hide="Me.status !== 'APPROVED'" 
+     ng-class="{ 'footer__show': footerIsOpen }">
+    <div class="footer__open-line" ng-click="toggleFooter()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="footer__open-arrow"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6 1.41 1.41z"/></svg>
+    </div>
+    <div class="footer flex mx-auto">
+        <div class="footer__main flex-auto">
+            <a class="block footer__logo" ui-sref="signedout.home">
+                <div class="svg__logo"><span class="icon-logo-white"></span></div>
+            </a>
+            <div class="flex footer__menu flex center">
+                <div class="footer__text footer__text--white">
+                    © {{ year }} Outfit Partners Inc.
+                </div>
+                <div class="footer__link inline-block center">
+                    <a ui-sref="signedout.privacy" class="footer__text--white">Privacy Policy</a>
+                </div>
+                <div class="footer__link inline-block center">
+                    <a ui-sref="signedout.terms" class="footer__text--white">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer__desktop flex justify-end">
+            <div class="footer__column footer__text--white">
+                <!-- <a ui-sref="signedout.contact" class="block footer__text--smallest">
+                    Contact
+                </a> -->
+                <a ng-href="{{clientLink}}/signup" class="block footer__text--smallest">
+                    Brand Sign Up
+                </a>
+                <a href="#" class="block footer__text--smallest" ng-click="signout()" ng-if="Me">
+                    Log Out
+                </a>
+                <a ui-sref="signedout.home" class="block footer__text--smallest" ng-if="!Me">
+                    Log In
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

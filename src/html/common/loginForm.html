@@ -1,0 +1,63 @@
+<form class="ot-form" ng-submit="save(login_form)" name="login_form" novalidate>
+    <div class="center relative hide-mobile ot-home__login--logo">
+        <span class="outter-footer__logo">
+            <div class="svg__logo"><span class="icon-logo"></span></div>
+        </span>
+        <div class="outter__nav--mobile-btn absolute" ng-click="goSignin()">
+            <span class="pressed"></span>
+            <span class="pressed"></span>
+            <span class="pressed"></span>
+        </div>
+    </div>
+    <div>
+        <div class="ot-form__group" ng-if="!modalLogin">
+            <div class="ot-form__label center bottom-margin-0 ot-form--mobile-smaller-text">
+                Already registred? Welcome back!
+            </div>
+        </div>
+        <div class="ot-form__title" ng-if="modalLogin">
+            Welcome Back!
+        </div>
+        <div class="ot-form__group">
+            <div class="ot-form__label">Email</div>
+            <input class="ot-form__input" type="email" server-validators="errors" name="email" placeholder="email@gmail.com" required 
+                   ng-class="{ 'ot-form__input-error': (login_form.$submitted && login_form.email.$invalid) }" 
+                   ng-model="logUser.email">
+
+            <div ng-if="login_form.$submitted" ng-messages="login_form.email.$error" for="email" class="ot-form__box-error">
+                <span class="ot-form__error" ng-message="required">Email is required</span>
+                <span class="ot-form__error" ng-message="invalid">Email and password do not match</span>
+                <span class="ot-form__error" ng-message="email">Enter a valid email</span>
+            </div>
+        </div>
+        <div class="ot-form__group bottom-margin-0">
+            <div class="ot-form__label">Password</div>
+            <input class="ot-form__input" type="password" name="password" placeholder="•••••••" required 
+                   ng-model="logUser.password" 
+                   ng-model-options="{ debounce: 200 }" 
+                   ng-class="{ 'ot-form__input-error': login_form.$submitted && login_form.password.$invalid }" 
+                   ng-change="resetValidation(login_form)">
+
+            <div ng-if="login_form.$submitted" ng-messages="login_form.password.$error" for="password" class="ot-form__box-error">
+                <span class="ot-form__error" ng-message="required">Password is required</span>
+            </div>
+        </div>
+        <div class="outter__nav--mobile-forgot">
+            <div class="tmp--btn-wrapper">
+                <md-button class="tmp--fb-button" 
+                           ng-click="fbLogin()">
+                    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Facebook icon</title><path d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z"/></svg>
+                    Log In With Facebook
+                </md-button>
+            </div>
+            <a class="outter__nav--mobile-forgot-link" ui-sref="signedout.forgot" ng-click="(modalLogin) ? goSignin() : openNav()">Forgot Password?</a>
+        </div>
+        <div class="ot-home__login--form-bottom flex">
+            <md-button class="outter__btn" type="submit">Log In</md-button>
+            <span class="hide-mobile bold ot-home__login--text-small">New to Outfit? Join the Party:</span>
+            <a class="black hide-mobile bold ot-home__login--text-small" ng-href="{{clientLink}}/signup">Brand Sign Up</a>
+            <span class="hide-mobile bold ot-home__login--text-small">|</span>
+            <a class="black hide-mobile bold ot-home__login--text-small" ui-sref="signedout.signup" ng-click="goSignin()">Talent Application</a>
+        </div>
+    </div>
+</form>

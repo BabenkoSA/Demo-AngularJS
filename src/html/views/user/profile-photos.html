@@ -1,0 +1,80 @@
+<div class="desktop__photos desktop__photos-paddings mx-auto">
+    <div class="photos-section">
+        <div class="photos-section--title images__text--large">
+            Profile photo
+        </div>
+        <div class="photos-section--images">
+            <div class="box__image images__profile-image">
+                <div class="box__background" style="background-image:url({{Me.image.url}})" 
+                     ng-if="Me.image">
+                </div>
+                <img class="absolute" style="left: 11px; bottom: 0" src="../../../../assets/images/person.svg" 
+                     ng-if="!Me.image">
+            </div>
+        </div>
+    </div>
+    
+    <div class="photos-section">
+        <div class="photos-section--title images__text--large">
+            Gallery
+        </div>
+        <div class="photos-section--images">
+            <div class="box__image" 
+                 ng-repeat="Image in Me.portfolio track by $index">
+                <span class="outline-none">
+                    <div ng-if="Me.portfolio.length" class="box__background" style="background-image:url({{ Image.url}})">
+                    </div>
+                </span>
+                <div class="images__photo-rectangle">
+                    <a class="images__text images__text--smallest images--rectangle-padding images--top-border" 
+                       ng-click="makePrimary(Image)" 
+                       ng-if="!Image.primary">
+                        Make primary
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM7.07 18.28c.43-.9 3.05-1.78 4.93-1.78s4.51.88 4.93 1.78C15.57 19.36 13.86 20 12 20s-3.57-.64-4.93-1.72zm11.29-1.45c-1.43-1.74-4.9-2.33-6.36-2.33s-4.93.59-6.36 2.33C4.62 15.49 4 13.82 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8c0 1.82-.62 3.49-1.64 4.83zM12 6c-1.94 0-3.5 1.56-3.5 3.5S10.06 13 12 13s3.5-1.56 3.5-3.5S13.94 6 12 6zm0 5c-.83 0-1.5-.67-1.5-1.5S11.17 8 12 8s1.5.67 1.5 1.5S12.83 11 12 11z"/></svg>
+                    </a>
+                    <a class="images__text images--top-border images__text--smallest images--rectangle-padding" 
+                       ng-click="imageEdit(Image)">
+                        Edit
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" class="right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z"/></svg>
+                    </a>
+                    <a class="images__text images--top-border images__text--smallest images--rectangle-padding" 
+                       ng-click="remove(Image)">
+                        Remove
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="box__image">
+                <img class="absolute" style="left: 11px; bottom: 0" src="../../../../assets/images/person.svg">
+                <div class="images__photo-rectangle images__photo--upload-btn">
+                    <label for="fileInput" class="images__text--smallest images--rectangle-padding ot-btn__talent-color">
+                        Upload photo
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M18 20H4V6h9V4H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-9h-2v9zm-7.79-3.17l-1.96-2.36L5.5 18h11l-3.54-4.71zM20 4V1h-2v3h-3c.01.01 0 2 0 2h3v2.99c.01.01 2 0 2 0V6h3V4h-3z"/></svg>
+                    </label>
+                    <input type="file" accept="image/jpeg, image/jpg, image/png" id="fileInput" file-upload="upload(file)" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="ot-croparea__container" ng-show="edit">
+        <div class="ot-croparea">
+            <div class="relative" id="ot-cropper">
+                <div class="lds-roller ot--talent-color" ng-if="spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ng-click="rotateImg()" class="ot-croparea--rotate-btn"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7.11 8.53L5.7 7.11C4.8 8.27 4.24 9.61 4.07 11h2.02c.14-.87.49-1.72 1.02-2.47zM6.09 13H4.07c.17 1.39.72 2.73 1.62 3.89l1.41-1.42c-.52-.75-.87-1.59-1.01-2.47zm1.01 5.32c1.16.9 2.51 1.44 3.9 1.61V17.9c-.87-.15-1.71-.49-2.46-1.03L7.1 18.32zM13 4.07V1L8.45 5.55 13 10V6.09c2.84.48 5 2.94 5 5.91s-2.16 5.43-5 5.91v2.02c3.95-.49 7-3.85 7-7.93s-3.05-7.44-7-7.93z"/></svg>
+        </div>
+        <div class="ot-btn__container ot-btn_rounded-bottom ot-btn__talent-color">
+            <md-button class="ot-btn ot-btn__hlf ot-btn__talent-color ot-btn__hlf-left center box--border-right" 
+                       ng-click="closeEdit()" 
+                       ng-disabled="loader.loading || spinner">
+                Cancel
+            </md-button>
+            <md-button class="ot-btn ot-btn__hlf ot-btn__talent-color ot-btn__hlf-right center" 
+                       ng-click="saveCrop()" 
+                       ng-disabled="loader.loading || spinner">
+                Save
+            </md-button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,155 @@
+<div class="talent__dashboard" 
+     ng-class="{ 'talent__dashboard--events': Staffing.length }">
+    <div class="talent__dashboard-section talent__dashboard-section_no-sidebar">
+        <div class="tabs__container">
+            <div class="desktop__events-empty border-box" ng-if="!Staffing.length">
+                <div class="center desktop__events-empty-container">
+                    <div ng-if="state.includes('signedin.events.open')">
+                        <div class="desktop__events-empty-iconborder bottom-margin-15">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="section-icon no-events-icon fill--talent-color"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2l.01-14c0-1.1.88-2 1.99-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14zm-4-7h2v-2h-2v2zm-4 0h2v-2h-2v2z"/></svg>
+                        </div>
+                        <div class="center desktop__events-empty-title bottom-margin-15">
+                            No open events available!
+                        </div>
+                        <div class="center desktop__events-empty-text bottom-margin-30">
+                            There are currently no upcoming events in your area. Please check back later!
+                        </div>
+                    </div>
+                    <div ng-if="state.includes('signedin.events.confirmed')">
+                        <div class="desktop__events-empty-iconborder bottom-margin-15">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="section-icon no-events-talent-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="none" d="M0 0h24v24H0V0z"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                        </div>
+                        <div class="center desktop__events-empty-title bottom-margin-15">
+                            You have no confirmed events!
+                        </div>
+                        <div class="center desktop__events-empty-text bottom-margin-30">
+                            Make sure you apply to event's in your area when they become available!
+                        </div>
+                    </div>
+                    <div ng-if="state.includes('signedin.events.applied')">
+                        <div class="desktop__events-empty-iconborder bottom-margin-15">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="section-icon no-applied-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/></svg>
+                        </div>
+                        <div class="center desktop__events-empty-title bottom-margin-15">
+                            You have no applications out!
+                        </div>
+                        <div class="center desktop__events-empty-text bottom-margin-30">
+                            You currently have no applications out! When you apply to work an event, those will be listed here!
+                        </div>
+                    </div>
+                    <div ng-if="state.includes('signedin.events.invited')">
+                        <div class="desktop__events-empty-iconborder bottom-margin-15">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="section-icon no-applied-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 8c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm-6 4c.22-.72 3.31-2 6-2 2.7 0 5.8 1.29 6 2H9zm-3-3v-3h3v-2H6V7H4v3H1v2h3v3z"/></svg>
+                        </div>
+                        <div class="center desktop__events-empty-title bottom-margin-15">
+                            You have no invitations!
+                        </div>
+                        <div class="center desktop__events-empty-text bottom-margin-30">
+                            You currently have no invitations. When you're invited to an event, we'll send you a notification and they'll be listed here for you to accept or reject!
+                        </div>
+                    </div>
+                    <div ng-if="state.includes('signedin.events.completed')">
+                        <div class="desktop__events-empty-iconborder bottom-margin-15">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="section-icon no-applied-icon"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm5.56 10.46l5.93-5.93-1.06-1.06-4.87 4.87-2.11-2.11-1.06 1.06z"/></svg>
+                        </div>
+                        <div class="center desktop__events-empty-title bottom-margin-15">
+                            You have no completed events!
+                        </div>
+                        <div class="center desktop__events-empty-text bottom-margin-30">
+                            Once you're finished working an event, your completed events will be listed here!
+                        </div>
+                    </div>
+                    <div class="center" ng-if="!state.includes('signedin.events.open') && Staffing.opportunities > 0">
+                        <md-button class="ot-btn__talent-color ot-btn ot-btn__rounded tabs__btn" ng-click="goTo('open')" aria-label="Find events" style="margin: auto">
+                            Find events
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zm0-12H5V5h14v2zM7 11h5v5H7z"/></svg>
+                        </md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+<!--
+        <div class="desktop__events mx-auto flex flex-wrap">
+            <div class="bottom-margin-30 box__event-wrap" 
+                 ng-repeat="Request in Staffing" 
+                 ng-include="'/html/common/event.html'">
+            </div>
+        </div>
+-->
+        
+        <div class="desktop__events--container" id="events-main" ng-if="Staffing.length">
+            <div class="desktop__events--row">
+                <div class="desktop__events mx-auto flex flex-wrap">
+                    <div class="box__event-wrap" 
+                         ng-repeat="Request in Staffing | limitTo:3:0 track by $index "
+                         ng-include="'/html/common/event.html'">
+                    </div>
+                </div>
+            </div>
+
+            <div class="desktop__events--row" ng-if="Staffing.length > 3">
+                <div class="desktop__events mx-auto flex flex-wrap">
+                    <div class="box__event-wrap" 
+                         ng-repeat="Request in Staffing | limitTo:3:3 track by $index "
+                         ng-include="'/html/common/event.html'">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="desktop__events--container-alt" id="events-main-alt" ng-if="Staffing.length">
+            <div class="desktop__events--row">
+                <div class="desktop__events mx-auto flex flex-wrap">
+                    <div class="box__event-wrap" 
+                         ng-repeat="Request in Staffing | limitTo:2:0 track by $index "
+                         ng-include="'/html/common/event.html'">
+                    </div>
+                </div>
+            </div>
+
+            <div class="desktop__events--row" ng-if="Staffing.length > 2">
+                <div class="desktop__events mx-auto flex flex-wrap">
+                    <div class="box__event-wrap" 
+                         ng-repeat="Request in Staffing | limitTo:2:2 track by $index "
+                         ng-include="'/html/common/event.html'">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="desktop__events--row" ng-if="Staffing.length > 4">
+                <div class="desktop__events mx-auto flex flex-wrap">
+                    <div class="box__event-wrap" 
+                         ng-repeat="Request in Staffing | limitTo:2:4 track by $index "
+                         ng-include="'/html/common/event.html'">
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        <div class="images images__search mx-auto bottom-padding-30" 
+             ng-if="Staffing.total > count">
+            <div class="ot-btn__talent-color flex">
+                <div class="col-5">
+                    <md-button class="ot-btn ot-btn__talent-color center" 
+                                ng-click="prev()" 
+                                ng-if="cursor > 0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" class="ot-btn__arrow-left"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"/></svg>
+                        Prev
+                    </md-button>
+                </div>
+                <div class="images__text--small images__margin-auto col-2 center" style="color: white">
+                    {{ cursor + 1 }}/{{ Pages }}
+                </div>
+                <div class="col-5">
+                    <md-button class="ot-btn ot-btn__talent-color center"
+                               ng-if="cursor + 1 < Pages" 
+                               ng-click="next()">
+                        Next
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" class="ot-btn__arrow-right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+                    </md-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

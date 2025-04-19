@@ -1,0 +1,413 @@
+<div class="talent__preview">
+    <div class="talent__dashboard-section talent__dashboard-section_no-sidebar">
+        <div class="talent__event--container">
+            <div class="talent__event--title-section">
+                <div class="talent__event--title-block" 
+                     ng-class="{ 'talent__event--title-block--100': Request.event.event_group.hide_host }">
+                    <div class="talent__event--host" 
+                         ng-if="!Request.event.event_group.hide_host">
+                        {{ Request.event.event_group.host }}
+                    </div>
+                    <div class="talent__event--title-wrapper">
+                        <div class="talent__event--title" title="{{Request.event.title}}">{{ Request.event.title }}</div>
+
+                        <!-- <span class="talent__event--chips">{{ Request.skill.title }}</span> -->
+                        <span class="talent__event--chips">Influencer</span>
+                    </div>
+                    
+                    <div class="flex talent__event--date-n-adress">
+                        <div class="talent__event--date">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 0 24 24" width="26"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zm0-12H5V5h14v2zM7 11h5v5H7z"/></svg>
+                            {{ Request.event.start.format('dddd, MMM Do, YYYY') }}
+                        </div>
+                        <div class="talent__event--address" 
+                             ng-if="Request.event.type === 'physical'">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                            {{ Request.event.city.region.title }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="talent__event--logo-block" 
+                     ng-if="Request.event.event_group.logo_src && !Request.event.event_group.hide_host">
+                    <img src="{{ Request.event.event_group.logo_src }}"/>
+                </div>
+
+                <div class="talent__event--description" 
+                     ng-class="{ 'top-margin-15': !Request.event.event_group.logo_src || Request.event.event_group.hide_host }">
+                    <div class="talent__event--label bottom-margin-15">
+                        Description:
+                    </div>
+                    {{ Request.event.event_group.description }}
+                </div>
+            </div>
+
+            <div class="talent__event--tabs">
+                <div class="talent__event--tab">
+                    Event Details
+                </div>
+            </div>
+            <div class="talent__event--details-dashboard bottom-margin-0">
+                <div class="flex talent__event--details-main bottom-margin-30">
+                    <!-- <div class="talent__event--column-30 talent__event--contacts">
+                        <div class="bottom-margin-10">
+                            <div class="talent__event--label">
+                                On-site client name:
+                            </div>
+                            <div class="talent__event--text-overflow" title="{{Request.event.contact_name}}">
+                                {{ Request.event.contact_name }}
+                            </div>
+                        </div>
+
+                        <div class="bottom-margin-10">
+                            <div class="talent__event--label">
+                                On-site client phone:
+                            </div>
+                            <div>
+                                {{ Request.event.contact_phone }}
+                            </div>
+                        </div>
+
+                        <div class="bottom-margin-10">
+                            <div class="talent__event--label">
+                                On-site client email:
+                            </div>
+                            <div class="talent__event--text-overflow" title="{{Request.event.contact_email}}">
+                                {{ Request.event.contact_email }}
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="talent__event--add-info talent__event--add-info--digital">                       
+                        <div class="talent__event--label relative bottom-margin-15">
+                            Projects:
+                        </div>
+                        <div class="talent__event--digital-format">
+                            <div class="talent__event--digital-format--block" 
+                                    ng-repeat="Shift in Request.event.shifts track by $index">
+                                <div class="bottom-margin-10">
+                                    <div ng-class="{ 'talent__event--digital-format--blast': Shift.format === 'blast',
+                                                    'talent__event--digital-format--cast': Shift.format === 'cast' }"></div>
+                                </div>
+                                <div class="talent__event--label center" 
+                                        ng-class="{ 'talent__event--digital-format--width-80': Shift.format === 'blast',
+                                                'talent__event--digital-format--width-100': Shift.format === 'cast'}">
+                                    Live{{ Shift.format === 'cast' ? 'Cast' : 'Blast' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="talent__event--column-30 talent__event--expertises" 
+                         ng-if="Request.event.expertises.length">
+                        <div class="talent__event--label">
+                            Event topics:
+                        </div>
+                        <div class="flex flex-wrap">
+                            <span class="talent__event--chips talent__event--chips-alter-color" 
+                                    ng-repeat="item in Request.event.expertises">
+                                <div class="ot-tooltip settings__tooltip" style="position: relative;">
+                                    {{ item.title }}
+                                    <div class="ot-tooltip__content ot-tooltip__content--up-right black text-left" ng-if="item.subexpertises">
+                                        <div ng-repeat="category in item.subexpertises">{{ category.title }}</div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="talent__event--shift" 
+                     ng-class="{ 'top-margin-0': $index === 0 }" 
+                     ng-repeat="Shift in Request.event.shifts track by $index">
+                    
+                    <div class="flex talent__event--shift-header">
+                        <div class="talent__event--shift-title">Live{{ Shift.format === 'cast' ? 'Cast' : 'Blast' }}</div>
+                        <div class="flex talent__event--shift-time">
+                            <div class="talent__event--clock-icon" 
+                                 ng-class="{ 'talent__event--clock-blast': Shift.format === 'blast' && !Shift.digital_info.end_seeable }"></div>
+                            <div class="talent__event--shift-time-block talent__event--shift-time-block-1">
+                                <span class="bold">Start Time:</span> {{ Shift.start.format('ddd MMM DD / h:mm A') }}
+                            </div>
+                            <div class="talent__event--shift-time-block" ng-if="Shift.format === 'cast' || (Shift.format === 'blast' && Shift.digital_info.end_seeable)">
+                                <span class="bold">End Time:</span> {{ Shift.end.format('ddd MMM DD / h:mm A') }}
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="talent__event--staffing talent__event--staffing-digital">
+                        <!--  CAST  -->
+                        <div class="talent__event--staffing-digital-info" 
+                             ng-if="Shift.format === 'cast'">
+                            <div class="talent__event--staffing-digital-info-item">
+                                <div class="talent__event--label">
+                                    Channel
+                                </div>
+                                {{ Shift.digital_info.channel }}
+                            </div>
+
+                            <div class="talent__event--staffing-digital-info-item" ng-if="Shift.digital_info.event_format">
+                                <div class="talent__event--label">
+                                    Event format
+                                </div>
+                                <div class="talent__event--staffing-digital-info--text">
+                                    {{ Shift.digital_info.event_format }}
+                                </div>
+                            </div>
+                            <div class="talent__event--staffing-digital-info-item" ng-if="Shift.digital_info.leading">
+                                <div class="talent__event--label">
+                                    Leading event
+                                </div>
+                                {{ Shift.digital_info.leading }}
+                            </div>
+                            <div class="talent__event--staffing-digital-info-item" ng-if="Shift.digital_info.brand_account">
+                                <div class="talent__event--label">
+                                    Brand account
+                                </div>
+                                <div class="talent__event--staffing-digital-info--text">
+                                    @{{ Shift.digital_info.brand_account }}
+                                </div>
+                            </div>
+                            <div class="talent__event--staffing-digital-info-item" ng-if="Shift.digital_info.hashtags">
+                                <div class="talent__event--label">
+                                    Event hashtag
+                                </div>
+                                <div class="talent__event--staffing-digital-info--text">
+                                    #{{ Shift.digital_info.hashtags }}
+                                </div>
+                            </div>
+
+                            <div class="talent__event--staffing-digital-info-item" ng-if="Shift.digital_info.brand_provide">
+                                <div class="talent__event--label">
+                                    Brand provide
+                                </div>
+                                <div class="talent__event--staffing-digital-info--text">
+                                    {{ Shift.digital_info.brand_provide }}
+                                </div>
+                            </div>
+
+                            <div class="talent__event--staffing-digital-info-item" ng-if="Shift.digital_info.talent_provide">
+                                <div class="talent__event--label">
+                                    Talent provide
+                                </div>
+                                <div class="talent__event--staffing-digital-info--text">
+                                    {{ Shift.digital_info.talent_provide }}
+                                </div>
+                            </div>
+
+                            <div class="talent__event--staffing-digital-info-item" ng-repeat="cta in Shift.digital_info.cta">
+                                <div class="talent__event--label">
+                                    Call to Action / Destination
+                                </div>
+
+                                <div class="talent__event--staffing-digital-info--text">
+                                    <span class="bold">{{ cta.action }}: </span>
+                                    {{ cta.destination }}
+                                </div>
+                            </div>
+                            
+                            <div class="talent__event--staffing-digital-info-item talent__event--staffing-digital-info-item-100 flex flex-wrap" 
+                                 ng-if="Shift.digital_info.guidelines || Shift.files.length">
+                                
+                                <div class="talent__event--notes-block-1" 
+                                     ng-if="Shift.digital_info.guidelines"
+                                     ng-class="{ 'talent__event--staffing-digital-info-item-100': !Shift.files.length }">
+                                    <div>
+                                        <div class="talent__event--label">Creative / Messaging Guidelines</div>
+
+                                        <div class="talent__event--notes-guidelines">
+                                            {{ Shift.digital_info.guidelines }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="talent__event--notes-block-2 relative" 
+                                     ng-if="Shift.files.length">
+                                    <div class="flex flex-column">
+                                        <div class="talent__event--label">Files</div>
+
+                                        <div class="talent__event--file relative" 
+                                             title="{{(file.original) ? file.original : file.name}}" 
+                                             ng-repeat="file in Shift.files" 
+                                             ng-click="downloadFile(file)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="talent__event--file-icon" 
+                                                 ng-if="fileType(file) === 'pdf'">
+                                                <g><path d="M32,21.16a1.19,1.19,0,0,0,.17-.31c-.09,0-.22-.15-.89-.15a10.87,10.87,0,0,0-1.37.08c.62.48.77.72,1.17.72A1.14,1.14,0,0,0,32,21.16Z" fill="#231f20"/><path d="M17.58,26.76c.11,0,.77-.34,2-2.61-1.62.91-2.28,1.66-2.33,2.08C17.24,26.3,17.22,26.49,17.58,26.76Z" fill="#231f20"/><path d="M41.07,31.59v-19a1.75,1.75,0,0,0-.42-1.36L31.82,2.42a1.43,1.43,0,0,0-1-.42H8.8A2,2,0,0,0,6.93,4.22V31.59Zm-10.62-27a.39.39,0,0,1,.67-.28L38.77,12a.39.39,0,0,1-.28.67h-8ZM16,26.09c.14-1.23,1.67-2.53,4.54-3.84a51,51,0,0,0,2.87-8.16c-.76-1.65-1.49-3.79-1-5a1.46,1.46,0,0,1,.86-.92A3.72,3.72,0,0,1,24.07,8c.38,0,.72.49,1,.8s.73.89-.28,5.16a24.23,24.23,0,0,0,3.86,5.74,14.72,14.72,0,0,1,2.55-.27c1.19,0,1.91.28,2.2.85a1.53,1.53,0,0,1-.3,1.64,2,2,0,0,1-1.68.9,5,5,0,0,1-3.19-1.73,36.32,36.32,0,0,0-6.7,2.14,21.53,21.53,0,0,1-1.81,3.22c-.78,1.09-1.45,1.6-2.11,1.6h0a1.22,1.22,0,0,1-.73-.25A1.82,1.82,0,0,1,16,26.09Z" fill="#231f20"/><path d="M18.1,36.79a1.25,1.25,0,0,0-.45-.37,1.68,1.68,0,0,0-.77-.15h-.93v3h1.14a1.36,1.36,0,0,0,.45-.08,1.14,1.14,0,0,0,.41-.25,1.25,1.25,0,0,0,.3-.49,2.33,2.33,0,0,0,.11-.78,2.11,2.11,0,0,0-.05-.43A1.24,1.24,0,0,0,18.1,36.79Z" fill="#231f20"/><path d="M24.26,15.79a54.24,54.24,0,0,1-2,5.74A37.89,37.89,0,0,1,27.16,20,26,26,0,0,1,24.26,15.79Z" fill="#231f20"/><path d="M6.93,33.1V44.48A1.84,1.84,0,0,0,8.8,46H39.2a1.84,1.84,0,0,0,1.87-1.52V33.1Zm12.44,5.64a2.21,2.21,0,0,1-.55.79A2.48,2.48,0,0,1,18,40a3.27,3.27,0,0,1-1.1.18h-.92V43H14.7V35.32h2.2a3.09,3.09,0,0,1,1,.16,2.61,2.61,0,0,1,.86.47,2.44,2.44,0,0,1,.61.75,2.08,2.08,0,0,1,.23,1A2.71,2.71,0,0,1,19.37,38.74ZM27,40.54a4,4,0,0,1-.51,1.12,2.63,2.63,0,0,1-.7.71,3.5,3.5,0,0,1-.75.39,3.11,3.11,0,0,1-.66.17l-.45,0H21V35.32h2.3a4.37,4.37,0,0,1,1.7.31,3.52,3.52,0,0,1,1.21.81A3.34,3.34,0,0,1,27,37.6a3.83,3.83,0,0,1,.24,1.33A5.62,5.62,0,0,1,27,40.54Zm6.79-4.28H30.27v2.41h3.19v.85H30.27V43H29V35.32h4.78Z" fill="#231f20"/><path d="M25.34,37.11a2.33,2.33,0,0,0-.89-.61A3.82,3.82,0,0,0,23,36.27h-.73v5.79h1.23a2.06,2.06,0,0,0,1.83-.81,4.1,4.1,0,0,0,.56-2.34,4,4,0,0,0-.11-.94A2,2,0,0,0,25.34,37.11Z" fill="#231f20"/><path d="M23.8,9.37a1.82,1.82,0,0,0,.07,2.44C24.59,10.2,23.83,9.36,23.8,9.37Z" fill="#231f20"/></g>
+                                            </svg>
+
+                                            <div class="talent__event--file-preview" 
+                                                 ng-if="fileType(file) === 'img'" 
+                                                 style="background-image: url({{file.src ? file.src : file.url}})"></div>
+
+                                            <div class="talent__event--file-title">
+                                                {{(file.original) ? file.original : file.name}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!--  BLAST  -->
+                        <div class="talent__event--staffing-digital-info" 
+                             ng-if="Shift.format === 'blast'">
+                            <div class="talent__event--staffing-digital-info-item">
+                                <div class="talent__event--label">
+                                    Channel
+                                </div>
+                                {{ Shift.digital_info.channel }}
+                            </div>
+
+                            <div class="talent__event--staffing-digital-info-item">
+                                <div class="talent__event--label">
+                                    Type of Post
+                                </div>
+                                {{ Shift.types_outputs }}
+                            </div>
+
+                            <div class="talent__event--staffing-digital-info-item" ng-repeat="cta in Shift.digital_info.cta">
+                                <div class="talent__event--label">
+                                    Call to Action / Destination
+                                </div>
+
+                                <div class="talent__event--staffing-digital-info--text">
+                                    <span class="bold">{{ cta.action }}: </span>
+                                    {{ cta.destination }}
+                                </div>
+                            </div>
+                            
+                            <div class="talent__event--staffing-digital-info-item talent__event--staffing-digital-info-item-100 flex flex-wrap" 
+                                 ng-if="Shift.digital_info.caption || Shift.files.length">
+                                
+                                <div class="talent__event--notes-block-1" 
+                                     ng-if="Shift.digital_info.caption"
+                                     ng-class="{ 'talent__event--staffing-digital-info-item-100': !Shift.files.length }">
+
+                                    <div class="talent__event--label">Caption / Copy Direction</div>
+
+                                    <div class="talent__event--notes-guidelines">
+                                        {{ Shift.digital_info.caption }}
+                                    </div>
+                                </div>
+
+                                <div class="talent__event--notes-block-2 relative" 
+                                     ng-if="Shift.files.length">
+                                    <div class="flex flex-column">
+                                        <div class="talent__event--label">Files</div>
+
+                                        <div class="talent__event--file relative" 
+                                             title="{{(file.original) ? file.original : file.name}}" 
+                                             ng-repeat="file in Shift.files" 
+                                             ng-click="downloadFile(file)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="talent__event--file-icon" 
+                                                 ng-if="fileType(file) === 'pdf'">
+                                                <g><path d="M32,21.16a1.19,1.19,0,0,0,.17-.31c-.09,0-.22-.15-.89-.15a10.87,10.87,0,0,0-1.37.08c.62.48.77.72,1.17.72A1.14,1.14,0,0,0,32,21.16Z" fill="#231f20"/><path d="M17.58,26.76c.11,0,.77-.34,2-2.61-1.62.91-2.28,1.66-2.33,2.08C17.24,26.3,17.22,26.49,17.58,26.76Z" fill="#231f20"/><path d="M41.07,31.59v-19a1.75,1.75,0,0,0-.42-1.36L31.82,2.42a1.43,1.43,0,0,0-1-.42H8.8A2,2,0,0,0,6.93,4.22V31.59Zm-10.62-27a.39.39,0,0,1,.67-.28L38.77,12a.39.39,0,0,1-.28.67h-8ZM16,26.09c.14-1.23,1.67-2.53,4.54-3.84a51,51,0,0,0,2.87-8.16c-.76-1.65-1.49-3.79-1-5a1.46,1.46,0,0,1,.86-.92A3.72,3.72,0,0,1,24.07,8c.38,0,.72.49,1,.8s.73.89-.28,5.16a24.23,24.23,0,0,0,3.86,5.74,14.72,14.72,0,0,1,2.55-.27c1.19,0,1.91.28,2.2.85a1.53,1.53,0,0,1-.3,1.64,2,2,0,0,1-1.68.9,5,5,0,0,1-3.19-1.73,36.32,36.32,0,0,0-6.7,2.14,21.53,21.53,0,0,1-1.81,3.22c-.78,1.09-1.45,1.6-2.11,1.6h0a1.22,1.22,0,0,1-.73-.25A1.82,1.82,0,0,1,16,26.09Z" fill="#231f20"/><path d="M18.1,36.79a1.25,1.25,0,0,0-.45-.37,1.68,1.68,0,0,0-.77-.15h-.93v3h1.14a1.36,1.36,0,0,0,.45-.08,1.14,1.14,0,0,0,.41-.25,1.25,1.25,0,0,0,.3-.49,2.33,2.33,0,0,0,.11-.78,2.11,2.11,0,0,0-.05-.43A1.24,1.24,0,0,0,18.1,36.79Z" fill="#231f20"/><path d="M24.26,15.79a54.24,54.24,0,0,1-2,5.74A37.89,37.89,0,0,1,27.16,20,26,26,0,0,1,24.26,15.79Z" fill="#231f20"/><path d="M6.93,33.1V44.48A1.84,1.84,0,0,0,8.8,46H39.2a1.84,1.84,0,0,0,1.87-1.52V33.1Zm12.44,5.64a2.21,2.21,0,0,1-.55.79A2.48,2.48,0,0,1,18,40a3.27,3.27,0,0,1-1.1.18h-.92V43H14.7V35.32h2.2a3.09,3.09,0,0,1,1,.16,2.61,2.61,0,0,1,.86.47,2.44,2.44,0,0,1,.61.75,2.08,2.08,0,0,1,.23,1A2.71,2.71,0,0,1,19.37,38.74ZM27,40.54a4,4,0,0,1-.51,1.12,2.63,2.63,0,0,1-.7.71,3.5,3.5,0,0,1-.75.39,3.11,3.11,0,0,1-.66.17l-.45,0H21V35.32h2.3a4.37,4.37,0,0,1,1.7.31,3.52,3.52,0,0,1,1.21.81A3.34,3.34,0,0,1,27,37.6a3.83,3.83,0,0,1,.24,1.33A5.62,5.62,0,0,1,27,40.54Zm6.79-4.28H30.27v2.41h3.19v.85H30.27V43H29V35.32h4.78Z" fill="#231f20"/><path d="M25.34,37.11a2.33,2.33,0,0,0-.89-.61A3.82,3.82,0,0,0,23,36.27h-.73v5.79h1.23a2.06,2.06,0,0,0,1.83-.81,4.1,4.1,0,0,0,.56-2.34,4,4,0,0,0-.11-.94A2,2,0,0,0,25.34,37.11Z" fill="#231f20"/><path d="M23.8,9.37a1.82,1.82,0,0,0,.07,2.44C24.59,10.2,23.83,9.36,23.8,9.37Z" fill="#231f20"/></g>
+                                            </svg>
+
+                                            <div class="talent__event--file-preview" 
+                                                 ng-if="fileType(file) === 'img'" style="background-image: url({{file.src ? file.src : file.url}})"></div>
+
+                                            <div class="talent__event--file-title">
+                                                {{(file.original) ? file.original : file.name}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="talent__event--staffing-digital-info-item" 
+                                 ng-if="Shift.digital_info.handles">
+                                <div class="talent__event--label">
+                                    Account Handle(s)
+                                </div>
+                                
+                                <div class="talent__event--staffing-digital-info--text">
+                                    {{ Shift.digital_info.handles }}
+                                </div>
+                            </div>
+                            
+                            <div class="talent__event--staffing-digital-info-item" 
+                                 ng-if="Shift.digital_info.hashtags">
+                                <div class="talent__event--label">
+                                    Hashtag(s)
+                                </div>
+                                
+                                <div class="talent__event--staffing-digital-info--text">
+                                    {{ Shift.digital_info.hashtags }}
+                                </div>
+                            </div>
+                            
+                            <div class="talent__event--staffing-digital-info-item" 
+                                 ng-if="Shift.digital_info.location_tag">
+                                <div class="talent__event--label">
+                                    Location Tag
+                                </div>
+                                
+                                <div class="talent__event--staffing-digital-info--text">
+                                    {{ Shift.digital_info.location_tag }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="talent__event--staffing-btns--digital">
+                    <md-button class="ot-btn ot-btn__talent-color center" aria-label="Apply" style="width: auto;" 
+                               ng-click="apply()" 
+                               ng-disabled="loader.loading">
+                        Apply to Campaign
+                    </md-button>
+                </div>
+            </div>
+                        
+            <!-- <div class="talent__event--details-dashboard talent__event--notes" 
+                 ng-if="Request.event.event_group.files.length || Request.event.event_group.guidelines">
+                <div class="talent__event--notes-block-1">            
+                    <div ng-if="Request.event.event_group.guidelines">
+                        <div class="talent__event--label">Additional Notes + Guidelines</div>
+
+                        <div class="talent__event--notes-guidelines">
+                            {{ Request.event.event_group.guidelines }}
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap top-margin-15" 
+                         ng-if="Request.event.event_group.hashtag">
+                        <div class="flex right-margin-15">
+                            <div class="talent__event--label">Allowed to post from event:</div>
+                            <div class="left-margin-10">{{ Request.event.event_group.allow_post }}</div>
+                        </div>
+                        <div class="flex">
+                            <div class="talent__event--label">Event hashtag:</div>
+                            <div class="left-margin-10">#{{ Request.event.event_group.hashtag }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="talent__event--notes-block-2 relative" 
+                     ng-if="Request.event.event_group.files.length">
+                    <div class="flex flex-column">
+                        <div class="talent__event--label">Files</div>
+                        
+                        <div class="talent__event--file relative" title="{{(file.original) ? file.original : file.name}}" 
+                             ng-repeat="file in Request.event.event_group.files" 
+                             ng-click="downloadFile(file)">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="talent__event--file-icon" 
+                                 ng-if="fileType(file) === 'pdf'">
+                                <g><path d="M32,21.16a1.19,1.19,0,0,0,.17-.31c-.09,0-.22-.15-.89-.15a10.87,10.87,0,0,0-1.37.08c.62.48.77.72,1.17.72A1.14,1.14,0,0,0,32,21.16Z" fill="#231f20"/><path d="M17.58,26.76c.11,0,.77-.34,2-2.61-1.62.91-2.28,1.66-2.33,2.08C17.24,26.3,17.22,26.49,17.58,26.76Z" fill="#231f20"/><path d="M41.07,31.59v-19a1.75,1.75,0,0,0-.42-1.36L31.82,2.42a1.43,1.43,0,0,0-1-.42H8.8A2,2,0,0,0,6.93,4.22V31.59Zm-10.62-27a.39.39,0,0,1,.67-.28L38.77,12a.39.39,0,0,1-.28.67h-8ZM16,26.09c.14-1.23,1.67-2.53,4.54-3.84a51,51,0,0,0,2.87-8.16c-.76-1.65-1.49-3.79-1-5a1.46,1.46,0,0,1,.86-.92A3.72,3.72,0,0,1,24.07,8c.38,0,.72.49,1,.8s.73.89-.28,5.16a24.23,24.23,0,0,0,3.86,5.74,14.72,14.72,0,0,1,2.55-.27c1.19,0,1.91.28,2.2.85a1.53,1.53,0,0,1-.3,1.64,2,2,0,0,1-1.68.9,5,5,0,0,1-3.19-1.73,36.32,36.32,0,0,0-6.7,2.14,21.53,21.53,0,0,1-1.81,3.22c-.78,1.09-1.45,1.6-2.11,1.6h0a1.22,1.22,0,0,1-.73-.25A1.82,1.82,0,0,1,16,26.09Z" fill="#231f20"/><path d="M18.1,36.79a1.25,1.25,0,0,0-.45-.37,1.68,1.68,0,0,0-.77-.15h-.93v3h1.14a1.36,1.36,0,0,0,.45-.08,1.14,1.14,0,0,0,.41-.25,1.25,1.25,0,0,0,.3-.49,2.33,2.33,0,0,0,.11-.78,2.11,2.11,0,0,0-.05-.43A1.24,1.24,0,0,0,18.1,36.79Z" fill="#231f20"/><path d="M24.26,15.79a54.24,54.24,0,0,1-2,5.74A37.89,37.89,0,0,1,27.16,20,26,26,0,0,1,24.26,15.79Z" fill="#231f20"/><path d="M6.93,33.1V44.48A1.84,1.84,0,0,0,8.8,46H39.2a1.84,1.84,0,0,0,1.87-1.52V33.1Zm12.44,5.64a2.21,2.21,0,0,1-.55.79A2.48,2.48,0,0,1,18,40a3.27,3.27,0,0,1-1.1.18h-.92V43H14.7V35.32h2.2a3.09,3.09,0,0,1,1,.16,2.61,2.61,0,0,1,.86.47,2.44,2.44,0,0,1,.61.75,2.08,2.08,0,0,1,.23,1A2.71,2.71,0,0,1,19.37,38.74ZM27,40.54a4,4,0,0,1-.51,1.12,2.63,2.63,0,0,1-.7.71,3.5,3.5,0,0,1-.75.39,3.11,3.11,0,0,1-.66.17l-.45,0H21V35.32h2.3a4.37,4.37,0,0,1,1.7.31,3.52,3.52,0,0,1,1.21.81A3.34,3.34,0,0,1,27,37.6a3.83,3.83,0,0,1,.24,1.33A5.62,5.62,0,0,1,27,40.54Zm6.79-4.28H30.27v2.41h3.19v.85H30.27V43H29V35.32h4.78Z" fill="#231f20"/><path d="M25.34,37.11a2.33,2.33,0,0,0-.89-.61A3.82,3.82,0,0,0,23,36.27h-.73v5.79h1.23a2.06,2.06,0,0,0,1.83-.81,4.1,4.1,0,0,0,.56-2.34,4,4,0,0,0-.11-.94A2,2,0,0,0,25.34,37.11Z" fill="#231f20"/><path d="M23.8,9.37a1.82,1.82,0,0,0,.07,2.44C24.59,10.2,23.83,9.36,23.8,9.37Z" fill="#231f20"/></g>
+                            </svg>
+
+                            <div class="talent__event--file-preview" 
+                                 style="background-image: url({{ file.src ? file.src : file.url }})" 
+                                 ng-if="fileType(file) === 'img'"></div>
+
+                            <div class="talent__event--file-title">
+                                {{(file.original) ? file.original : file.name}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>            
+    </div>
+</div>

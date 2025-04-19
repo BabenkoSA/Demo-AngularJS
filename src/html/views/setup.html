@@ -1,0 +1,405 @@
+<div class="ot-home__signup--section relative">
+    <div class="ot-home__signup--top-block ot-home__talent-bg"></div>
+    
+    <div class="ot-home__signup--section-container ot-home__signup--setup-padd">
+        
+        <div class="ot-form__img-box relative" id="signup-img-container" 
+             ng-class="{ 'ot-form__img-box--error-border': errors.image, 
+                       'has-error': errors.image, 
+                       'ot-home__signup--img-container-flex': imgFile || User.image }">
+            <div class="ot-tooltip settings__tooltip" style="right: 10px; top: 0px" ng-if="!User.image">
+                <div class="talent__event--help-sign" style="font-size: 20px;">
+                    ?
+                </div>
+                <div class="ot-tooltip__content ot-tooltip__content--up-left" style="bottom: 33px; right: -17px;">
+                    <div>Min image size: 500x500.</div>
+                    <div>Max image size: 5000x5000.</div>
+                    <div>Image formats: jpeg, jpg, or png.</div>
+                    <div>Max file size: 10 MB.</div>
+                </div>
+            </div>
+            <input type="file" accept="image/jpeg, image/jpg, image/png" id="add-photo" name="add-photo" file-upload="upload(file)" style="display: none">
+            <div ng-if="!User.image">
+                <div class="top-padding-30">
+                    <div class="box__profile-img box--basic-top-padding mx-auto">
+                        <span class="svg__profile icon-profile"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
+                    </div>
+                </div>
+                <label for="add-photo" class="ot-form__img-box--text-big block center cursor-pointer">
+                    Add Photo
+                </label>
+                <div class="ot-home__text-small center bottom-padding-60">
+                    Upload a picture of yourself.
+                </div>
+            </div>
+
+            <img ng-if="User.image && User.image.url" ng-src="{{ User.image.url }}">
+
+            <!-- <div class="ot-home__signup--img-btn" style="left: 15px;" 
+                 ng-if="User.image" 
+                 ng-click="removeAvatar()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+            </div> -->
+
+            <label class="ot-home__signup--img-btn" for="add-photo" aria-label="Change Avatar" style="right: 15px" 
+                   ng-if="User.image">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/></svg>
+            </label>
+            <div class="ot-form__img-box--error ot-form__error center" ng-if="errors.image">
+                {{ errors.image }}
+            </div>
+        </div>
+        
+        <form class="ot-form" name="form" ng-submit="save()" novalidate>
+            <div class="relative">
+                <div class="ot-form__title">
+                    Step 2 of {{ signupType === 'digital' ? "2" : "3" }}
+                </div>
+                <div class="ot-form__label ot-form--smallest-text ot-form__sub-label italic" style="top: 55px;">
+                    * Denotes a required field
+                </div>
+            </div>
+            <div class="ot-form__group relative">
+                <div class="ot-form__label">First up, select your account type:</div>
+                <div class="talent-type--options">
+                    <div class="talent-type--radio-item relative" 
+                        ng-repeat="item in info[0].options track by $index" 
+                        ng-class="{ 'talent-type--radio-item-active': signupType === item.value }" 
+                        ng-click="pickOption(item.value)">
+                        <div class="talent-type--radio-item--dot"></div>
+                        <div class="relative talent-type--radio-item--img-container">
+                            <div class="talent-type--radio-item--img" style="background-image: url({{item.img}});"></div>
+                            <div class="talent-type--radio-item--img talent-type--radio-item--img-talent talent-type--radio-item--img-talent-left" style="background-image: url({{item.img}});" ng-if="item.value === 'regular'"></div>
+                            <div class="talent-type--radio-item--img talent-type--radio-item--img-talent talent-type--radio-item--img-talent-right" style="background-image: url({{item.img}});" ng-if="item.value === 'regular'"></div>
+                        </div>
+                        <div class="talent-type--radio-item--title">{{ item.title }}</div>
+                        <div class="center">{{ item.text }}</div>
+                    </div>
+                </div>
+                <div class="talent-type--options-note">
+                    Note: if you are both, you can add the other account type once you are approved.
+                </div>
+            </div>
+            <div class="ot-form__group relative ot-form__required" 
+                 form-error="form.address">
+                <div class="ot-form__label">Address:</div>
+                <input class="ot-form__input" type="text" id="address" name="address" placeholder="123 Bergen st." server-validators="errors.server" required 
+                       details="addressDetails"
+                       ng-autocomplete 
+                       ng-model="User.address">
+
+                <div ng-if="form.$submitted" ng-messages="form.address.$error" for="address" class="ot-form__box-error">
+                    <span class="ot-form__error" ng-message="required">Address is required</span>
+                    <span class="ot-form__error" ng-message="invalid">Please pick autocomplete option</span>
+                </div>
+            </div>
+            <div class="ot-form__group relative ot-form__required" 
+                 form-error="form.phone">
+                <div class="ot-form__label">Phone Number:</div>
+                <input class="ot-form__input" ng-model="User.phone" ui-mask="(999) 999-9999" id="phone" name="phone" required>
+
+                <div ng-if="form.$submitted" ng-messages="form.phone.$error" for="phone" class="ot-form__box-error">
+                    <span class="ot-form__error" ng-message="required">Phone number is required</span>
+                </div>
+            </div>
+            <div class="ot-form__group relative ot-form__required" 
+                 form-error="form.skills" 
+                 ng-if="signupType === 'regular'">
+                <div class="ot-form__label ot-form__label--double-margin-desktop">
+                    Expertise: <span class="ot-form--smallest-text">- Choose at least 1</span>
+                </div>
+                <div class="ot-form__label ot-form--smallest-text ot-form__sub-label">
+                    If you tell us your experience level, we can help match you with events that are right for you.
+                </div>
+                <div ng-repeat="Skill in User.skills | filter: skillFilter">
+                    <div class="ot-form--smallest-text">
+                        {{ Skill.title }} Experience
+                    </div>
+                    <select class="form__input-full ot-form__input ot-form__selector box--bottom-top-padding" selector 
+                            model="Skill.level" 
+                            options="Skill.levels" 
+                            value-attr="value" 
+                            label-attr="description" 
+                            name="skills" 
+                            change="skillChanged(Skill)" 
+                            require="(User.skills | filter: { selected: true }).length == 0">
+                    </select>
+                </div>
+                <div ng-if="form.$submitted" ng-messages="form.skills.$error" class="ot-form__box-error" ng-class="{ 'ot-form__box-error--special': form.skills.$invalid }">
+                    <span class="ot-form__error" ng-message="required">Please, choose at least 1 skill</span>
+                </div>
+            </div>
+            <!--  Influencer section  -->
+            <div ng-if="signupType === 'digital'">
+                <div class="ot-form__group relative ot-form__required" 
+                     form-error="form.social_account">
+                    <div class="ot-form__label ot-form__label--desktop-mb30">Social Accounts:</div>
+                    <div class="ot-form__label ot-form--smallest-text ot-form__sub-label italic">
+                        Fill at least 1
+                    </div>
+                    
+                    <div class="top-margin-20" ng-repeat="item in User.socials">
+                        <!-- <div>
+                            <md-checkbox class="ot-form__signup-checkbox" aria-label="{{ item.slug }}" ng-model="item.selected">
+                                {{ item.title }}
+                            </md-checkbox>
+                        </div> -->
+                        <div class="ot-form__label flex items-center bottom-margin-0">
+                            <!-- <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="instagram" class="svg-inline--fa fa-instagram fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 448 512" ng-if="item.slug === 'instagram'"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path></svg>
+                            <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#ff0a00" ng-if="item.slug === 'youtube'"><path d="m224.113281 303.960938 83.273438-47.960938-83.273438-47.960938zm0 0"/><path d="m475.074219 0h-438.148438c-20.394531 0-36.925781 16.53125-36.925781 36.925781v438.148438c0 20.394531 16.53125 36.925781 36.925781 36.925781h438.148438c20.394531 0 36.925781-16.53125 36.925781-36.925781v-438.148438c0-20.394531-16.53125-36.925781-36.925781-36.925781zm-59.113281 256.261719s0 51.917969-6.585938 76.953125c-3.691406 13.703125-14.496094 24.507812-28.199219 28.195312-25.035156 6.589844-125.175781 6.589844-125.175781 6.589844s-99.878906 0-125.175781-6.851562c-13.703125-3.6875-24.507813-14.496094-28.199219-28.199219-6.589844-24.769531-6.589844-76.949219-6.589844-76.949219s0-51.914062 6.589844-76.949219c3.6875-13.703125 14.757812-24.773437 28.199219-28.460937 25.035156-6.589844 125.175781-6.589844 125.175781-6.589844s100.140625 0 125.175781 6.851562c13.703125 3.6875 24.507813 14.496094 28.199219 28.199219 6.851562 25.035157 6.585938 77.210938 6.585938 77.210938zm0 0"/></svg>
+                            <svg viewBox="4 4 42 42" xmlns="http://www.w3.org/2000/svg" width="30" height="30" ng-if="item.slug === 'tiktok'"><path d="M41 4H9C6.243 4 4 6.243 4 9v32c0 2.757 2.243 5 5 5h32c2.757 0 5-2.243 5-5V9c0-2.757-2.243-5-5-5m-3.994 18.323a7.482 7.482 0 0 1-.69.035 7.492 7.492 0 0 1-6.269-3.388v11.537a8.527 8.527 0 1 1-8.527-8.527c.178 0 .352.016.527.027v4.202c-.175-.021-.347-.053-.527-.053a4.351 4.351 0 1 0 0 8.704c2.404 0 4.527-1.894 4.527-4.298l.042-19.594h4.02a7.488 7.488 0 0 0 6.901 6.685v4.67"/></svg> -->
+                            <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="instagram" class="svg-inline--fa fa-instagram fa-w-14 right-margin-5" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="26" height="26" ng-if="item.slug === 'instagram'"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path></svg>
+                            <!-- youtube -->
+                            <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="youtube" class="svg-inline--fa fa-youtube fa-w-18 right-margin-5" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="26" height="26" ng-if="item.slug === 'youtube'"><path fill="currentColor" d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path></svg>
+                            <!-- tiktok -->
+                            <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="tiktok" class="svg-inline--fa fa-tiktok fa-w-14 right-margin-5" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="26" height="26" ng-if="item.slug === 'tiktok'"><path fill="currentColor" d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"></path></svg>
+                            {{ item.title }}
+                        </div>
+                        <div class="relative" 
+                             form-error="form[item.slug + '_account']">
+                            <div class="absolute" ng-if="item.slug !== 'youtube'">@</div>
+                            <input class="ot-form__input ot-form__input--safari-fix" type="text" id="{{item.slug}}_account" name="{{item.slug}}_account" placeholder="username" maxlength="100" autocomplete="off" 
+                                ng-class="{ 'left-padding-20': item.slug !== 'youtube' }" 
+                                ng-change="usernameTransform(item)" 
+                                ng-model-options="{ debounce: 250 }"
+                                ng-disabled="item.isPreSet" 
+                                ng-required="item.follower_rank_id" 
+                                ng-model="item.username">
+                            
+                            <div ng-if="form.$submitted" ng-messages="form[item.slug + '_account'].$error" class="ot-form__box-error">
+                                <span class="ot-form__error" ng-message="required">{{ item.title }} username is required</span>
+                            </div>
+                        </div>
+                        <!-- <div ng-if="item.slug === 'youtube'">
+                            <input class="ot-form__input" type="url" id="{{ item.slug }}_account" name="{{ item.slug }}_account" placeholder="channel name or channel id" maxlength="100" 
+                                ng-class="{ 'ot-form__input-error': form.$submitted && form.instagram_account.$invalid }" 
+                                ng-model-options="{ debounce: 250 }" 
+                                ng-model="item.link">
+                        </div> -->
+                        <!-- <div class="ot-form__label top-margin-5 bottom-margin-0">
+                            {{ item.slug === 'youtube' ? 'Subscribers' : 'Followers' }} сount:
+                        </div>
+                        -->
+                        <div class="top-margin-10 relative"
+                             form-error="form[item.slug + '_level']">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ot-home__signup--clear-rank-btn" width="18" height="18" viewBox="0 0 24 24" ng-if="item.follower_rank_id && !item.isPreSet" ng-click="clearRank(item)"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+                            <div class="ot-form__label flex items-center bottom-margin-0">
+                                {{ item.slug === 'youtube' ? 'Subscribers' : 'Followers' }}
+                            </div>
+                            <select class="form__input-full ot-form__input ot-form__selector box--bottom-top-padding bottom-margin-0" selector 
+                                    model="item.follower_rank_id" 
+                                    disable="item.isPreSet" 
+                                    options="ranks" 
+                                    value-attr="id" 
+                                    label-attr="title" 
+                                    placeholder="10k - 50k" 
+                                    name="{{item.slug}}_level" 
+                                    require="item.username">
+                            </select>
+
+                            <div ng-if="form.$submitted" ng-messages="form[item.slug + '_level'].$error" class="ot-form__box-error">
+                                <span class="ot-form__error" ng-message="required">{{ item.title }} {{ item.slug === 'youtube' ? 'subscribers' : 'followers' }} number is required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <input type="text" style="display: none;" name="social_account" id="social_account" ng-model="tmpSocial" ng-required="socialRequired()">
+                        <div ng-if="form.$submitted" ng-messages="form.social_account.$error" class="ot-form__box-error">
+                            <span class="ot-form__error" ng-message="required">Please, input at least 1 social account</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="ot-form__group relative ot-form__required" 
+                    form-error="form.influencer_level">
+                    <div class="ot-form__label ot-form__label--desktop-mb45">Influencer level:</div>
+                    <div class="ot-form__label ot-form--smallest-text ot-form__sub-label italic">
+                        Pick your followers range. It could be average or highest range if have few social platforms.
+                    </div>
+                    <select class="form__input-full ot-form__input ot-form__selector box--bottom-top-padding bottom-margin-0" selector 
+                            model="(User.skills | filter:{'slug': 'influencer'})[0].level" 
+                            options="ranks" 
+                            value-attr="id" 
+                            label-attr="title" 
+                            placeholder="10k - 50k" 
+                            name="influencer_level" 
+                            require="true">
+                    </select>
+                    <div ng-if="form.$submitted" ng-messages="form.influencer_level.$error" for="influencer_level" class="ot-form__box-error">
+                        <span class="ot-form__error" ng-message="required">Followers range is required</span>
+                    </div>
+                </div> -->
+
+                <!-- <div class="ot-form__group relative ot-form__required" 
+                     form-error="form.instagram_account">
+                    <div class="ot-form__label">Instagram Account:</div>
+                    <div class="absolute ot-form__username-sign">@</div>
+                    <input class="ot-form__input ot-form__input--safari-fix" type="text" id="instagram_account" name="instagram_account" placeholder="username" minLength="1" maxlength="100" required style="padding-left: 20px" 
+                           ng-model="User.instagram_account" 
+                           ng-change="usernameTransform()" 
+                           ng-model-options="{ debounce: 500 }" 
+                           ng-class="{ 'ot-form__input-error': form.$submitted && form.instagram_account.$invalid }">
+
+                    <div ng-if="form.$submitted" ng-messages="form.instagram_account.$error" for="instagram_account" class="ot-form__box-error">
+                        <span class="ot-form__error" ng-message="required">Instagram account is required</span>
+                    </div>
+                </div>
+                
+                <div class="ot-form__group relative ot-form__required" 
+                     ng-class="{ 'ot-form__group-error': form.$submitted && form.rank.$invalid }" 
+                     form-error="form.rank">
+                    <div class="ot-form__label">
+                        Follower Count:
+                    </div>
+                    <select class="form__input-full ot-form__input ot-form__selector box--bottom-top-padding" selector 
+                            model="(Skills | filter: { title: 'Influencer' })[0].level" 
+                            options="ranks" 
+                            value-attr="id" 
+                            label-attr="title" 
+                            placeholder="10k - 50k" 
+                            name="rank" 
+                            change="skillChanged((Skills | filter: { title: 'Influencer' })[0])" 
+                            require="true">
+                    </select>
+                    
+                    <div ng-if="form.$submitted" ng-messages="form.rank.$error" class="ot-form__box-error">
+                        <span class="ot-form__error" ng-message="required">Please, choose some option</span>
+                    </div>
+                </div> -->
+                
+                <div class="ot-form__group relative ot-form__required" 
+                     form-error="form.expertise">
+                    <div class="ot-form__label bottom-margin-30">
+                        Interests:
+                    </div>
+                    <div class="ot-form__label ot-form--smallest-text ot-form__sub-label absolute italic" style="top: 30px; left: 0;">
+                        Select all that apply
+                    </div>
+
+                    <div class="flex flex-wrap ot-home__signup--expertise-list">
+                        <div class="ot-home__signup--expertise-list-item" 
+                             ng-repeat="item in Expertises">
+                            <md-checkbox class="" aria-label="{{ item.title }}" ng-model="item.selected">
+                                <div class="ot-home__signup--tooltip">
+                                    {{ item.title }}
+                                    <div class="ot-home__signup--tooltip-text" ng-if="item.subexpertises">
+                                        <div ng-repeat="category in item.subexpertises">{{ category.title }}</div>
+                                    </div>
+                                </div>
+                            </md-checkbox>
+                        </div>
+                        <div class="flex ot-home__signup--expertise-list-extra">
+                            <span>Other:</span>
+                            <input class="ot-form__input" type="text" style="width: auto" id="expertise" name="expertise" maxlength="50" 
+                                   ng-model="otherExp" 
+                                   ng-required="expertiseValidation()">
+                        </div>
+                    </div>
+
+                    <div ng-if="form.$submitted" ng-messages="form.expertise.$error" for="expertise" class="ot-form__box-error">
+                        <span class="ot-form__error" ng-message="required">At least 1 is required</span>
+                    </div>
+                </div>
+                
+                <div class="ot-form__group relative" 
+                     form-error="form.occupation">
+                    <div class="ot-form__label">Current Occupation:</div>
+                    <input class="ot-form__input ot-form__input--safari-fix" type="text" id="occupation" name="occupation" placeholder="Bartender" maxLength="50" 
+                           ng-model="User.influencer_occupation">
+
+                    <div ng-if="form.$submitted" ng-messages="form.occupation.$error" for="occupation" class="ot-form__box-error">
+                        <span class="ot-form__error" ng-message="maxlength">Only 50 characters allowed</span>
+                    </div>
+                </div>
+                
+                <div class="ot-form__group relative" 
+                     form-error="form.place_work">
+                    <div class="ot-form__label">Current Place of Work (if applicable):</div>
+                    <input class="ot-form__input ot-form__input--safari-fix" type="text" id="place_work" name="place_work" placeholder="SoHo House" maxLength="100" 
+                           ng-model="User.influencer_place_work">
+
+                    <div ng-if="form.$submitted" ng-messages="form.place_work.$error" for="place_work" class="ot-form__box-error">
+                        <span class="ot-form__error" ng-message="maxlength">Only 100 characters allowed</span>
+                    </div>
+                </div>
+                
+                <div class="ot-form__group relative" 
+                     form-error="form.languages">
+                    <div class="ot-form__label">Languages:</div>
+                    <input class="ot-form__input ot-form__input--safari-fix" type="text" id="languages" name="languages" placeholder="English" maxlength="100" 
+                           ng-model="User.language">
+
+                    <div ng-if="form.$submitted" ng-messages="form.languages.$error" for="languages" class="ot-form__box-error">
+                        <span class="ot-form__error" ng-message="maxlength">Only 100 characters allowed</span>
+                    </div>
+                </div>
+                
+                <div class="ot-form__group relative ot-form__required" 
+                     form-error="form.bio">
+                    <div class="ot-form__label">About Myself:</div>
+
+                    <textarea class="ot-form__textarea ot-form__input--safari-fix" rows="5" id="bio" name="bio" maxlength="1000" required 
+                              placeholder="I have been working as a bartender for the last 3 years..." 
+                              ng-model="User.bio" 
+                              ng-model-options="{ debounce: 500 }"></textarea>
+
+                    <div ng-if="form.$submitted" ng-messages="form.bio.$error" for="bio" class="ot-form__box-error">
+                        <span class="ot-form__error" ng-message="required">Bio is required</span>
+                        <span class="ot-form__error" ng-message="maxlength">Only 1000 characters allowed</span>
+                    </div>
+                </div>
+
+                <div class="ot-form__group relative" 
+                     form-error="form.experience">
+                    <div class="ot-form__label">Influencer / Content Creation Experience (if any):</div>
+                    <textarea class="ot-form__textarea ot-form__input--safari-fix" rows="5" id="experience" name="experience" maxlength="1000" 
+                              placeholder="Please list your most recent content creation experiences." 
+                              ng-model="User.experience"></textarea>
+
+                    <div ng-if="form.$submitted" ng-messages="form.experience.$error" for="experience" class="ot-form__box-error">
+                        <span class="ot-form__error" ng-message="maxlength">Only 1000 characters allowed</span>
+                    </div>
+                </div>        
+            </div>
+            
+            <div class="ot-form__group relative ot-form__required" 
+                 form-error="form.gender">
+                <div class="ot-form__label">Gender</div>
+                <md-radio-group ng-model="User.gender" name="gender" required>
+                    <md-radio-button value="Female" checked="true" style="margin-bottom: 0; line-height: 41px">
+                        <span class="ot-form__label">Female</span>
+                    </md-radio-button>
+                    <md-radio-button value="Male" style="margin-bottom: 0; line-height: 41px">
+                        <span class="ot-form__label">Male</span>
+                    </md-radio-button>
+                    <md-radio-button value="Transgender Female" style="margin-bottom: 0; line-height: 41px">
+                        <span class="ot-form__label">Transgender Female</span>
+                    </md-radio-button>
+                    <md-radio-button value="Transgender Male" style="margin-bottom: 0; line-height: 41px">
+                        <span class="ot-form__label">Transgender Male</span>
+                    </md-radio-button>
+                    <md-radio-button value="Non-Conforming" style="margin-bottom: 0; line-height: 41px">
+                        <span class="ot-form__label">Non-Conforming</span>
+                    </md-radio-button>
+                    <md-radio-button value="Other" style="margin-bottom: 0; line-height: 41px">
+                        <span class="ot-form__label">Other</span>
+                    </md-radio-button>
+                    <md-radio-button value="Prefer Not to Answer" style="margin-bottom: 0; line-height: 41px">
+                        <span class="ot-form__label">Prefer Not to Answer</span>
+                    </md-radio-button>
+                </md-radio-group>
+                <div ng-messages="form.gender.$error" for="gender" class="ot-form__box-error" ng-if="form.$submitted" ng-class="{ 'ot-form__box-error--special': form.gender.$invalid }">
+                    <span class="ot-form__error" ng-message="required">Gender is required</span>
+                </div>
+            </div>
+            <div class="ot-form__group bottom-margin-0" style="text-align: right">
+                <md-button class="outter__btn" type="submit" 
+                           ng-disabled="loader.loading">
+                    {{ signupType === 'digital' ? 'Complete' : 'Continue'}}
+                </md-button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="ot-home__signup--bottom-block ot-home__talent-bg"></div>
+</div>

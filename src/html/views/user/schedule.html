@@ -1,0 +1,214 @@
+<div ng-show="busyFormOpened" class="modal-schedule">
+    <div class="modal modal__backdrop-schedule">
+        <div class="modal-dialog-schedule">
+            <div class="modal-content-wrapper-schedule form modal-wide" tw-click-outside="toggleBusy(false)" ignore-if="!busyFormOpened">
+                <form class="modal-content" name="form" ng-submit="save(dateTo, dateFrom, timeTo, timeFrom, repeatNum)" novalidate="">
+                    <div class="form__input-text form--basic-top-padding modal__event-status">
+                        Busy
+                        <span class="btn btn-primary right modal__event-close" ng-click="toggleBusy(false)">
+                            &#x2715;
+                        </span>   
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="modal__event-properties modal-min-height-800 modal-padding-bottom-60 mx-auto">
+                            <div class="mx-auto">
+                                <div class="form__input-text">
+                                    <label class="" for="repeat">Repeat</label>
+                                </div>
+                                <div class="desktop__selector">
+                                    <select class="form__input form__selector" 
+                                        name="repeat" 
+                                        id="repeat"
+                                        selector
+                                        model="repeatNum"
+                                        options="repeatOptions"
+                                        value-attr="value"
+                                        placeholder="Select"
+                                        disable="event_id && parent_id">
+                                    </select>
+                                </div>
+                                <select ng-options="option.value as option.label for option in repeatOptions"
+                                    class="form__input form__selector mobile__selector" name="repeat" id="repeat"
+                                    ng-model="repeatNum" 
+                                    ng-disabled="event_id && parent_id" required>
+                                </select>
+
+                                <div class="form__input-text">
+                                    <label class="" for="date">Date</label>
+                                </div>
+                                <md-datepicker class="modal__event-datepicker form__selector" id="modalPicker1"
+                                    ng-model="dateFrom" 
+                                    md-is-open="modalPickerOpened_1"
+                                    md-date-locale="localeModal"
+                                    md-open-on-focus
+                                    md-min-date="minDate"
+                                    md-max-date="maxDate"
+                                    md-hide-icons="all"
+                                    ng-change="(event_id && !parent_id) ? repeatOptionsUpdate(dateFrom) : false"
+                                    md-mode="day">
+                                </md-datepicker>
+
+                                <div class="form__input-text">
+                                    <label class="" for="timeFrom">Time</label>
+                                </div>
+                                <select ng-options="option.value as option.label for option in times"
+                                    class="form__input form__selector modal__event-time mobile__selector" name="timeFrom" id="timeFrom"
+                                    ng-model="timeFrom" required>
+                                </select>
+                                <div class="desktop__selector">
+                                    <select class="form__input form__selector modal__event-time" 
+                                            name="timeFrom" 
+                                            id="timeFrom"
+                                            selector
+                                            model="timeFrom"
+                                            options="times"
+                                            value-attr="value"
+                                            placeholder="Select">
+                                    </select>
+                                </div>
+<!--
+                                <div ng-if="form.$submitted" ng-messages="form.timeFrom.$error" for="timeFrom" class="form__error-switch-profile">
+                                    <span class="form__error-profile" ng-message="required">Start time required</span>
+                                </div>
+-->
+
+                                <div class="form__input-text modal__event-status modal__event-text-small modal__event-margin-bottom-15">
+                                    to
+                                </div>
+
+                                <div class="form__input-text">
+                                    <label class="" for="date">Date</label>
+                                </div>
+                                <md-datepicker class="modal__event-datepicker form__selector" id="modalPicker2"
+                                    ng-model="dateTo" 
+                                    md-date-locale="localeModal"
+                                    md-open-on-focus
+                                    md-min-date="minDate"
+                                    md-max-date="maxDate"
+                                    md-hide-icons="all"
+                                    md-is-open="modalPickerOpened_2"
+                                    md-mode="day">
+                                </md-datepicker>
+                                <div class="schedule-modal__error">
+                                    <div ng-if="rangeError1">
+                                        <span class="form__error-schedule">Wrong date</span>
+                                    </div>
+                                </div>
+                                <div class="form__input-text">
+                                    <label class="" for="timeTo">Time</label>
+                                </div>
+                                <select ng-options="option.value as option.label for option in times"
+                                    class="form__input form__selector modal__event-time mobile__selector" name="timeTo" id="timeTo"
+                                    ng-model="timeTo" required>
+                                </select>
+                                <div class="desktop__selector">
+                                    <select class="form__input form__selector modal__event-time" name="timeTo" id="timeTo"
+                                            selector
+                                            model="timeTo"
+                                            options="times"
+                                            label-attr="label"
+                                            value-attr="value"
+                                            placeholder="Select">
+                                    </select>
+                                </div>
+<!--
+                                <div ng-if="form.$submitted" ng-messages="form.timeTo.$error" for="timeTo" class="form__error-switch-profile">
+                                    <span class="form__error-profile" ng-message="required">End time required</span>
+                                </div>
+-->
+                                <div class="schedule-modal__error">
+                                    <div ng-if="rangeError2">
+                                        <span class="form__error-schedule">Wrong time</span>
+                                    </div>
+                                </div>
+                                <div class="schedule-modal__error">
+                                    <div ng-if="rangeError3">
+                                        <span class="form__error-schedule">Large range</span>
+                                    </div>
+                                </div>
+                                <div class="form__input-text modal__event-status modal__event-text-small modal__event-margin-bottom-60  modal__event-margin-top-60" ng-if="event_id || parent_id">
+                                    <a href="" ng-click="delete( dateFrom.format('YYYY-MM-DD') )">Delete "Busy"</a>
+                                </div>
+
+                            </div>
+                        </div>
+    
+<!--
+                        <div ng-if="form.$submitted && rangeError" class="form__error-switch-profile">
+                            <span class="form__error-profile">Wrong range</span>
+                        </div>
+-->
+                    </div>
+                    <md-button type="submit" class="form__search form__more form__more--java box__text--smallest">
+                            Save
+                            <i class="fa fa-caret-right right" aria-hidden="true"></i>
+                    </md-button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bg-schedule">
+    <div class="calendar_header">
+        <div class="left_side">
+            <div class="schedule__text--row schedule__text--large">
+                Schedule
+            </div>
+            <div class="schedule__text flex">
+                <div class="schedule__text--row">
+                    <div class="schedule__oval schedule--mini-margin-right oval-open"></div>
+                    <div class="schedule__text--size-10px schedule--10-padding-right">Open</div>
+                    <div class="schedule__oval schedule--mini-margin-right oval-busy"></div>
+                    <div class="schedule__text--size-10px schedule--10-padding-right">Busy</div>
+                </div>
+                <div class="schedule__text--row">
+                    <div class="schedule__oval schedule--mini-margin-right oval-booked"></div>
+                    <div class="schedule__text--size-10px schedule--10-padding-right">Booked</div>
+                    <div class="schedule__oval schedule--mini-margin-right oval-today"></div>
+                    <div class="schedule__text--size-10px schedule--10-padding-right">Today</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right_side">
+            <div class="schedule-tools-panel">
+                <div class="today">
+                    <md-button type="button" id="today">today</md-button>
+                </div>
+                <div class="buttons">
+                    <button type="button" id="prev" aria-label="prev">
+                        <span class="prev-left-single-arrow"></span>
+                    </button>
+                    <button type="button" id="next" aria-label="next">
+                        <span class="next-right-single-arrow"></span>
+                    </button>
+                </div>
+                <div>
+                    <md-datepicker class="form__selector" id="mainPicker"
+                        ng-change="setWeekOnFullCalendar()"
+                        ng-model="date"
+                        md-is-open="isOpen" 
+                        md-open-on-focus 
+                        md-date-locale="locale"
+                        md-mode="day"
+                        md-min-date="minDate"
+                        md-max-date="maxDate"
+                        md-hide-icons="all">
+                    </md-datepicker>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="schedule__day-header">
+        <tr>
+            <th class="day-header__day-cell">
+            </th>
+            <th class="day-header__day-cell" ng-repeat="day in dayHeader" ng-class="{'day-header__day-cell-today': day.isSame(moment(),'day')}">
+                {{day.format('D')}}<br>{{day.format('dd')}}
+            </th>
+        </tr>
+    </table>
+
+    <div id='calendar' class="schedule__scroll" ng-focus="true"></div>
+</div>

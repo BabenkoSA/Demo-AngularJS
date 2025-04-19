@@ -1,0 +1,25 @@
+<div class="layout__tabs">
+    <div class="tabs-section border-box">
+        <div class="tabs__container tabs__container--mobile">
+
+            <div class="tabs__title flex justify-between items-center">
+                <div class="tabs__title--text tabs__title--text--width-100">
+                    <div class="text-overflow">{{ panel_title }}</div>
+                </div>
+            </div>
+
+            <div class="tabs__row flex">
+                <span class="tabs__tab inline-block flex" 
+                      ng-repeat="Tab in Tabs"> 
+                    <a ui-sref="{{ Tab.state_link }}" ui-sref-active="tabs__tab-talent-active" class="tabs__tab-link tabs__text--md-bold">
+                        {{ Tab.title }}
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ot-overflow-container" du-scroll-container="layout-scroll-container" id="layout-scroll-container">
+    <ui-view class="layout__content"></ui-view>
+</div>

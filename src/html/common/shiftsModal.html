@@ -1,0 +1,81 @@
+<div class="modal fade slide-right disable-scroll in">
+	<div class="modal__backdrop">
+		<div class="modal-dialog">
+			<div class="modal-content-wrapper modal-wide" tw-click-outside="close()" ignore-if="warningOpen">
+				<div class="modal-content">
+					<div class="modal-header">
+<!--
+						<button class="btn btn-primary right" ng-click="close()">
+							<i class="fa fa-times" aria-hidden="true"></i>
+						</button>
+-->
+					</div>
+					<div class="form modal-body" style="width: 100%">
+						<div class="modal-message-client ot-invite mx-auto">
+							<div class="bottom-margin-20">
+                                <div class="form__text--smallest form--bottom-padding">
+                                    Event
+                                </div>
+                                <div class="forms__input-full forms__text-md-bold overflow-break">
+                                    {{ Staffing.event.title}}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form__text--smallest form--bottom-padding">
+                                    Role
+                                </div>
+                                <div class="forms__input-full forms__text-md-bold ot-invite__role">
+                                    {{ Staffing.skill.title}}
+                                </div>
+                            </div>
+
+                            <div class="bottom-margin-20">
+                                <div class="form__text--smallest form--bottom-padding">
+                                    Choose {{ (Event.type === 'digital') ? 'projects' : 'shifts' }}
+                                </div>
+                                <div class="ot-invite__shifts" 
+                                     ng-class="{ 'overflow-y-scroll': Staffing.shifts.length > 8 }">                                    
+                                    <div class="ot-invite--shift" 
+                                         ng-repeat="Shift in Shifts track by $index">
+                                        <md-checkbox aria-label="{{ Shift.pretty }}" class="ot-invite--checkbox" 
+                                                     ng-disabled="Shift.overlap_hired || Shift.staffed || disableOverlap(Shift) || Shift.disable" 
+                                                     ng-model="Shift.selected">
+                                           <span class="ot-invite--shift-time" ng-if="!Shift.format">Shift ({{ Shift.pretty }})</span>
+                                           <span class="ot-invite--shift-time" ng-if="Shift.format">Live{{ (Shift.format === 'blast') ? 'Blast' : 'Cast' }} ({{ (Shift.format === 'cast' || (Shift.format === 'blast' && Shift.digital_info.end_seeable)) ? Shift.pretty : Shift.start.format('h:mm A') }})</span>
+                                            <div class="ot-invite--shift-date">
+                                                {{ Shift.start.format('MMMM D, YYYY | ddd') }}
+                                            </div>
+                                        </md-checkbox>
+                                        <span class="ot-invite--shift-status" ng-if="Shift.totalShiftStaffNeeded <= 0">(fully staffed)</span>
+                                        <span ng-if="initCheck">
+                                            <span class="ot-invite--shift-status" ng-if="disableOverlap(Shift) || Shift.overlap_hired">(overlap)</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-hide="button_title !== 'Apply' || Staffing.event.type !== 'digital'">
+                                <div class="form__text--smallest form--bottom-padding">
+                                    Add a note:
+                                </div>
+                                <textarea class="ot-invite__textarea" rows="3" maxlength="1000" placeholder="Add a personal note and describe why you are perfect for this opportunity." 
+                                          ng-model="note"></textarea>
+                            </div>
+						</div>
+					</div>
+                    <div class="ot-btn__container flex">
+                        <md-button class="ot-btn ot-btn__talent-color ot-btn__hlf center box--border-right ot-btn__hlf-left" 
+                                   ng-click="close()">
+							Close
+						</md-button>
+                        <md-button class="ot-btn ot-btn__talent-color ot-btn__hlf center x-padding-0 ot-btn__hlf-right" 
+                                   ng-click="confirm()" 
+                                   ng-disabled="isDisabled()">
+							{{ button_title }}
+						</md-button>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

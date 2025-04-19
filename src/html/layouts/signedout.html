@@ -1,0 +1,309 @@
+<div class="ot-home parallax" id="home-scroll-anchor" 
+     ng-class="{ 'animate__hide-overflow': animate && state.includes('signedout.home'), 
+                'ot-home__mobile--menu-open': mobileMenu,
+                'ot-home__modal-open': modalLogin || covidWarning }" 
+     du-scroll-container>
+    
+    <div class="outter-header" 
+         ng-class="{ 'outter-header--live-mobile-bg': location.$$absUrl.includes('/signup?type=infuencer') }">
+        <div class="ot-home__warning-banner" 
+             ng-if="state.includes('signedout.home') || state.includes('signedout.talent') || state.includes('signedout.brands') || state.includes('signedout.contact')" 
+             ng-class="{ 'hide-mobile': covidWarning || modalLogin }" 
+             ng-click="openWarning(true)">
+            COVID-19 Update
+        </div>
+        <div class="outter-header__container mx-auto">
+            <div class="outter-header__content flex justify-between items-start">
+                <div class="outter-header__logo">
+                    <a ui-sref="signedout.home">
+                        <!-- <div class="svg__logo"><span class="icon-logo"></span></div> -->
+                        <svg width="100px" height="50px" viewBox="0 0 100 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <defs></defs>
+                            <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g id="outfit-logo" fill="#ffffff">
+                                    <g id="Group-2">
+                                        <path d="M15.2943796,22.9877408 C16.1882889,22.0630473 16.6354079,20.7276999 16.6354079,18.9807356 C16.6354079,17.2340922 16.1751383,15.9048453 15.2549279,14.9929947 C14.3337312,14.0814653 13.2428923,13.6252189 11.9804385,13.6252189 C10.7176561,13.6252189 9.63273489,14.0814653 8.72567504,14.9929947 C7.81828642,15.9048453 7.36459212,17.2340922 7.36459212,18.9807356 C7.36459212,20.7276999 7.83110822,22.0630473 8.76512672,22.9877408 C9.69848769,23.9124343 10.7965594,24.3747811 12.0590131,24.3747811 C13.3217956,24.3747811 14.3998127,23.9124343 15.2943796,22.9877408 M3.83366686,26.9558961 C1.61056476,24.9273497 0.5,22.2560128 0.5,18.9422067 C0.5,15.6287215 1.60431824,12.9769702 3.81361226,10.9859895 C6.02323504,8.9956509 8.75822267,8 12.0198902,8 C15.2805715,8 18.0096414,8.9956509 20.2057848,10.9859895 C22.4015995,12.9769702 23.5,15.6287215 23.5,18.9422067 C23.5,22.2560128 22.4085036,24.9273497 20.2258394,26.9558961 C18.042189,28.9857268 15.3200232,30 12.0590131,30 C8.79767435,30 6.05578267,28.9857268 3.83366686,26.9558961" id="Fill-1"></path>
+                                        <path d="M39.5297297,9 L46,9 L46,29.7762888 L39.5297297,29.7762888 L39.5297297,26.7231424 C38.1921622,28.9078176 36.0612613,30 33.1354505,30 C30.7135135,30 28.7516216,29.2053752 27.2516667,27.6167462 C25.7501351,26.0287378 25,23.8688849 25,21.1381185 L25,9 L31.4324324,9 L31.4324324,20.2817482 C31.4324324,21.6224642 31.7918919,22.6587964 32.5108108,23.3907448 C33.2297297,24.1233138 34.2191892,24.4891328 35.4810811,24.4891328 C36.7423423,24.4891328 37.7327477,24.1233138 38.4513514,23.3907448 C39.169955,22.6587964 39.5297297,21.6224642 39.5297297,20.2817482 L39.5297297,9 Z" id="Fill-4"></path>
+                                        <path d="M58.639881,24.5676581 L61,24.5676581 L61,30 L57.634251,30 C55.209003,30 53.3325149,29.4820543 52.0044643,28.4452263 C50.6757688,27.4093349 50.0119048,25.6297746 50.0119048,23.1065455 L50.0119048,14.4147984 L48,14.4147984 L48,9.09484984 L50.0119048,9.09484984 L50.0119048,4 L56.6279762,4 L56.6279762,9.09484984 L60.9609871,9.09484984 L60.9609871,14.4147984 L56.6279762,14.4147984 L56.6279762,23.1065455 C56.6279762,24.0806206 57.2986111,24.5676581 58.639881,24.5676581" id="Fill-6"></path>
+                                        <path d="M96.639881,24.5676581 L99,24.5676581 L99,30 L95.634251,30 C93.209003,30 91.3325149,29.4820543 90.0044643,28.4452263 C88.6757688,27.4093349 88.0119048,25.6297746 88.0119048,23.1065455 L88.0119048,14.4147984 L86,14.4147984 L86,9.09484984 L88.0119048,9.09484984 L88.0119048,4 L94.6279762,4 L94.6279762,9.09484984 L98.9609871,9.09484984 L98.9609871,14.4147984 L94.6279762,14.4147984 L94.6279762,23.1065455 C94.6279762,24.0806206 95.2986111,24.5676581 96.639881,24.5676581" id="Fill-6-Copy"></path>
+                                        <path d="M82.9334345,6.50693569 C82.2223909,7.23865069 81.3519754,7.60403531 80.322188,7.60403531 C79.2927071,7.60403531 78.4216787,7.23865069 77.711248,6.50693569 C76.9995914,5.7758512 76.644376,4.87421185 76.644376,3.80201765 C76.644376,2.73045397 76.9995914,1.82881463 77.711248,1.09709962 C78.4216787,0.366015132 79.2927071,0 80.322188,0 C81.3519754,0 82.2223909,0.366015132 82.9334345,1.09709962 C83.6444782,1.82881463 84,2.73045397 84,3.80201765 C84,4.87421185 83.6444782,5.7758512 82.9334345,6.50693569 M71.4075404,8.09583859 L71.4075404,8.89029004 L84,8.89029004 L84,30 L77.5529623,30 L77.5529623,14.2622951 L71.4075404,14.2622951 L71.4075404,30 L64.9605027,30 L64.9605027,14.2622951 L63,14.2622951 L63,8.89029004 L64.9605027,8.89029004 L64.9605027,8.09583859 C64.9605027,5.42276166 65.6699282,3.46815889 67.0903501,2.23203026 C68.5104578,0.996532156 70.741158,0.378310214 73.7827648,0.378310214 L73.7827648,5.86380832 C72.9281867,5.86380832 72.3180431,6.02805801 71.954219,6.3556116 C71.5897666,6.68379571 71.4075404,7.26355612 71.4075404,8.09583859" id="Fill-8"></path>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                    </a>
+                </div>
+                <!-- <div class="outter-header__logo" ng-if="!state.includes('signedout.home')">
+                    <a ui-sref="signedout.home">
+                        <div class="svg__logo"><span class="icon-logo"></span></div>
+                    </a>
+                </div>
+                <div class="outter-header__logo relative" ng-if="state.includes('signedout.home')">
+                    <a class="inline-block" ui-sref="signedout.home">
+                        <img class="outter-header__logo-alter-img" src="../../assets/images/outfitlive/Outfitlive_logo_animation_fin.gif">
+                    </a>
+                </div> -->
+                <div class="outter__nav--panel hide-mobile" 
+                     ng-class="{ 'animate__hide-on-start': animate && state.includes('signedout.home') }">
+                    <div class="flex items-start" ng-if="!state.includes('signedout.external')">
+                        <div class="outter__nav--panel-item">
+                            <a class="outter__nav-link outter__nav-link--header" 
+                               ui-sref="signedout.home" 
+                               ui-sref-active="outter__nav-link--header-active">Outfit Live</a>
+                        </div>
+                        <div class="outter__nav--panel-item">
+                            <a class="outter__nav-link outter__nav-link--header" 
+                               ui-sref="signedout.brands" 
+                               ui-sref-active="outter__nav-link--header-active">For Brands</a>
+                        </div>
+                        <div class="outter__nav--panel-item">
+                            <a class="outter__nav-link outter__nav-link--header" 
+                               ui-sref="signedout.talent" 
+                               ui-sref-active="outter__nav-link--header-active">For Talent</a>
+                        </div>
+                        <!-- <div class="outter__nav--panel-item">
+                            <a class="outter__nav-link outter__nav-link--header" 
+                               ui-sref="signedout.contact" 
+                               ui-sref-active="outter__nav-link--header-active">Contact</a>
+                        </div>-->
+                        <md-button class="outter__btn outter__btn--header left-margin-20" 
+                                   ng-if="!User" 
+                                   ng-click="goSignin()">
+                            Log In
+                        </md-button>
+                        <md-button class="outter__btn outter__btn--header left-margin-20" 
+                                   ng-if="User && (state.includes('signedout.setup') || state.includes('signedout.signup'))" 
+                                   ng-click="signout()">
+                            Log Out
+                        </md-button>
+                        <md-button class="outter__btn outter__btn--header left-margin-20" 
+                                   ng-if="User && !(state.includes('signedout.setup') || state.includes('signedout.signup'))"
+                                   ng-click="goEvents()">
+                            Profile
+                        </md-button>
+                    </div>
+                    <div class="flex items-start" ng-if="state.includes('signedout.external')">
+                        <div class="outter__nav--panel-item">
+                            <a class="outter__nav-link outter__nav-link--header" 
+                               ui-sref="signedout.home" 
+                               ui-sref-active="outter__nav-link--header-active">More about Outfit</a>
+                        </div>
+                        <md-button class="outter__btn outter__btn--header left-margin-20" 
+                                   ng-click="goSignup(true)">
+                            Sign Up
+                        </md-button>
+                    </div>
+                </div>
+                <div class="hide-desktop">
+                    <div class="outter__nav--mobile-btn" ng-click="(covidWarning) ? openWarning(false) : (modalLogin) ? goSignin() : openNav()">
+                        <span ng-class="{ 'pressed': mobileMenu || modalLogin || covidWarning }"></span>
+                        <span ng-class="{ 'pressed': mobileMenu || modalLogin || covidWarning }"></span>
+                        <span ng-class="{ 'pressed': mobileMenu || modalLogin || covidWarning }"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="outter__nav--mobile hide-desktop" ng-show="mobileMenu">
+        <div class="outter__nav--mobile-layer-1" 
+             ng-class="{ 'ot-home__brands-bg': state.includes('signedout.brands'), 
+                        'ot-home__contact-bg': state.includes('signedout.contact'),
+                        'ot-home__talent-bg': state.includes('signedout.talent') || state.includes('signedout.signup') || state.includes('signedout.setup') || state.includes('signedout.terms') || state.includes('signedout.privacy') || state.includes('signedout.forgot') || state.includes('signedout.switch') || state.includes('signedout.password-reset'), 
+                        'ot-home__live-bg': state.includes('signedout.home') || location.$$absUrl.includes('/signup?type=infuencer') }">
+        </div>
+        
+        <div class="outter__nav--mobile-layer-2">
+        </div>
+        
+        <div class="outter__nav--mobile-panel">
+            <div class="outter__nav--mobile-line flex justify-end">
+                <div class="outter__nav--mobile-btn" ng-click="openNav()">
+                    <span ng-class="{ 'pressed': mobileMenu }"></span>
+                    <span ng-class="{ 'pressed': mobileMenu }"></span>
+                    <span ng-class="{ 'pressed': mobileMenu }"></span>
+                </div>
+            </div>
+            
+            <div class="outter__nav--mobile-container">
+                <div class="outter__nav--mobile-panel-item">
+                    <a class="outter__nav--mobile-link" 
+                       ui-sref="signedout.home" 
+                       ui-sref-active="outter__nav--mobile-link-active" 
+                       ng-click="openNav()">Outfit Live</a>
+                </div>
+                <div class="outter__nav--mobile-panel-item">
+                    <a class="outter__nav--mobile-link" 
+                       ui-sref="signedout.brands" 
+                       ui-sref-active="outter__nav--mobile-link-active" 
+                       ng-click="openNav()">For Brands</a>
+                </div>
+                <div class="outter__nav--mobile-panel-item">
+                    <a class="outter__nav--mobile-link" 
+                       ui-sref="signedout.talent" 
+                       ui-sref-active="outter__nav--mobile-link-active" 
+                       ng-click="openNav()">For Talent</a>
+                </div>
+                <!-- <div class="outter__nav--mobile-panel-item">
+                    <a class="outter__nav--mobile-link" 
+                       ui-sref="signedout.contact" 
+                       ui-sref-active="outter__nav--mobile-link-active" 
+                       ng-click="openNav()">Contact</a>
+                </div> -->
+                <div class="outter__nav--mobile-panel-item" 
+                     ng-if="User && User.status === 'APPROVED' && !state.includes('signedout.setup')">
+                    <a class="outter__nav--mobile-link" 
+                       ui-sref="signedin.events.open" 
+                       ng-click="openNav()">Back to Profile</a>
+                </div>
+                
+                <div class="top-padding-15" 
+                     ng-include="'/html/common/loginForm.html'" 
+                     ng-if="!User"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="ot-home__login" ng-show="modalLogin" id="modal-login">
+        <div class="ot-home__login--layer-1" 
+             ng-class="{ 'ot-home__brands-bg': state.includes('signedout.brands'), 
+                        'ot-home__contact-bg': state.includes('signedout.contact'),
+                        'ot-home__talent-bg': state.includes('signedout.talent') || state.includes('signedout.signup') || state.includes('signedout.setup') || state.includes('signedout.terms') || state.includes('signedout.privacy') || state.includes('signedout.forgot') || state.includes('signedout.switch') || state.includes('signedout.password-reset'), 
+                        'ot-home__live-bg': state.includes('signedout.home') || location.$$absUrl.includes('/signup?type=infuencer') }">
+        </div>
+        <div class="ot-home__login--layer-2"></div>
+        <div class="ot-home__login--layer-3" 
+             ng-class="{ 'ot-home__brands-bg': state.includes('signedout.brands'), 
+                        'ot-home__contact-bg': state.includes('signedout.contact'),
+                        'ot-home__talent-bg': state.includes('signedout.talent') || state.includes('signedout.signup') || state.includes('signedout.setup') || state.includes('signedout.terms') || state.includes('signedout.privacy') || state.includes('signedout.forgot') || state.includes('signedout.switch') || state.includes('signedout.password-reset'), 
+                        'ot-home__live-bg': state.includes('signedout.home') || location.$$absUrl.includes('/signup?type=infuencer') }">
+        </div>
+        
+        <div class="ot-home__login-section">
+            <div class="ot-home__login-container">
+                <div ng-include="'/html/common/loginForm.html'"></div>
+            </div>
+        </div>   
+    </div>
+    
+    <div class="ot-home__login" ng-show="covidWarning" id="">
+        <div class="ot-home__login--layer-1" 
+             ng-class="{ 'ot-home__brands-bg': state.includes('signedout.brands'), 
+                        'ot-home__contact-bg': state.includes('signedout.contact'),
+                        'ot-home__talent-bg': state.includes('signedout.talent') || state.includes('signedout.signup') || state.includes('signedout.setup') || state.includes('signedout.terms') || state.includes('signedout.privacy') || state.includes('signedout.forgot') || state.includes('signedout.switch') || state.includes('signedout.password-reset'), 
+                        'ot-home__live-bg': state.includes('signedout.home') || location.$$absUrl.includes('/signup?type=infuencer') }">
+        </div>
+        <div class="ot-home__login--layer-2"></div>
+        <div class="ot-home__login--layer-3" 
+             ng-class="{ 'ot-home__brands-bg': state.includes('signedout.brands'), 
+                        'ot-home__contact-bg': state.includes('signedout.contact'),
+                        'ot-home__talent-bg': state.includes('signedout.talent') || state.includes('signedout.signup') || state.includes('signedout.setup') || state.includes('signedout.terms') || state.includes('signedout.privacy') || state.includes('signedout.forgot') || state.includes('signedout.switch') || state.includes('signedout.password-reset'), 
+                        'ot-home__live-bg': state.includes('signedout.home') || location.$$absUrl.includes('/signup?type=infuencer') }">
+        </div>
+        
+        <div class="ot-home__login-section">
+            <div class="ot-home__login-container ot-home__warning">
+                <div class="ot-form">
+                    <div class="center relative hide-mobile ot-home__login--logo">
+                        <div class="outter__nav--mobile-btn absolute" ng-click="openWarning(false)">
+                            <span class="pressed"></span>
+                            <span class="pressed"></span>
+                            <span class="pressed"></span>
+                        </div>
+                    </div>
+                    <div class="ot-home__warning-text">
+                        The global impact of the COVID-19 crisis has been vast, resulting in lost employment opportunities for many industries. To counter the impact to Outfit’s community of hospitality, food and beverage and retail professionals, we’re introducing new features making it easier for Brands to connect with Digital Talent and bring IRL events into the URL. Together we can create new opportunities for Brands to make an authentic connection to real people, and keep valued Talent working.
+                        <div class="top-margin-15">
+                            For more information on ways to maintain health and safety during this crisis, please visit the <a class="ot-home__warning-link" href="https://www.cdc.gov/coronavirus/2019-nCoV/index.html" target="_blank">CDC</a>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>   
+    </div>
+    
+    <ui-view class="signedout-font"></ui-view>
+    
+    <div class="outter-footer" 
+         ng-class="{ 'outter-footer--brands-bg': state.includes('signedout.brands'), 
+                    'outter-footer--contact-bg': state.includes('signedout.contact'),
+                    'outter-footer--talent-bg': state.includes('signedout.talent') || state.includes('signedout.signup') || state.includes('signedout.setup') || state.includes('signedout.terms') || state.includes('signedout.privacy') || state.includes('signedout.forgot') || state.includes('signedout.switch') || state.includes('signedout.password-reset'), 
+                    'outter-footer--live-bg': state.includes('signedout.home') || state.includes('signedout.external')
+                }">
+        <div class="outter-footer__to-top hide-desktop" ng-click="toTop(500)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6 1.41 1.41z"/></svg>
+        </div>
+        <div class="outter-footer__container justify-between flex">
+            <div class="outter-footer__main flex flex-column">
+                <a class="outter-footer__logo" ui-sref="signedout.home">
+                    <div class="svg__logo"><span class="icon-logo"></span></div>
+                </a>
+                <div class="flex outter-footer__menu items-baseline">
+                    <div class="outter-footer__link">
+                        © {{ year }} Outfit Partners Inc.
+                    </div>
+                    <div>
+                        <div class="outter-footer__link center left-padding-15 inline-block">
+                            <a ui-sref="signedout.privacy">Privacy Policy</a>
+                        </div>
+                        <div class="outter-footer__link center left-padding-15 inline-block">
+                            <a ui-sref="signedout.terms">Terms & Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-column">
+                <div class="outter-footer__socials">
+                    <a class="outter-footer__socials-link" href="https://www.instagram.com/outfittalent/" target="_blank">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="instagram" class="svg-inline--fa fa-instagram fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path></svg>
+                    </a>
+                    <a class="outter-footer__socials-link" href="https://www.facebook.com/outfittalent/" target="_blank">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="facebook-f" class="svg-inline--fa fa-facebook-f fa-w-9" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512"><path fill="currentColor" d="M215.8 85H264V3.6C255.7 2.5 227.1 0 193.8 0 124.3 0 76.7 42.4 76.7 120.3V192H0v91h76.7v229h94V283h73.6l11.7-91h-85.3v-62.7c0-26.3 7.3-44.3 45.1-44.3z"></path></svg>
+                    </a>
+                    <a class="outter-footer__socials-link" href="https://twitter.com/outfittalent" target="_blank">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>
+                    </a>
+                    <a class="outter-footer__socials-link" href="https://www.linkedin.com/company/outfit-talent/" target="_blank">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="linkedin" class="svg-inline--fa fa-linkedin fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg>
+                    </a>
+                </div>
+                <div class="outter__nav--panel flex items-start justify-end hide-mobile">
+                    <div class="outter__nav--panel-item">
+                        <a class="outter__nav-link" 
+                           ui-sref="signedout.home" 
+                           ui-sref-active="outter__nav-link-active">Outfit Live</a>
+                    </div>
+                    <div class="outter__nav--panel-item">
+                        <a class="outter__nav-link" 
+                           ui-sref="signedout.brands" 
+                           ui-sref-active="outter__nav-link-active">For Brands</a>
+                    </div>
+                    <div class="outter__nav--panel-item">
+                        <a class="outter__nav-link" 
+                           ui-sref="signedout.talent" 
+                           ui-sref-active="outter__nav-link-active">For Talent</a>
+                    </div>
+                    <!-- <div class="outter__nav--panel-item">
+                        <a class="outter__nav-link" 
+                           ui-sref="signedout.contact" 
+                           ui-sref-active="outter__nav-link-active">Contact</a>
+                    </div> -->
+                    <md-button class="outter__btn left-margin-20" 
+                               ng-if="!User" 
+                               ng-click="goSignin()">
+                        Log In
+                    </md-button>
+                    <md-button class="outter__btn left-margin-20" 
+                               ng-if="User && User.status === 'APPROVED'" 
+                               ng-click="goEvents()">
+                        Profile
+                    </md-button>
+                    <md-button class="outter__btn left-margin-20" 
+                               ng-if="User && User.status !== 'APPROVED'" 
+                               ng-click="signout()">
+                        Log Out
+                    </md-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

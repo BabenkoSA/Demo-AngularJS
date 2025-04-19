@@ -1,0 +1,441 @@
+<div class="desktop__user-settings desktop__settings-paddings mx-auto">
+
+    <div class="settings__notification box__text--smallest" ng-if="(!User.w9 || !User.agreement) && (User.skills | filter: { title: '!Influencer', selected: 'true' }).length">
+        Please complete your W9 & Talent Agreement below.
+    </div>
+    <div class="settings__notification box__text--smallest" ng-if="(!User.w9 || !User.digital_agreement) && User.isInfluencer()">
+        Please complete your W9 & Content Creator Agreement below.
+    </div>
+    <div class="settings__notification box__text--smallest" ng-if="!User.account.stripeconnected">
+        Please connect your bank and/or debit card below by clicking "Manage payout".
+    </div>
+    <!-- <div class="settings__notification box__text--smallest" ng-if="User.isInfluencer() && !User.ig_is_valid">
+        Please connect your Facebook account.
+    </div> -->
+    <div class="flex flex-wrap settings__group">
+        <div class="settings__column">
+<!--
+            <div class="mx-auto" style="max-width: 315px">
+                <md-button class="ot-btn ot-btn__talent-color ot-btn__rounded bottom-margin-30" 
+                       ng-disabled="User.w9 || loader.loading" 
+                       ng-click="goSign('w9')">
+                    Sign W9
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-btn__arrow-right" ng-if="!User.w9"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" class="ot-btn__arrow-right" ng-if="User.w9"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                </md-button>
+
+                <md-button class="ot-btn ot-btn__talent-color ot-btn__rounded bottom-margin-30 agreement-fix" 
+                           ng-if="(User.skills | filter: { title: '!Influencer', selected: 'true' }).length" 
+                            ng-disabled="User.contractors_agreement || loader.loading" 
+                            ng-click="goSign('agreement')">
+                    Sign Talent Agreement
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-btn__arrow-right" ng-if="!User.contractors_agreement"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" class="ot-btn__arrow-right" ng-if="User.contractors_agreement"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                </md-button>
+
+                <md-button class="ot-btn ot-btn__talent-color ot-btn__rounded bottom-margin-30" 
+                           ng-if="User.isInfluencer()" 
+                           ng-disabled="User.digital_agreement || loader.loading" 
+                           ng-click="goSign('digital_agreement')">
+                    Sign Digital Talent Agreement
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-btn__arrow-right" ng-if="!User.digital_agreement"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" class="ot-btn__arrow-right" ng-if="User.digital_agreement"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                </md-button>
+            </div>
+-->
+            <form class="form mx-auto top-padding-0" ng-submit="save({ notifications: Me.notifications, subscriptions: Me.subscriptions })">
+                <div class="ot-tooltip" style="right: 10px; top: 8px;" 
+                    ng-if="notifyTooltip()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                    <div class="ot-tooltip__content ot-tooltip__content--down">
+                        You will still receive important reminders once you have been accepted to work an event
+                    </div>
+                </div>
+
+                <div class="form__group">
+                    <div class="form__text form__text--large form--basic-top-padding form--basic-bottom-padding">
+                        Notifications
+                    </div>
+                </div>
+
+                <div>
+                    <div class="form__text form__text--smallest form--bottom-padding">
+                        Send me notifications via:
+                    </div>
+    
+                    <div class="form__checkbox">
+                        <div ng-repeat="Notification in Me.notifications" 
+                            ng-if="(Notification.type == 'phone' && Me.phone) || Notification.type == 'email'">
+                            <label for="notification-{{ $index }}" class="flex items-baseline" ng-if="Notification.type == 'phone'">
+                                <div class="form__text--small flex-auto">
+                                    Text message (...{{ Me.phone.substr(Me.phone.length-4) }})
+                                </div>
+                                <input type="checkbox" id="notification-{{ $index }}" class="form__checkbox-input" 
+                                    ng-model="Notification.active" 
+                                    ng-checked="Notification.active">
+                                <span class="form__unchecked right">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </span>
+                            </label>
+                            <label for="notification-{{ $index }}" class="flex items-baseline" ng-if="Notification.type == 'email'">
+                                <div class="form__text--small form__checkbox--email-width-fix" title="{{ Me.email }}" title-direction="bottom" title-class="tooltip-message">
+                                    Email ({{ (Me.email.length > 22) ? Me.email.slice(0, 21) + '...' : Me.email }})
+                                </div>
+                                <input id="notification-{{ $index }}" class="form__checkbox-input" ng-model="Notification.active" ng-checked="Notification.active" type="checkbox">
+                                <span class="form__unchecked right">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-repeat="item in Me.subscriptions track by $index">
+                    <div class="form__text form__text--smallest form--bottom-padding">
+                        {{ item.title }}:
+                    </div>
+                    <div class="form__checkbox">
+                        <label for="subscription-{{ $index }}-email" class="flex items-baseline">
+                            <div class="form__text--small form__checkbox--email-width-fix">
+                                Email notification
+                            </div>
+                            <input id="subscription-{{ $index }}-email" class="form__checkbox-input" ng-model="item.email" ng-checked="item.email" type="checkbox">
+                            <span class="form__unchecked right">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </span>
+                        </label>
+                        <label for="subscription-{{ $index }}-sms" class="flex items-baseline">
+                            <div class="form__text--small form__checkbox--email-width-fix">
+                                SMS notification
+                            </div>
+                            <input id="subscription-{{ $index }}-sms" class="form__checkbox-input" ng-model="item.sms" ng-checked="item.sms" type="checkbox">
+                            <span class="form__unchecked right">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <md-button class="ot-btn ot-btn__talent-color ot-btn_rounded-bottom top-margin-30" type="submit" 
+                        ng-disabled="loader.loading">
+                    Save
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-btn__arrow-right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+                </md-button>
+            </form>
+            
+            <div class="form top-padding-0 mx-auto" ng-if="(User.skills | filter: { title: '!Influencer', selected: 'true' }).length">
+                <div class="form__group">
+                    <div class="form__text form__text--large form--basic-top-padding form--basic-bottom-padding" style="font-size: 17px">
+                        Sign W9 & Talent Agreement
+                    </div>
+                </div>
+<!--                <div ng-if="!User.w9">-->
+                    <div class="form__text form__text--smallest form--bottom-padding relative">
+                        <span>W9 Type:</span>
+                        <div class="ot-tooltip settings__tooltip" style="right: 0px; top: -5px">
+                            <div class="talent__event--help-sign">
+                                ?
+                            </div>
+                            <div class="ot-tooltip__content ot-tooltip__content--up-left" style="width: 250px">
+                                The IRS requires all taxpayers to include a tax identification number on tax documents. For individuals who pay personal taxes, this will usually be a social security number (SSN). For other entities that pay business taxes, this will generally be an employer identification number (EIN). Please visit the IRS website for further information.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form__text">
+                        <md-radio-group class="settings-radio-group" ng-model="w9_type" ng-disabled="User.w9 && User.agreement">
+                            <md-radio-button value="ssn" class="bottom-margin-10">
+                                I have SSN
+                            </md-radio-button>
+                            <md-radio-button value="ein" class="bottom-margin-10">
+                                I have EIN
+                            </md-radio-button>
+                        </md-radio-group>
+                    </div>
+<!--                </div>-->
+                <md-button class="ot-btn ot-btn__talent-color ot-btn_rounded-bottom top-margin-30" aria-label="Sign Talent agreement" 
+                           ng-disabled="(User.w9 && User.agreement) || loader.loading"
+                           ng-click="goSign(w9_type + '_agreement')">
+                    <div ng-if="!User.w9 || !User.agreement">
+                        Sign
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-btn__arrow-right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+                    </div>
+
+                    <div ng-if="User.w9 && User.agreement">
+                        Signed
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" class="ot-btn__arrow-right"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                    </div>
+                </md-button>
+            </div>
+
+            <div class="form top-padding-0 mx-auto" ng-if="User.isInfluencer()">
+                <div class="form__group">
+                    <div class="form__text form__text--large form--basic-top-padding form--basic-bottom-padding" style="font-size: 17px">
+                        Sign W9 & Content Creator Agreement
+                    </div>
+                </div>
+<!--                <div ng-if="!User.w9">-->
+                    <div class="form__text form__text--smallest form--bottom-padding relative">
+                        <span>W9 Type:</span>
+                        <div class="ot-tooltip settings__tooltip" style="right: 0px; top: -5px">
+                            <div class="talent__event--help-sign">
+                                ?
+                            </div>
+                            <div class="ot-tooltip__content ot-tooltip__content--up-left" style="width: 250px">
+                                The IRS requires all taxpayers to include a tax identification number on tax documents. For individuals who pay personal taxes, this will usually be a social security number (SSN). For other entities that pay business taxes, this will generally be an employer identification number (EIN). Please visit the IRS website for further information.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form__text">
+                        <md-radio-group class="settings-radio-group" ng-model="w9_type_digital" ng-disabled="User.w9 && User.digital_agreement">
+                            <md-radio-button value="ssn" class="bottom-margin-10">
+                                I have SSN
+                            </md-radio-button>
+                            <md-radio-button value="ein" class="bottom-margin-10">
+                                I have EIN
+                            </md-radio-button>
+                        </md-radio-group>
+                    </div>
+<!--                </div>-->
+                <md-button class="ot-btn ot-btn__talent-color ot-btn_rounded-bottom top-margin-30" aria-label="Sign Content Creator agreement" 
+                       ng-disabled="(User.w9 && User.digital_agreement) || loader.loading" 
+                       ng-click="goSign(w9_type_digital + '_digital_agreement')">
+                    <div ng-if="!User.w9 || !User.digital_agreement">
+                        Sign
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-btn__arrow-right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+                    </div>
+                    <div ng-if="User.w9 && User.digital_agreement">
+                        Signed
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" class="ot-btn__arrow-right" ng-if="true"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                    </div>
+                </md-button>
+            </div>
+            
+            <!--  FB connect  -->
+            <!-- <div class="form top-padding-0 mx-auto" 
+                 ng-if="User.isInfluencer()">
+                <div class="form__group">
+                    <div class="form__text form__text--large form--basic-top-padding form--basic-bottom-padding">
+                        Instagram Connect
+                    </div>
+                </div>
+
+                <div class="form__text form__text--smallest form--bottom-padding" style="font-weight: 400">
+                    Outfit Live's functionality requires Talent to update their Instagram profiles to a Business Account and connect to your Facebook Page.
+                </div>
+
+                <div class="bottom-padding-30">
+                    <div class="form__text form__text--smallest form--bottom-padding">
+                        Have you updated your Instagram account as a Business Account?
+                    </div>
+                    <div class="form__text form--bottom-padding">
+                        <md-radio-group class="settings-radio-group" ng-model="creator_setup">
+                            <md-radio-button value="yes" class="inline-block bottom-margin-0 right-margin-15">
+                                Yes
+                            </md-radio-button>
+                            <md-radio-button value="no" class="inline-block bottom-margin-0">
+                                No
+                            </md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <div class="form__text settings-hidden form__text--smallest" 
+                         ng-class="{ 'settings-hidden--show': creator_setup === 'no' }">
+                        You will need to complete this step before you can accept Outfit Live opportunities.
+                        <div>
+                            <div class="settings--help-link" 
+                                 ng-click="openManual(true)">
+                                Click here to learn how
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-padding-15">
+                    <div class="form__text form__text--smallest form--bottom-padding">
+                        Have you connected your Instagram Business Account to a Facebook Page?
+                    </div>
+                    <div class="form__text form--bottom-padding">
+                        <md-radio-group class="settings-radio-group" ng-model="creator_connected">
+                            <md-radio-button value="yes" class="inline-block bottom-margin-0 right-margin-15">
+                                Yes
+                            </md-radio-button>
+                            <md-radio-button value="no" class="inline-block bottom-margin-0">
+                                No
+                            </md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <div class="form__text settings-hidden form__text--smallest" 
+                         ng-class="{ 'settings-hidden--show': creator_connected === 'no' }">
+                        You will need to complete this step before you can accept Outfit Live opportunities.
+                        <div>
+                            <div class="settings--help-link" 
+                                 ng-click="openManual(false)">
+                                Click here to learn how
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="ig_error.isError" class="ot-form__box-error settings--fb-error">
+                    <span class="ot-form__error">
+                        {{ ig_error.text }}
+                    </span>
+                </div>
+
+                <md-button class="ot-btn ot-btn__talent-color ot-btn_rounded-bottom top-margin-30 settings--fb-btn" aria-label="Facebook Connect" 
+                           ng-disabled="loader.loading || disableConnect(creator_setup, creator_connected)" 
+                           ng-click="fbLogin()">
+                    <div class="settings--fb-btn_padd">
+                        Connect your 
+                    </div>
+                    <span>via</span>
+                    <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="instagram" class="svg-inline--fa fa-instagram fa-w-14 insta-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path></svg>
+
+                    <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="facebook-f" class="svg-inline--fa fa-facebook-f fa-w-9 fb-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512"><path fill="currentColor" d="M215.8 85H264V3.6C255.7 2.5 227.1 0 193.8 0 124.3 0 76.7 42.4 76.7 120.3V192H0v91h76.7v229h94V283h73.6l11.7-91h-85.3v-62.7c0-26.3 7.3-44.3 45.1-44.3z"></path></svg>
+                </md-button>
+            </div> -->
+        </div>
+
+        <div class="settings__column">           
+            <form class="form top-padding-0 mx-auto" ng-submit="save({ password: User.password })" novalidate="true" name="form">
+                <div class="form__group">
+                    <div class="form__text form__text--large form--basic-top-padding form--basic-bottom-padding">
+                        Password
+                    </div>
+                </div>
+                <div class="form__group">
+                    <label class="form__input-text" for="password">
+                        New password
+                    </label>
+                    
+                    <input type="password" ng-model="User.password" name="password" class="form__input" id="password" placeholder="•••••••" minlength="8">
+                    <div ng-if="form.$submitted" ng-messages="form.password.$error" for="password" class="form__error-mobile">
+                        <span class="form__error-static" ng-message="required">Password is required</span>
+                        <span class="form__error-static" ng-message="minlength">Password must be at least 8 characters</span>
+                    </div>
+                </div>
+                <div class="form__group">
+                    <label class="form__input-text" for="confirm_password">
+                        Confirm new password
+                    </label>
+                    
+                    <input match-password="password" type="password" ng-model="confirm_password" name="confirm_password" class="form__input form--basic-bottom-margin" id="confirm_password" placeholder="•••••••">
+                    <div ng-if="form.$submitted" ng-messages="form.confirm_password.$error" for="confirm_password" class="form__error-mobile">
+                        <span class="form__error-static" ng-message="required">Password is required</span>
+                        <span class="form__error-static" ng-message="passwordMatch">Your passwords do not match</span>
+                    </div>
+                </div>
+                <md-button class="ot-btn ot-btn__talent-color ot-btn_rounded-bottom" type="submit" 
+                           ng-disabled="loader.loading">
+                    Save password
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-btn__arrow-right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+                </md-button>
+            </form>
+
+            <div class="mx-auto bottom-margin-30" style="max-width: 315px">
+                <md-button class="ot-btn ot-btn__talent-color ot-btn__rounded" aria-label="Stripe Connect" 
+                       ng-click="express()" 
+                       ng-disabled="loader.loading || stripeError">
+                    <span ng-if="!stripeError">Manage Payouts</span>
+                    <span ng-if="stripeError">Stripe connection error.<br>Please, try later.</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ot-btn__arrow-right"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+                </md-button>
+            </div>
+<!--
+            <div class="box box--basic-bottom-margin">
+                <div class="box__text box__text--large box--basic-top-padding">
+                    Email Verification
+                </div>
+                <div class="box__text box__text--smallest box--basic-top-padding box--mini-bottom-margin">
+                    Email
+                    <div class="right">
+                        <div class="box__text--smallest" >
+                            <div class="center" ng-if="User.email.verified">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </div>
+                            {{ User.email.verified ? 'Verified' : 'Not Verified' }}
+                        </div>
+                    </div>
+                </div>
+                <div class="box__text box--basic-bottom-padding">
+                    <div class="box__text--small flex-auto">
+                        {{ User.email }}
+                    </div>
+                </div>
+                <div class="box__more box__more--java">
+                    <div class="box__text box__text--smallest box__btn-smallest-text--padding">
+                    Learn more
+                    <i class="fa fa-caret-right right" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box box--basic-bottom-margin box--basic-bottom-padding">
+                <div class="box__text box--basic-top-padding flex flex-baseline">
+                    <span class="box__text--large flex-auto">
+                        ID Verification
+                    </span>
+                    <div class="box__text--smallest" ng-class="{ 'box__text--faded-red' : ! User.phone.verified, 'box__text--sea': User.phone.verified }">
+                        <div class="center" ng-if="User.phone.verified">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </div>
+                        {{ User.phone.verified ? 'Verified' : 'Not Verified' }}
+                    </div>
+                </div>
+                <div class="box__text box__text--smallest box--basic-top-padding box--bottom-padding">
+                    Upload a photo of your ID/Driver license or Passport
+                </div>
+                <div class="box__id-upload mx-auto">
+                    <div class="box__text--small">
+                    </div>
+                </div>
+                <div class="box__text box__text--smallest box__text--link box--top-padding box--basic-bottom-padding">
+                    Upload photo
+                </div>
+            </div>
+
+            <div class="box box--basic-bottom-margin mx-auto" ng-repeat="Notification in User.notifications | filter: {type: 'phone'}">
+                <div class="box__text box__text--large box--basic-top-padding">
+                    Phone Verification
+                </div>
+                <div class="box__text box__text--smallest box--basic-top-padding box--mini-bottom-margin">
+                    Phone
+                    <div class="box__text--small box__text--faded-red right" ng-class="{ 'box__text--pale-green' : Notification.verified }">
+                        {{ Notification.verified ? 'Verified' : 'Not Verified' }}
+                    </div>
+                </div>
+                <div class="box__text box--bottom-padding">
+                    <div class="box__text--small">
+                        {{ User.phone }}
+                    </div>
+                </div>
+                <div ng-show=" ! Notification.pending && ! Notification.verified">
+                    <md-button class="box__more box__more--java" ng-click="User.verifySMS()">
+                        <div class="box__text box__text--smallest box__btn-smallest-text--padding">
+                            Verify
+                            <i class="fa fa-caret-right right" aria-hidden="true"></i>
+                        </div>
+                    </md-button>
+                </div>
+                <div ng-show="Notification.pending && ! Notification.verified">
+                    <div class="box__more box__more--done">
+                        <div class="box__text box__text--smallest box__btn-smallest-text--padding">
+                            Verifying
+                            <i class="fa fa-caret-right right" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="Notification.verified">
+                    <div class="box__more box__more--done">
+                        <div class="box__text box__text--smallest box__btn-smallest-text--padding">
+                            Verified
+                        </div>
+                    </div>
+                </div>
+            </div>
+-->
+
+        </div>
+    </div>
+</div>

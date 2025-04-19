@@ -1,0 +1,31 @@
+<div class="layout__tabs">
+    <div class="tabs-section border-box">
+        <div class="tabs__container tabs__container--mobile">
+
+            <div class="tabs__title flex justify-between items-center">
+                <div class="tabs__title--text tabs__title--text--width-100">
+                    <div class="text-overflow">Events</div>
+                </div>
+            </div>
+
+            <div class="tabs__row flex">    
+                <span class="tabs__tab inline-block flex items-center"  
+                      ng-repeat="tab in Tabs" 
+                      ng-hide="tab.value == 'reaccept' && reacceptCount < 1">
+                    <a href="#" class="tabs__tab-link tabs__text--md-bold" 
+                       ng-class="{ 'tabs__tab-talent-active': active == tab.value }" 
+                       ng-click="goTo(tab.value)">
+                        {{ tab.title }}
+                    </a>
+                    <span class="tabs__counter talent__bg-color center relative" ng-if="tab.value == 'invited' && invitedCount > 0">{{ invitedCount }}</span>
+                    <span class="tabs__counter talent__bg-color center relative" ng-if="tab.value == 'reaccept' && reacceptCount > 0">{{ reacceptCount }}</span>
+                </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="ot-overflow-container" du-scroll-container="layout-scroll-container" id="layout-scroll-container">
+    <ui-view class="layout__content" autoscroll="false"></ui-view>
+</div>
