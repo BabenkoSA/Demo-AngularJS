@@ -28,7 +28,6 @@
     "angular": "^1.8.3",
     "angular-animate": "^1.8.2",
     "angular-aria": "^1.8.2",
-    "angular-material": "1.2.5",
     "angular-messages": "^1.8.2",
     "angular-sanitize": "^1.7.9",
     "angular-scroll": "^1.0.2",

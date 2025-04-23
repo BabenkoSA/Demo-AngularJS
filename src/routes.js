@@ -11,9 +11,11 @@ module.exports = function($stateProvider, $urlRouterProvider, $locationProvider)
     $stateProvider.state('main', {
         abstract: true,
         templateUrl: '/html/main.html',
-        // controller: 'Signedin',
-        resolve: {},
-
+        controller: function($scope, $state) {
+            $scope.goHome = function() {
+                $state.go('main.home');
+            }
+        }
     })
 
     .state('main.home', {
@@ -23,18 +25,6 @@ module.exports = function($stateProvider, $urlRouterProvider, $locationProvider)
 
     })
 
-    // .state('main.users', {
-    //     url: '/users',
-    //     component: 'usersComponent',
-    //     bindings: { users: 'UsersList' },
-    //     resolve: {
-    //         UsersList: function(RequestEmulator) {
-    //             return RequestEmulator.getUsers().then(function(users) {
-    //                 return users;
-    //             });
-    //         }
-    //     }
-    // })
     .state('main.users', {
         url: '/users',
         controller: 'Users',
@@ -47,41 +37,14 @@ module.exports = function($stateProvider, $urlRouterProvider, $locationProvider)
             }
         }
     })
-
-    // // .state('main.users.test', {
-    // //     url: '/test',
-    // //     template: `<div class="test">Test</div>`,
-    // // })
-
-    // .state('main.users.user', {
-    //     url: '/:userId',
-    //     templateUrl: '/html/user.html',
-    //     controller: 'User',
-    //     resolve: {
-    //         User: function($stateParams, RequestEmulator) {
-    //             return RequestEmulator.getUser($stateParams.userId).then(function(user) {
-    //                 return user;
-    //             });
-    //         }
-    //     },
-    //     params: {
-    //         userId: {
-    //             dynamic: true
-    //         },
-    //         mode: null
-    //     }
-
-    // })
     
     .state('main.403', {
         url: '/403',
-        templateUrl: '/html/forbidden.html',
-        resolve: {}
+        templateUrl: '/html/forbidden.html'
     })
 
     .state('main.404', {
         url: '/404',
-        templateUrl: '/html/notFound.html',
-        resolve: {}
+        templateUrl: '/html/notFound.html'
     })
 }

@@ -1,0 +1,16 @@
+@import "table.css";
+
+.flex-container {
+    display: flex; 
+    justify-content: space-between; 
+    padding: 15px 30px;
+}
+
+.flex-container__block1 {
+    width: calc(70% - 10px); 
+    text-align: right;
+}
+
+.flex-container__block2 {
+    width: calc(30% - 10px);
+}

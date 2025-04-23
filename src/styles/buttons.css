@@ -25,7 +25,7 @@
     background-color: #c82333;
 }
 
-.button--close {
+.button-close {
     position: absolute;
     right: 10px;
     top: 3px;
@@ -34,10 +34,10 @@
     opacity: 0.3;
     cursor: pointer;
   }
-.button--close:hover {
+.button-close:hover {
     opacity: 1;
 }
-.button--close:before, .button--close:after {
+.button-close:before, .button-close:after {
     position: absolute;
     left: 15px;
     content: ' ';
@@ -45,9 +45,9 @@
     width: 2px;
     background-color: #333;
 }
-.button--close:before {
+.button-close:before {
     transform: rotate(45deg);
 }
-.button--close:after {
+.button-close:after {
     transform: rotate(-45deg);
 }

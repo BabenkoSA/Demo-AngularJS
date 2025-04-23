@@ -3,7 +3,6 @@
     flex-direction: column;
     min-width: 400px;
     width: 100%;
-    /* margin: 20px auto; */
     padding: 20px;
     background-color: white;
     border-radius: 8px;
@@ -11,25 +10,24 @@
     min-height: 500px;
 }
 
-.user-form--title {
+.user-form__title {
     font-weight: bold;
     margin-bottom: 15px;
     position: relative;
 }
 
-.user-form--group {
+.user-form__group {
     position: relative;
     width: 100%;
-    /* margin-bottom: 20px; */
 }
 
-.user-form--label {
+.user-form__label {
     font-size: 12px;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
-.user-form--input {
+.user-form__input {
     width: 100%;
     margin-bottom: 15px;
     padding: 10px 15px;
@@ -39,29 +37,31 @@
     background-color: #f3f6f9;
 }
 
-.user-form--input:focus {
+.user-form__input:focus {
     outline: none;
 }
 
-/* .user-form--error {
-    border-color: red;
-} */
-
-/* .has-error .user-form--input {
-    border-color: red;
-} */
-
-.has-error {
-    border-color: red;
-}
-
-.user-form--error-box {
+.user-form__error-box {
     position: absolute;
     bottom: 0;
 }
 
-.user-form--error-message {
+.user-form__error-message {
     color: red;
     font-size: 12px;
-    /* margin-bottom: 10px; */
+}
+
+.user-form__buttons {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    margin-top: 10px;
+}
+
+.user-form__buttons--content-center {
+    justify-content: center; 
+}
+
+.has-error {
+    border-color: red;
 }

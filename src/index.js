@@ -6,15 +6,13 @@ require('angular-messages');
 require('angular-sanitize');
 require('angular-animate');
 require('angular-aria');
-require('angular-material');
 
 window.app = angular.module('DemoApp', [
 	'ngMessages',
 	'ui.router',
     'ngAria',
     'ngAnimate',
-    'ngSanitize',
-    'ngMaterial',
+    'ngSanitize'
 ])
 
 .constant('config', {
