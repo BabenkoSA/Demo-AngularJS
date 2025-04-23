@@ -1,0 +1,9 @@
+<header class="header">App Header</header>
+
+<div class="notification" ng-if="notification.visible" ng-class="notification.type">
+    {{ notification.message }}
+</div>
+
+<div class="layout--container" ui-view></div>
+
+<footer class="footer">App Footer</footer>

@@ -3,7 +3,6 @@ module.exports = function() {
 		runSequence = require('run-sequence');
 
 	gulp.task('build-styles', function(callback) {
-//		runSequence('html', 'styles', 'minify-styles', 'critical', callback);
 		runSequence('html', 'styles', 'minify-styles', callback);
 	});	
 

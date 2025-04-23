@@ -1,52 +1,9 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #eef0f8;
-    color: #333;
-}
-
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    text-align: left;
-    max-width: 60%;
-}
-
-.table--row {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid white;
-    background-color: #f4f5f8;
-    transition: background-color 0.3s ease;
-}
-.table--row:hover {
-    background-color: #eff0f4;
-    cursor: pointer;
-}
-
-.table--cell {
-    flex: 1;
-    padding: 10px;
-    font-size: 14px;
-    color: #333;
-}
-
-
-.table--header {
-    background-color: white;
-    & .table--cell {
-        font-weight: bold;
-        color: #a9a9b9;
-    }
-    &:hover {
-        background-color: white;
-        cursor: default;
-    }
-}
+@import "reset.css";
+@import "layout.css";
+@import "buttons.css";
+@import "forms.css";
+@import "table.css";
+@import "404.css";
+@import "403.css";
+@import "home.css";
+@import "notify.css";

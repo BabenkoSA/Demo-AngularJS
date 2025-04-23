@@ -4,13 +4,13 @@ module.exports = function($stateProvider, $urlRouterProvider, $locationProvider)
     
     $urlRouterProvider.otherwise(function($injector, $location) {
         let state = $injector.get('$state');
-        state.go('default.404');
+        state.go('main.404');
         return;
     });
 
     $stateProvider.state('main', {
         abstract: true,
-        templateUrl: '/html/test.html',
+        templateUrl: '/html/main.html',
         // controller: 'Signedin',
         resolve: {},
 
@@ -18,96 +18,70 @@ module.exports = function($stateProvider, $urlRouterProvider, $locationProvider)
 
     .state('main.home', {
         url: '/',
-        templateUrl: '/html/test2.html',
-        // controller: 'Signedin',
+        templateUrl: '/html/home.html',
         resolve: {},
 
     })
 
+    // .state('main.users', {
+    //     url: '/users',
+    //     component: 'usersComponent',
+    //     bindings: { users: 'UsersList' },
+    //     resolve: {
+    //         UsersList: function(RequestEmulator) {
+    //             return RequestEmulator.getUsers().then(function(users) {
+    //                 return users;
+    //             });
+    //         }
+    //     }
+    // })
     .state('main.users', {
         url: '/users',
-        templateUrl: '/html/users.html',
-        controller: function($scope, $http) {
-            $scope.users = [{
-                username: 'user1',
-                id: 1,
-                email: 'user1@mail.com',
-                first_name: 'User',
-                last_name: 'One',
-                type: 'Admin'
-            }, {
-                username: 'user2',
-                id: 2,
-                email: 'user2@mail.com',
-                first_name: 'User',
-                last_name: 'Two',
-                type: 'Driver'
-            }];
-
-            $scope.selectedUser = null;
-            $scope.editUser = function(user) {
-                $scope.selectedUser = angular.copy(user);
-                $scope.editing = true;
-            }
-
-            $scope.closeEdit = function() {
-                $scope.selectedUser = null;
-                $scope.editing = false;
-            }
-
-            $scope.saveUser = function() {
-                // Save the user to the server or perform any other action
-                console.log('User saved:', $scope.selectedUser);
-                $scope.users = $scope.users.map(user => {
-                    if (user.id === $scope.selectedUser.id) {
-                        user = angular.merge(user, $scope.selectedUser);
-                    }
-                    return user;
+        controller: 'Users',
+        templateUrl: './html/users.html',
+        resolve: {
+            UsersList: function(RequestEmulator) {
+                return RequestEmulator.getUsers().then(function(users) {
+                    return users;
                 });
-                $scope.closeEdit();
-            }
-
-            $scope.deleteUser = function() {
-                // Delete the user from the server or perform any other action
-                console.log('User deleted:', user);
-                $scope.users = $scope.users.filter(u => u.id !== $scope.selectedUser.id);
-                $scope.closeEdit();
-            }
-
-        },
-        resolve: {},
-
-    })
-
-    .state('main.user', {
-        url: '/user/:userId',
-        template: `<div>User page</div>`,
-        // controller: 'Signedin',
-        resolve: {},
-        params: {
-            userId: {
-                dynamic: true
             }
         }
+    })
 
-    })
+    // // .state('main.users.test', {
+    // //     url: '/test',
+    // //     template: `<div class="test">Test</div>`,
+    // // })
+
+    // .state('main.users.user', {
+    //     url: '/:userId',
+    //     templateUrl: '/html/user.html',
+    //     controller: 'User',
+    //     resolve: {
+    //         User: function($stateParams, RequestEmulator) {
+    //             return RequestEmulator.getUser($stateParams.userId).then(function(user) {
+    //                 return user;
+    //             });
+    //         }
+    //     },
+    //     params: {
+    //         userId: {
+    //             dynamic: true
+    //         },
+    //         mode: null
+    //     }
+
+    // })
     
-    .state('default', {
-        abstract: true,
-        // templateUrl: '/html/notFound.html',
-        // controller: 'Signedin',
-        resolve: {},
-    })
-    .state('default.403', {
+    .state('main.403', {
         url: '/403',
         templateUrl: '/html/forbidden.html',
-        // controller: 'Signedin',
-        resolve: {},
+        resolve: {}
     })
-    .state('default.404', {
+
+    .state('main.404', {
         url: '/404',
         templateUrl: '/html/notFound.html',
-        // controller: 'Signedin',
-        resolve: {},
+        resolve: {}
     })
 }

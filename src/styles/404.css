@@ -1,0 +1,25 @@
+.page-404 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #eef0f8;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+
+.page-404__title {
+    font-size: 96px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+.page-404__subtitle {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #555;
+}
+

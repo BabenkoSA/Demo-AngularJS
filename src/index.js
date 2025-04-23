@@ -18,17 +18,23 @@ window.app = angular.module('DemoApp', [
 ])
 
 .constant('config', {
-    env: process.env.environment,
-    // domain: process.env.domain,
-    // release_date: '2024-10-05 10:00:00'
+    env: process.env.environment
 })
+.constant('UsersList', require('./constants/demoUsers').users)
 
 .run(require('./run'))
 
 .config(require('./config'))
 .config(require('./routes'))
 
+.controller('Users', require('./controllers/users'))
 
-.directive('formError', require('./directives/form-error'))
+.factory('Notification', require('./services/notify'))
+.service('RequestEmulator', require('./services/requestEmul'))
+
+.directive('highlightError', require('./directives/highlight-error'))
+.directive('passwordStrength', require('./directives/password-strength'))
+.directive('passwordConfirm', require('./directives/password-confirm'))
+.directive('checkUsername', require('./directives/check-username'))
 
 angular.bootstrap(document, ['DemoApp']);

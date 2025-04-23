@@ -1,37 +1,133 @@
 <div>
-    <div style="display: flex; justify-content: flex-end;">
-        <md-button class="md-raised md-primary">Create User</md-button>
+    <div style="display: flex; justify-content: space-between; padding: 15px 30px;">
+        <div style="width: calc(70% - 10px); text-align: right;">
+            <button class="button" type="button" ng-click="createUser()">Create User</button>
+        </div>
+        
+        <div style="width: calc(30% - 10px);">
+        </div>
     </div>
 
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div class="table">
-            <div class="table--row table--header">
-                <div class="table--cell">Username</div>
-                <div class="table--cell">First Name</div>
-                <div class="table--cell">Last Name</div>
-                <div class="table--cell">Email</div>
-                <div class="table--cell">Type</div>
-            </div>
-    
-            <div class="table--body">
-                <div class="table--row" ng-repeat="user in users track by $index" ng-click="editUser(user)">
-                    <div class="table--cell">{{ user.username }}</div>
-                    <div class="table--cell">{{ user.first_name }}</div>
-                    <div class="table--cell">{{ user.last_name }}</div>
-                    <div class="table--cell">{{ user.email }}</div>
-                    <div class="table--cell">{{ user.type }}</div>
+    <div style="display: flex; justify-content: space-between; padding: 15px 30px;">
+        <div style="width: calc(70% - 10px);">
+            <div class="table">
+                <div class="table--row table--header">
+                    <div class="table--cell">Username</div>
+                    <div class="table--cell">First Name</div>
+                    <div class="table--cell">Last Name</div>
+                    <div class="table--cell">Email</div>
+                    <div class="table--cell">Type</div>
+                </div>
+        
+                <div class="table--body">
+                    <div class="table--row" ng-repeat="user in users track by user.id" ng-click="editUser(user)">
+                        <div class="table--cell">{{ user.username }}</div>
+                        <div class="table--cell">{{ user.first_name }}</div>
+                        <div class="table--cell">{{ user.last_name }}</div>
+                        <div class="table--cell">{{ user.email }}</div>
+                        <div class="table--cell">{{ user.type.name }}</div>
+                    </div>
                 </div>
             </div>
         </div>
-    
-        <div>
-            <form ng-if="editing">
-                <div>
-                    <input type="text" placeholder="Qwerty123" ng-model="selectedUser.username"/>
+        
+        <div style="width: calc(30% - 10px);">
+            <form class="user-form" name="userForm" 
+                ng-show="mode" 
+                ng-submit="saveUser()" novalidate>
+
+                <div class="user-form--title">
+                    {{ mode === 'create' ? 'Create new user' : selectedUser.first_name + ' ' + selectedUser.last_name }}
+                    <div class="button--close" ng-click="closeEdit()"></div>
                 </div>
-                <div>
-                    <md-button class="md-raised md-warn" ng-click="deleteUser()">Delete</md-button>
-                    <md-button class="md-raised md-primary" ng-click="saveUser()">Save</md-button>
+
+                <div class="user-form--group">
+                    <label class="user-form--label" for="username">Username*</label>
+                    <input class="user-form--input" type="text" placeholder="Qwerty123" name="username" maxlength="20" check-username="selectedUser" required highlight-error 
+                        ng-model="selectedUser.username">
+
+                    <div ng-if="userForm.$submitted" ng-messages="userForm.username.$error" for="username" class="user-form--error-box">
+                        <span class="user-form--error-message" ng-message="required">Username is required</span>
+                        <span class="user-form--error-message" ng-message="maxlength">Max 20 characters allowed</span>
+                        <span class="user-form--error-message" ng-message="exists">Username already registred</span>
+                    </div>
+                </div>
+
+                <div class="user-form--group">
+                    <label class="user-form--label" for="first_name">First Name*</label>
+                    <input class="user-form--input" type="text" placeholder="Qwerty123" name="first_name" maxlength="20" required highlight-error 
+                        ng-model="selectedUser.first_name">
+
+                    <div ng-if="userForm.$submitted" ng-messages="userForm.first_name.$error" for="first_name" class="user-form--error-box">
+                        <span class="user-form--error-message" ng-message="required">First name is required</span>
+                        <span class="user-form--error-message" ng-message="maxlength">Max 20 characters allowed</span>
+                    </div>
+                </div>
+
+                <div class="user-form--group">
+                    <label class="user-form--label" for="last_name">Last Name*</label>
+                    <input class="user-form--input" type="text" placeholder="Qwerty123" name="last_name" maxlength="20" required highlight-error 
+                        ng-model="selectedUser.last_name">
+
+                    <div ng-if="userForm.$submitted" ng-messages="userForm.last_name.$error" for="last_name" class="user-form--error-box">
+                        <span class="user-form--error-message" ng-message="required">Last name is required</span>
+                        <span class="user-form--error-message" ng-message="maxlength">Max 20 characters allowed</span>
+                        <!-- <span class="user-form--error-message" ng-message="pattern">Only symbols allowed</span> -->
+                    </div>
+                </div>
+
+                <div class="user-form--group">
+                    <label class="user-form--label" for="email">Email*</label>
+                    <input class="user-form--input" type="email" placeholder="example@mail.com" name="email" required highlight-error ng-model="selectedUser.email"/>
+
+                    <div ng-if="userForm.$submitted" ng-messages="userForm.email.$error" for="email" class="user-form--error-box">
+                        <span class="user-form--error-message" ng-message="required">Email is required</span>
+                        <span class="user-form--error-message" ng-message="email">Not valid email address</span>
+                    </div>
+                </div>
+
+                <div class="user-form--group">
+                    <label class="user-form--label" for="user_type">Type*</label>
+                    <select class="user-form--input" name="user_type" id="" 
+                        ng-model="selectedUser.type" 
+                        ng-options="option.name for option in options track by option.value">
+                    </select>
+                    <!-- <select class="user-form--input" name="" id="" ng-model="selectedUser.type">
+                        <option ng-repeat="option in options" ng-value="option.value">{{option.name}}</option>
+                    </select> -->
+                </div>
+
+                <div class="user-form--group">
+                    <label class="user-form--label" for="password">Password*</label>
+                    <input class="user-form--input" type="password" name="password" minlength="8" maxlength="32" password-strength required highlight-error 
+                        ng-model="selectedUser.password">
+
+                    <div ng-if="userForm.$submitted" ng-messages="userForm.password.$error" for="password" class="user-form--error-box">
+                        <span class="user-form--error-message" ng-message="required">Password is required</span>
+                        <span class="user-form--error-message" ng-message="strong">Password should have at least 1 number & 1 letter</span>
+                        <span class="user-form--error-message" ng-message="minlength">Min 8 characters</span>
+                        <span class="user-form--error-message" ng-message="maxlength">Max 32 characters allowed</span>
+                        <!-- <span class="user-form--error-message" ng-message="pattern">Only symbols allowed</span> -->
+                    </div>
+                </div>
+
+                <div class="user-form--group">
+                    <label class="user-form--label" for="password_confirm">Repeat password*</label>
+                    <input class="user-form--input" type="password" name="password_confirm" required password-confirm="userForm" ng-model="selectedUser.password_confirmation" highlight-error/>
+
+                    <div ng-if="userForm.$submitted" ng-messages="userForm.password_confirm.$error" for="password_confirm" class="user-form--error-box">
+                        <span class="user-form--error-message" ng-message="required">Password confirm is required</span>
+                        <span class="user-form--error-message" ng-message="match">Passwords don't match</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;" ng-if="mode == 'edit'">
+                    <button class="button button--danger" type="button" ng-click="deleteUser($event)">Delete</button>
+                    <button class="button" type="submit">Save</button>
+                </div>
+
+                <div style="display: flex; justify-content: center;" ng-if="mode == 'create'">
+                    <button class="button" type="submit">Create</button>
                 </div>
             </form>
         </div>

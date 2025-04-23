@@ -1,0 +1,53 @@
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    min-width: 85px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.button--danger {
+    background-color: #dc3545;
+}
+.button--danger:hover {
+    background-color: #c82333;
+}
+
+.button--close {
+    position: absolute;
+    right: 10px;
+    top: 3px;
+    width: 15px;
+    height: 15px;
+    opacity: 0.3;
+    cursor: pointer;
+  }
+.button--close:hover {
+    opacity: 1;
+}
+.button--close:before, .button--close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 15px;
+    width: 2px;
+    background-color: #333;
+}
+.button--close:before {
+    transform: rotate(45deg);
+}
+.button--close:after {
+    transform: rotate(-45deg);
+}

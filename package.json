@@ -43,8 +43,10 @@
     "gulp-livereload": "^3.8.1",
     "gulp-nodemon": "^2.5.0",
     "gulp-plumber": "^1.1.0",
+    "gulp-postcss": "^8.0.0",
     "gulp-sourcemaps": "^2.4.1",
     "gulp-terser": "1.1.7",
+    "postcss-import": "^8.0.0",
     "run-sequence": "^1.2.2",
     "stringify": "^5.1.0"
   }

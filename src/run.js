@@ -33,5 +33,14 @@ module.exports = function($rootScope, $transitions, $state) {
 			//console.error(error);//need to remove if don't wanna see error about superseded transition
 		}
 	});
-
+	
+	//mock backend for demo purposes
+	// var occupiedUsernames = ['user1', 'user2', 'user3']; // Example occupied usernames
+	// $httpBackend.whenGET("localhost:3000/checkIfAvailable").respond(
+	// 	function(method, url, data) {
+	// 	  var username = data;
+	// 	  var exists = occupiedUsernames.indexOf(username) > -1; // 'true' if username is in array
+	// 	  return [200, {exists: exists}, {}];
+	// 	}
+	// );
 }

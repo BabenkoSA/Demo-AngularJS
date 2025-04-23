@@ -28,7 +28,7 @@ module.exports = {
 	styles: {
 		entrypoint: 'src/styles/index.css',
 
-		src: ['src/styles/**/*.css']
+		src: ['src/styles/**/*.css', 'src/styles/*.css']
 	}
 
 };
