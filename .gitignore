@@ -4,5 +4,6 @@ npm-debug.log
 environments
 .idea/
 .vs/
+.vscode
 github-deploy-ssh-key
 package-lock.json
